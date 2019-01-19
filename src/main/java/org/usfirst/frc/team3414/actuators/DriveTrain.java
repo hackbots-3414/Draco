@@ -33,6 +33,10 @@ public class DriveTrain {
 	public double getRight() {
 		return rightJoySpeed;
 	}
+	public void init(){
+		right.setInverted(true);
+
+	}
 		public static DriveTrain getInstance()
 		{
 			if(instance == null)

@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team3414.robot;
 
+import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
@@ -35,6 +36,7 @@ public class Robot extends IterativeRobot {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
+		DriveTrain.getInstance().init();
 	}
 
 	/**

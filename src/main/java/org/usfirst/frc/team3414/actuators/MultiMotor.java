@@ -32,6 +32,12 @@ public class MultiMotor {
 	public void setRear(double speed) {
 		rear.set(ControlMode.PercentOutput, speed);
 	}
+	public void setInverted(boolean inverted){
+		front.setInverted(inverted);
+		middle.setInverted(inverted);
+		rear.setInverted(inverted);
+
+	}
 	//Encoder Specific Code Goes Here
 	public void resetEncoder() {
 		

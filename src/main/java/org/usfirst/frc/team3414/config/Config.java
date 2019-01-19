@@ -13,7 +13,7 @@ public class Config {
 	public static final int RIGHT_REAR = 6;
 	
 	public static final int LEFT_STICK = 0;
-	public static final int RIGHT_STICK = 0;
-	public static final int CONTROLLER_CHANNEL = 0;
+	public static final int RIGHT_STICK = 1;
+	public static final int CONTROLLER_CHANNEL = 2;
 	public static String autoFile = (Diagnostic.position+"-"+DriverStation.getInstance().getGameSpecificMessage());
 }
