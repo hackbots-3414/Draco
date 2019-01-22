@@ -3,6 +3,7 @@ package org.usfirst.frc.team3414.config;
 import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Config {
 	public static final int LEFT_FRONT = 1;
@@ -16,4 +17,8 @@ public class Config {
 	public static final int RIGHT_STICK = 1;
 	public static final int CONTROLLER_CHANNEL = 2;
 	public static String autoFile = (Diagnostic.position+"-"+DriverStation.getInstance().getGameSpecificMessage());
+	public static String getAutoFile(){
+	return	Diagnostic.position+"-"+SmartDashboard.getString("auton", "defaultValue");
+	}
+	
 }

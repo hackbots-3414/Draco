@@ -21,17 +21,10 @@ public class Teleop {
 		}
 	Joystick left = new Joystick(Config.LEFT_STICK);
 	Joystick right = new Joystick(Config.RIGHT_STICK);
+	Controller gamepad = new Controller();
 	public void drive() {
 		DriveTrain.getInstance().teleop(left.getY(), right.getY());
+		gamepad.getInstance().getPov();
 	}
-	public void initGamepad() {
-	if(Diagnostic.isNewControls()) {
-	NewController.getInstance().closeOut();
-	TraditionalController.getInstance().init();
-	}
-	else {
-		TraditionalController.getInstance().closeOut();
-		NewController.getInstance().init();
-	}
-	}
+	
 }

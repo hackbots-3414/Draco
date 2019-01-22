@@ -8,6 +8,7 @@
 package org.usfirst.frc.team3414.robot;
 
 import org.usfirst.frc.team3414.actuators.DriveTrain;
+import org.usfirst.frc.team3414.auton.Assist;
 import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
@@ -72,6 +73,9 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		if(Diagnostic.isRunning()) {
 			Diagnostic.runTeleop();
+		}
+		else if(Assist.isRunning()){
+			
 		}
 		else {
 			Teleop.getInstance().drive();

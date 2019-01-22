@@ -22,7 +22,7 @@ public class Auton {
 		// as the argument in this method, as of 2015 it is
 		// /home/lvuser/recordedAuto.csv
 
-		writer = new FileWriter(Config.autoFile);
+		writer = new FileWriter(Config.getAutoFile());
 	}
 
 	public void record() throws IOException {
@@ -86,7 +86,7 @@ public class Auton {
 		// create a scanner to read the file created during BTMacroRecord
 		// scanner is able to read out the doubles recorded into recordedAuto.csv (as of
 		// 2015)
-		scanner = new Scanner(new File(Config.autoFile));
+		scanner = new Scanner(new File(Config.getAutoFile()));
 
 		// let scanner know that the numbers are separated by a comma or a newline, as
 		// it is a .csv file
