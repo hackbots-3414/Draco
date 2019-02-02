@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3414.teleop;
 
 import org.usfirst.frc.team3414.actuators.DriveTrain;
+import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 
@@ -22,9 +23,11 @@ public class Teleop {
 	Joystick left = new Joystick(Config.LEFT_STICK);
 	Joystick right = new Joystick(Config.RIGHT_STICK);
 	Controller gamepad = new Controller();
+	Intake intake = new Intake(Config.INTAKE_TALON, Config.INTAKE_PISTON);
 	public void drive() {
 		DriveTrain.getInstance().teleop(left.getY(), right.getY());
 		gamepad.getInstance().getPov();
+		intake.set(1.0);
 	}
 	
 }
