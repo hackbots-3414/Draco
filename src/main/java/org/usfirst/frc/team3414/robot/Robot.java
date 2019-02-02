@@ -10,6 +10,7 @@ package org.usfirst.frc.team3414.robot;
 import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.auton.Assist;
 import org.usfirst.frc.team3414.diagnostic.Diagnostic;
+import org.usfirst.frc.team3414.sensors.IrSensor;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -33,6 +34,10 @@ public class Robot extends IterativeRobot {
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
+
+	IrSensor longRangeIR;
+	IrSensor shortRangeIR;
+	
 	@Override
 	public void robotInit() {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
@@ -63,10 +68,6 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during autonomous.
 	 */
-	@Override
-	
-	public void teleopInit() {
-	}
 	/**
 	 * This function is called periodically during operator control.
 	 */
@@ -81,8 +82,13 @@ public class Robot extends IterativeRobot {
 		else {
 			Teleop.getInstance().drive();
 		}
+		SmartDashboard.putNumber("Long Distance", longRangeIR.getDistance());
+		SmartDashboard.putNumber("Short Distance", shortRangeIR.getDistance());
 	}
-
+	public void teleopInit() {
+		longRangeIR = new IrSensor(0);
+       	shortRangeIR = new IrSensor(1);
+	}
 	/**
 	 * This function is called periodically during test mode.
 	 */
