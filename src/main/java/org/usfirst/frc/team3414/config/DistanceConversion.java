@@ -5,15 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc.team3414.auton;
-
-import org.usfirst.frc.team3414.teleop.Controller;
+package org.usfirst.frc.team3414.config;
 
 /**
  * Add your docs here.
  */
-public class Assist {
-    public static boolean isRunning(){
-        return Controller.getInstance().getRT();
-    }
+public class DistanceConversion {
+    
 }
