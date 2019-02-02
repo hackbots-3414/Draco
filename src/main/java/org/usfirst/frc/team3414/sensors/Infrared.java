@@ -6,28 +6,33 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc.team3414.sensors;
-import edu.wpi.first.wpilibj.AnalogInput;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * Add your docs here.
  */
-public class IrSensor {
-    AnalogInput infrared;
-    int iPort = 0;
+public class Infrared {
     IrSensor longRangeIR;
 	IrSensor shortRangeIR;
-
-    // short-range values
-    private static double SR_MIN_RANGE = 0;
-
-    public  IrSensor (int port) {
-        iPort = port;
-        infrared = new AnalogInput(iPort);
+    public void init(){
+    longRangeIR = new IrSensor(0);
+    shortRangeIR= new IrSensor(1);
     }
 
-    public double getDistance() {
-        double voltage = infrared.getAverageVoltage();
-        return voltage;
-    
+public void outputValues(){
+    SmartDashboard.putNumber("Long Distance", longRangeIR.getDistance());
+    SmartDashboard.putNumber("Short Distance", shortRangeIR.getDistance());
 }
+    private static Infrared instance = new Infrared();
+    public static Infrared getInstance()
+		{
+			if(instance == null)
+			{
+				instance = new Infrared();
+			}
+			
+			return instance;
+			
+	}
 }
