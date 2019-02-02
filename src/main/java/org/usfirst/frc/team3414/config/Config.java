@@ -20,5 +20,10 @@ public class Config {
 	public static String getAutoFile(){
 	return	Diagnostic.position+"-"+SmartDashboard.getString("auton", "defaultValue");
 	}
+
+
+
+	public static final int INTAKE_TALON = 31;
+	public static final int INTAKE_PISTON = 51;
 	
 }
