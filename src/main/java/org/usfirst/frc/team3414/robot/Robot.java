@@ -8,8 +8,8 @@
 package org.usfirst.frc.team3414.robot;
 
 import org.usfirst.frc.team3414.actuators.DriveTrain;
-import org.usfirst.frc.team3414.auton.Assist;
 import org.usfirst.frc.team3414.diagnostic.Diagnostic;
+import org.usfirst.frc.team3414.sensors.Infrared;
 import org.usfirst.frc.team3414.sensors.IrSensor;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
@@ -35,8 +35,7 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 
-	IrSensor longRangeIR;
-	IrSensor shortRangeIR;
+	
 	
 	@Override
 	public void robotInit() {
@@ -44,6 +43,7 @@ public class Robot extends IterativeRobot {
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
 		DriveTrain.getInstance().init();
+		
 	}
 
 	/**
@@ -76,18 +76,17 @@ public class Robot extends IterativeRobot {
 		if(Diagnostic.isRunning()) {
 			Diagnostic.runTeleop();
 		}
-		else if(Assist.isRunning()){
 			
-		}
+		
 		else {
 			Teleop.getInstance().drive();
+			Infrared.getInstance().outputValues();
 		}
-		SmartDashboard.putNumber("Long Distance", longRangeIR.getDistance());
-		SmartDashboard.putNumber("Short Distance", shortRangeIR.getDistance());
+	
 	}
 	public void teleopInit() {
-		longRangeIR = new IrSensor(0);
-       	shortRangeIR = new IrSensor(1);
+		Infrared.getInstance().init();
+		
 	}
 	/**
 	 * This function is called periodically during test mode.

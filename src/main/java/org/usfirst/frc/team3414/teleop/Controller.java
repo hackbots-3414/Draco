@@ -4,7 +4,7 @@ import org.usfirst.frc.team3414.config.Config;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class TraditionalController {
+public class Controller {
 	//Normal Controllers with Normal Mappings. There is a difference.
 	
 	Joystick pad;
@@ -57,13 +57,13 @@ public class TraditionalController {
 		return 0;
 	}
 
-private static TraditionalController instance;
+private static Controller instance;
 
-public static TraditionalController getInstance()
+public static Controller getInstance()
 		{
 			if(instance == null)
 			{
-				instance = new TraditionalController();
+				instance = new Controller();
 			}
 			
 			return instance;
