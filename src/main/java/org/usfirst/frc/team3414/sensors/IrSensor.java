@@ -16,7 +16,7 @@ public class IrSensor {
     int iPort = 0;
 
     // short-range values
-    private static double SR_MIN_RANGE = 
+    private static double SR_MIN_RANGE = 0; 
 
     public  IrSensor (int port) {
         iPort = port;

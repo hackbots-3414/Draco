@@ -23,7 +23,7 @@ public class Config {
 
 
 
-	public static final int INTAKE_TALON = 50;
+	public static final int INTAKE_TALON = 31;
 	public static final int INTAKE_PISTON = 51;
 	
 }
