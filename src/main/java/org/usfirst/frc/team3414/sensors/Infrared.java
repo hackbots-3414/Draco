@@ -16,8 +16,8 @@ public class Infrared {
     IrSensor longRangeIR;
 	IrSensor shortRangeIR;
     public void init(){
-    longRangeIR = new IrSensor(0);
-    shortRangeIR= new IrSensor(1);
+    longRangeIR = new LongRangeIR(0);
+    shortRangeIR = new ShortRangeIR(1);
     }
 
 public void outputValues(){
@@ -34,5 +34,6 @@ public void outputValues(){
 			
 			return instance;
 			
-	}
+    }
+
 }
