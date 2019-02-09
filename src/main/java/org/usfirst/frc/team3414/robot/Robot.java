@@ -41,6 +41,7 @@ public class Robot extends IterativeRobot {
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
 		DriveTrain.getInstance().init();
+		Teleop.getInstance().init();
 		
 	}
 

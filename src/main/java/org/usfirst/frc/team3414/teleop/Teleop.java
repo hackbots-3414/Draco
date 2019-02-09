@@ -25,7 +25,9 @@ public class Teleop {
 	Joystick left = new Joystick(Config.LEFT_STICK);
 	Joystick right = new Joystick(Config.RIGHT_STICK);
 	Controller pad = new Controller();
-
+	public void init(){
+		pad.init();
+	}
 	public void drive() {
 		DriveTrain.getInstance().teleop(left.getY(), right.getY());
 	}
