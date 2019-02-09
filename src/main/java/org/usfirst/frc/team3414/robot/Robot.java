@@ -9,8 +9,6 @@ package org.usfirst.frc.team3414.robot;
 
 import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.diagnostic.Diagnostic;
-import org.usfirst.frc.team3414.sensors.Infrared;
-import org.usfirst.frc.team3414.sensors.IrSensor;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -80,12 +78,12 @@ public class Robot extends IterativeRobot {
 		
 		else {
 			Teleop.getInstance().drive();
-			Infrared.getInstance().outputValues();
+			Teleop.getInstance().cargo();
+			Teleop.getInstance().manipulator();
 		}
 	
 	}
 	public void teleopInit() {
-		Infrared.getInstance().init();
 		
 	}
 	/**

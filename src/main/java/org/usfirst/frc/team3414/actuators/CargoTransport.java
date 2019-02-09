@@ -12,51 +12,35 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import org.usfirst.frc.team3414.config.Config;
 
-import edu.wpi.first.wpilibj.Solenoid;
-
 /**
  * Add your docs here.
  */
-public class Intake {
-    
+// Possibility for another Motor for assistance
+public class CargoTransport {
+    private static CargoTransport instance;
 
-    private static Intake instance;
-
-    public static Intake getInstance()
+    public static CargoTransport getInstance()
     {
         if(instance == null)
         {
-            instance = new Intake();
+            instance = new CargoTransport();
         }
         
         return instance;
         
 }
-TalonSRX intakeMotor;
-Solenoid intakePiston;
-	public Intake() {
-      TalonSRX intakeMotor = new TalonSRX(Config.INTAKE_TALON);
-      Solenoid intakePiston = new Solenoid(Config.INTAKE_PISTON); 
-        }
-    
-    
+    TalonSRX CargoTransportOne = new TalonSRX(Config.CARGO_MOTOR);
+
     public void set(double speed) {
 
- intakeMotor.set(ControlMode.PercentOutput, speed);
+        CargoTransportOne.set(ControlMode.PercentOutput, speed);
     }
-    public void on(){
-        intakePiston.set(true);
-        intakeMotor.set(ControlMode.PercentOutput, 1.0);
-    }
-    public void off(){
-        intakePiston.set(false);
-        intakeMotor.set(ControlMode.PercentOutput, 0.0);
-    }
+
     public void reverse() {
-        intakeMotor.set(ControlMode.PercentOutput, -1.0);
+        CargoTransportOne.set(ControlMode.PercentOutput, -1.0);
     }
+
     public void positive() {
-        intakeMotor.set(ControlMode.PercentOutput, 1.0);
+        CargoTransportOne.set(ControlMode.PercentOutput, 1.0);
     }
 }
-    

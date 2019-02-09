@@ -25,5 +25,14 @@ public class Config {
 
 	public static final int INTAKE_TALON = 31;
 	public static final int INTAKE_PISTON = 51;
+
+	public static final int MANIPULATOR_ONE = 0;
+	public static final int MANIPULATOR_TWO = 0;
+	
+	public static final int CARGO_MOTOR = 0;
+	
+	public static final int CLIMBER_MOTOR_ONE = 0;
+	public static final int CLIMBER_MOTOR_TWO = 0;
+	public static final int CLIMBER_MOTOR_THREE = 0;
 	
 }

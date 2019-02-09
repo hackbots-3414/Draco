@@ -5,7 +5,6 @@ import org.usfirst.frc.team3414.config.Config;
 public class DriveTrain {
 	double leftJoySpeed = 0;
 	double rightJoySpeed = 0;
-	private static DriveTrain instance;
 	public MultiMotor left = new MultiMotor(Config.LEFT_FRONT,Config.LEFT_MIDDLE,Config.LEFT_REAR);
 	public MultiMotor right = new MultiMotor(Config.RIGHT_FRONT,Config.RIGHT_MIDDLE,Config.RIGHT_REAR);
 	
@@ -37,6 +36,8 @@ public class DriveTrain {
 		right.setInverted(true);
 
 	}
+	private static DriveTrain instance;
+
 		public static DriveTrain getInstance()
 		{
 			if(instance == null)
