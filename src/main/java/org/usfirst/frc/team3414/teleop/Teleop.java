@@ -33,7 +33,7 @@ public class Teleop {
 	}
 
 	public void intake() {
-		if (pad.getAButton()) {
+		if (pad.getYButton()) {
 			Intake.getInstance().on();
 
 		} else {
@@ -44,9 +44,9 @@ public class Teleop {
 	
 
 	public void climber() {
-		if (pad.getXButton()) {
+		if (pad.getRBButton()) {
 			Climber.getInstance().up();
-		} else if (pad.getYButton()) {
+		} else if (pad.getLBButton()) {
 			Climber.getInstance().down();
 		} else {
 			Climber.getInstance().stop();
@@ -67,10 +67,10 @@ public class Teleop {
 
 	} 
 	public void cargo(){
-		if(pad.getLBButton()){
+		if(pad.getAButton()){
 			CargoTransport.getInstance().positive();
 		}
-		else if(pad.getRBButton()){
+		else if(pad.getBButton()){
 			CargoTransport.getInstance().reverse();
 		}
 	}
