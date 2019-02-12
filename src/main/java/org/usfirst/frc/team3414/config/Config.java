@@ -21,7 +21,7 @@ public class Config {
 	return	Diagnostic.position+"-"+SmartDashboard.getString("auton", "defaultValue");
 	}
 
-
+	public static final int TUNNEL_TALON = 0;
 
 	public static final int INTAKE_TALON = 31;
 	public static final int INTAKE_PISTON = 8;
