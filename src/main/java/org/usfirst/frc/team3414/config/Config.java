@@ -27,10 +27,10 @@ public class Config {
 	public static final int TUNNEL_TALON_TOP = 52;
 
 	public static final int INTAKE_TALON = 41;
-	public static final int INTAKE_PISTON = 3;
+	public static final int INTAKE_PISTON = 4;
 
-	public static final int MANIPULATOR_ONE = 7;
-	public static final int MANIPULATOR_TWO = 0;
+	public static final int MANIPULATOR_ONE = 3;
+	public static final int MANIPULATOR_TWO = 2;
 	
 	public static final int CARGO_MOTOR_ONE = 12;
 	public static final int CARGO_MOTOR_TWO = 13;

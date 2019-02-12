@@ -8,7 +8,8 @@
 package org.usfirst.frc.team3414.robot;
 
 import org.usfirst.frc.team3414.actuators.DriveTrain;
-import org.usfirst.frc.team3414.actuators.HCompressor;
+import org.usfirst.frc.team3414.actuators.Intake;
+import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
@@ -30,7 +31,6 @@ public class Robot extends IterativeRobot {
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
-	public Compressor c = new Compressor(60);
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -38,14 +38,17 @@ public class Robot extends IterativeRobot {
 
 	
 	
+	 Compressor c = new Compressor(Config.COMPRESSOR);
 	@Override
 	public void robotInit() {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
+		//HCompressor.init();
+		c.enabled();
+		c.setClosedLoopControl(true);
 		DriveTrain.getInstance().init();
-		Teleop.getInstance().init();
-		HCompressor.init();
+		//Intake.getInstance().init();
 		
 	}
 
@@ -85,12 +88,12 @@ public class Robot extends IterativeRobot {
 			Teleop.getInstance().drive();
 			//Teleop.getInstance().cargo();
 			//Teleop.getInstance().manipulator();
-			Teleop.getInstance().intake();
+			//Teleop.getInstance().intake();
 		}
 	
 	}
 	public void teleopInit() {
-		
+		Teleop.getInstance().init();
 	}
 	/**
 	 * This function is called periodically during test mode.

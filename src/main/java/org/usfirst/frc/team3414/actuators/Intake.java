@@ -33,9 +33,9 @@ public class Intake {
     TalonSRX intakeMotor;
     Solenoid intakePiston;
 
-    public Intake() {
-        TalonSRX intakeMotor = new TalonSRX(Config.INTAKE_TALON);
-        Solenoid intakePiston = new Solenoid(Config.INTAKE_PISTON);
+    public void init() {
+         intakeMotor = new TalonSRX(Config.INTAKE_TALON);
+         intakePiston = new Solenoid(Config.INTAKE_PISTON);
     }
 
     public void set(double speed) {
