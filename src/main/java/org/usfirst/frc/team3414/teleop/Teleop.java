@@ -32,8 +32,31 @@ public class Teleop {
 		DriveTrain.getInstance().teleop(left.getY(), right.getY());
 	}
 	public void intake(){
+		if(pad.getAButton()){ //Turn on intake
 		Intake.getInstance().on();
-	
+		HatchPanelManipulator.getInstance().setOut();
+		}
+		else{
+			Intake.getInstance().off();
+		}
+		if(pad.isPovPositive())	{
+			Intake.getInstance().goUp();
+		}
+		else if(pad.isPovNegative()){
+			Intake.getInstance().goDown();
+		}
+
+		else{
+			Intake.getInstance().stop();
+		}
+	}
+	public void shooter(){
+		if(pad.getBButton()){
+			CargoTransport.getInstance().positive();
+		}
+		else{
+			CargoTransport.getInstance().stop();
+		}
 	}
 	//BEGIN LEGACY CODE
 	public void legacyIntake() {
@@ -57,7 +80,7 @@ public class Teleop {
 		}
 
 	}
-
+/*
 	public void legacyManipulator() {
 		if (pad.getLT() && pad.getRT()) {
 			HatchPanelManipulator.getInstance().outandup();
@@ -69,7 +92,8 @@ public class Teleop {
 				HatchPanelManipulator.getInstance().inanddown();
 			}
 
-	} 
+	}
+	*/ 
 	public void legacyCargo(){
 		if(pad.getAButton()){
 			CargoTransport.getInstance().positive();

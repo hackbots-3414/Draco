@@ -54,10 +54,25 @@ public class Controller {
 	}
 
 	public double getPov() {
-		return 0;
+		return pad.getPOV();
 	}
-
-private static Controller instance;
+	public boolean isPovPositive(){
+		if((135 >= pad.getPOV()) && (pad.getPOV() <= 45)){
+			return true;
+		}
+		else{
+			return false;
+		}		
+	}
+	public boolean isPovNegative(){
+		if((225 >= pad.getPOV()) && (pad.getPOV() <= 315)){
+			return true;
+		}
+		else{
+			return false;
+		}		
+	}
+	private static Controller instance;
 
 public static Controller getInstance()
 		{

@@ -16,25 +16,26 @@ public class MultiMotor {
 	}
 	public MultiMotor(int front_channel, int rear_channel) {
 		front = new TalonSRX(front_channel);
+		middle = null;
 		rear = new TalonSRX(rear_channel);
 	}
 	public void set(double speed) {
 		front.set(ControlMode.PercentOutput, speed);
-		middle.set(ControlMode.PercentOutput, speed);
+		//middle.set(ControlMode.PercentOutput, speed);
 		rear.set(ControlMode.PercentOutput, speed);
 	}
 	public void setFront(double speed) {
 		front.set(ControlMode.PercentOutput, speed);
 	}
 	public void setMiddle(double speed) {
-		middle.set(ControlMode.PercentOutput, speed);
+		//middle.set(ControlMode.PercentOutput, speed);
 	}
 	public void setRear(double speed) {
 		rear.set(ControlMode.PercentOutput, speed);
 	}
 	public void setInverted(boolean inverted){
 		front.setInverted(inverted);
-		middle.setInverted(inverted);
+	//	middle.setInverted(inverted);
 		rear.setInverted(inverted);
 
 	}

@@ -8,9 +8,11 @@
 package org.usfirst.frc.team3414.robot;
 
 import org.usfirst.frc.team3414.actuators.DriveTrain;
+import org.usfirst.frc.team3414.actuators.HCompressor;
 import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,6 +30,7 @@ public class Robot extends IterativeRobot {
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
+	public Compressor c = new Compressor(60);
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -42,6 +45,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", m_chooser);
 		DriveTrain.getInstance().init();
 		Teleop.getInstance().init();
+		HCompressor.init();
 		
 	}
 
@@ -79,8 +83,9 @@ public class Robot extends IterativeRobot {
 		
 		else {
 			Teleop.getInstance().drive();
-			Teleop.getInstance().cargo();
-			Teleop.getInstance().manipulator();
+			//Teleop.getInstance().cargo();
+			//Teleop.getInstance().manipulator();
+			Teleop.getInstance().intake();
 		}
 	
 	}

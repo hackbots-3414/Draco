@@ -44,12 +44,10 @@ public class Intake {
     }
 
     public void on() {
-        intakePiston.set(true);
         intakeMotor.set(ControlMode.PercentOutput, 1.0);
     }
 
     public void off() {
-        intakePiston.set(false);
         intakeMotor.set(ControlMode.PercentOutput, 0.0);
     }
 
@@ -60,4 +58,12 @@ public class Intake {
     public void positive() {
         intakeMotor.set(ControlMode.PercentOutput, 1.0);
     }
+    public void goDown(){
+        intakePiston.set(true);
+    }
+    public void goUp(){
+        intakePiston.set(false);   }
+
+	public void stop() {
+	}
 }

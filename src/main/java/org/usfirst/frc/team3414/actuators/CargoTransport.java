@@ -29,18 +29,31 @@ public class CargoTransport {
         return instance;
         
 }
-    TalonSRX CargoTransportOne = new TalonSRX(Config.CARGO_MOTOR);
+    TalonSRX CargoTransportOne = new TalonSRX(Config.CARGO_MOTOR_ONE);
+    TalonSRX CargoTransportTwo = new TalonSRX(Config.CARGO_MOTOR_TWO);
 
     public void set(double speed) {
 
         CargoTransportOne.set(ControlMode.PercentOutput, speed);
+        CargoTransportTwo.set(ControlMode.PercentOutput, speed);
     }
 
     public void reverse() {
         CargoTransportOne.set(ControlMode.PercentOutput, -1.0);
+        CargoTransportTwo.set(ControlMode.PercentOutput, -1.0);
     }
 
     public void positive() {
         CargoTransportOne.set(ControlMode.PercentOutput, 1.0);
+        CargoTransportTwo.set(ControlMode.PercentOutput, 1.0);
+
+    }
+    public void off(){
+        stop();
+    }
+    public void stop(){
+        CargoTransportTwo.set(ControlMode.PercentOutput, 0);
+        CargoTransportOne.set(ControlMode.PercentOutput, 0);
+
     }
 }

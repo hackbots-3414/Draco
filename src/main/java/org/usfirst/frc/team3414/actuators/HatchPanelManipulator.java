@@ -32,6 +32,7 @@ public class HatchPanelManipulator {
         return instance;
         
 }
+/*
         public void outandup(){
             hatchPanelBackAndForth.set(true);
             hatchPanelUpAndDown.set(true);
@@ -42,6 +43,19 @@ public class HatchPanelManipulator {
         }
         public void inanddown(){
             hatchPanelBackAndForth.set(false);
+            hatchPanelUpAndDown.set(false);
+        }
+        */
+        public void setOut(){
+            hatchPanelBackAndForth.set(true);
+        }
+        public void setIn(){
+            hatchPanelBackAndForth.set(false);
+        }
+        public void setUp(){
+            hatchPanelUpAndDown.set(true);
+        }
+        public void setDown(){
             hatchPanelUpAndDown.set(false);
         }
 
