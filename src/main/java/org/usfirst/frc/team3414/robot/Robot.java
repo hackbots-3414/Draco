@@ -48,7 +48,6 @@ public class Robot extends IterativeRobot {
 		c.enabled();
 		c.setClosedLoopControl(true);
 		DriveTrain.getInstance().init();
-		
 		Intake.getInstance().init();
 		
 	}
@@ -89,12 +88,12 @@ public class Robot extends IterativeRobot {
 			Teleop.getInstance().drive();
 			//Teleop.getInstance().cargo();
 			//Teleop.getInstance().manipulator();
-			Teleop.getInstance().intake();
+			Teleop.getInstance().shooter();
+			Teleop.getInstance().runIntake();
 		}
 	
 	}
 	public void teleopInit() {
-		Teleop.getInstance().init();
 	}
 	/**
 	 * This function is called periodically during test mode.

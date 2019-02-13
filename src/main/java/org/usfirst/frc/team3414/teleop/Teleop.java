@@ -24,15 +24,14 @@ public class Teleop {
 
 	Joystick left = new Joystick(Config.LEFT_STICK);
 	Joystick right = new Joystick(Config.RIGHT_STICK);
-	Controller pad = new Controller();
-	public void init(){
-		pad.init();
-	}
+	Controller pad = new Controller(Config.CONTROLLER_CHANNEL);
 	public void drive() {
 		DriveTrain.getInstance().teleop(left.getY(), right.getY());
 	}
-	public void intake(){
-		if(pad.getAButton()){ //Turn on intake
+	public void runIntake(){
+		System.out.println("I exist");
+		if(pad.getAButton()){ //Turn on Intake
+		System.out.println("I'm running)");
 		Intake.getInstance().on();
 		HatchPanelManipulator.getInstance().setOut();
 		}
@@ -52,6 +51,7 @@ public class Teleop {
 	}
 	public void shooter(){
 		if(pad.getBButton()){
+			System.out.println("shooting");
 			CargoTransport.getInstance().positive();
 		}
 		else{

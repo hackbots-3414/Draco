@@ -8,29 +8,29 @@ public class Controller {
 	//Normal Controllers with Normal Mappings. There is a difference.
 	
 	Joystick pad;
-	public void init(){
-		pad = new Joystick(Config.CONTROLLER_CHANNEL);
+	public Controller(int channel){
+		pad = new Joystick(channel);
 		}
 		public void closeOut() {
 			pad = null;
 		}
 	public boolean getAButton() {
-		return pad.getRawButton(0);
-
-	}
-
-	public boolean getBButton() {
 		return pad.getRawButton(1);
 
 	}
 
-	public boolean getXButton() {
+	public boolean getBButton() {
 		return pad.getRawButton(2);
 
 	}
 
-	public boolean getYButton() {
+	public boolean getXButton() {
 		return pad.getRawButton(3);
+
+	}
+
+	public boolean getYButton() {
+		return pad.getRawButton(4);
 
 	}
 
@@ -72,13 +72,13 @@ public class Controller {
 			return false;
 		}		
 	}
-	private static Controller instance;
+private static Controller instance;
 
 public static Controller getInstance()
 		{
 			if(instance == null)
 			{
-				instance = new Controller();
+				instance = new Controller(Config.CONTROLLER_CHANNEL);
 			}
 			
 			return instance;

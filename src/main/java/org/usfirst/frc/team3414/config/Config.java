@@ -17,23 +17,24 @@ public class Config {
 	public static final int RIGHT_STICK = 1;
 	public static final int CONTROLLER_CHANNEL = 2;
 
-	public static final int COMPRESSOR = 60;
+	public static final int COMPRESSOR = 0;
 	public static String autoFile = (Diagnostic.position+"-"+DriverStation.getInstance().getGameSpecificMessage());
 	public static String getAutoFile(){
 	return	Diagnostic.position+"-"+SmartDashboard.getString("auton", "defaultValue");
 	}
 
 	public static final int TUNNEL_TALON_BOTTOM = 51;
-	public static final int TUNNEL_TALON_TOP = 52;
+	public static final int TUNNEL_TALON_TOP = 25;
 
-	public static final int INTAKE_TALON = 41;
+	public static final int INTAKE_TALON = 51;
 	public static final int INTAKE_PISTON = 4;
-
+//TODO implement bottom tunnel is 51
+//TODO SHould be 41
 	public static final int MANIPULATOR_ONE = 3;
 	public static final int MANIPULATOR_TWO = 2;
 	
-	public static final int CARGO_MOTOR_ONE = 12;
-	public static final int CARGO_MOTOR_TWO = 13;
+	public static final int CARGO_MOTOR_ONE = 51;
+	public static final int CARGO_MOTOR_TWO = 25;
 	
 	public static final int CLIMBER_MOTOR_ONE = 34;
 	public static final int CLIMBER_MOTOR_TWO = 72;
