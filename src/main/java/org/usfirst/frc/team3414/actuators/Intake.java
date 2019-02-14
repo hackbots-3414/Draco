@@ -18,6 +18,9 @@ import edu.wpi.first.wpilibj.Solenoid;
  * Add your docs here.
  */
 public class Intake {
+    private double throttle = Config.INTAKE_THROTTLE; 
+    //In theory this is faster than calling back to config each time. Probably nanoseconds of difference but at least this way if I ever need to change the way this is calculated its easier
+    
 
     private static Intake instance;
 
@@ -46,19 +49,19 @@ public class Intake {
     }
 
     public void on() {
-        intakeMotor.set(ControlMode.PercentOutput, 1.0*Config.INTAKE_THROTTLE);
+        intakeMotor.set(ControlMode.PercentOutput, 1.0*throttle);
     }
 
     public void off() {
-        intakeMotor.set(ControlMode.PercentOutput, 0.0*Config.INTAKE_THROTTLE);
+        intakeMotor.set(ControlMode.PercentOutput, 0.0*throttle);
     }
 
     public void reverse() {
-        intakeMotor.set(ControlMode.PercentOutput, -1.0*Config.INTAKE_THROTTLE);
+        intakeMotor.set(ControlMode.PercentOutput, -1.0*throttle);
     }
 
     public void positive() {
-        intakeMotor.set(ControlMode.PercentOutput, 1.0*Config.INTAKE_THROTTLE);
+        intakeMotor.set(ControlMode.PercentOutput, 1.0*throttle);
     }
     public void goDown(){
         intakePiston0.set(false);

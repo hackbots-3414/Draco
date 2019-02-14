@@ -31,14 +31,16 @@ public class Teleop {
 	}
 	public void runIntake(){
 		SmartDashboard.putNumber("POV", pad.getPov());
-		if(pad.getAButton()){ //Turn on Intake
+		if(pad.getAButton()){ //Turn on Intake, run tunnel
 		System.out.println("Intake running)");
 		Intake.getInstance().on();
+		Tunnel.getInstance().setBlock(true);
 		Tunnel.getInstance().on();
 		HatchPanelManipulator.getInstance().setOut();
 		}
 		else{
 			Intake.getInstance().off();
+			Tunnel.getInstance().setBlock(false);
 			Tunnel.getInstance().off();
 		}
 
@@ -55,18 +57,19 @@ public class Teleop {
 			Intake.getInstance().stop();
 		}
 	}
-	/*
-	public void shooter(){
+	public void runTunnel(){
 		if(pad.getBButton()){
-			System.out.println("shooting");
-			CargoTransport.getInstance().positive();
+			Tunnel.getInstance().setBlock(true);
+			Tunnel.getInstance().on();
 		}
 		else{
-			CargoTransport.getInstance().stop();
+			Tunnel.getInstance().setBlock(false);
+			Tunnel.getInstance().off();;
 		}
 	}
-	*/
-	//BEGIN LEGACY CODE
+	
+	/*	BEGIN LEGACY CODE
+
 	public void legacyIntake() {
 		if (pad.getYButton()) {
 			Intake.getInstance().on();
@@ -88,7 +91,7 @@ public class Teleop {
 		}
 
 	}
-/*
+
 	public void legacyManipulator() {
 		if (pad.getLT() && pad.getRT()) {
 			HatchPanelManipulator.getInstance().outandup();
@@ -101,7 +104,6 @@ public class Teleop {
 			}
 
 	}
-	*/ 
 	
-
+	*/
 	}

@@ -44,10 +44,18 @@ public class Tunnel {
     public void on() {
         tunnelMotor.set(ControlMode.PercentOutput, 1.0);
     }
-
-    public void off() {
-        tunnelMotor.set(ControlMode.PercentOutput, 0.0);
+    boolean tunnelBlocker = false;
+    public void setBlock(boolean block){
+        tunnelBlocker = block;
     }
+    public void off() {
+        if(tunnelBlocker == false) {
+            tunnelMotor.set(ControlMode.PercentOutput, 0.0);
+    }
+    else{
+        
+    }
+}
 
     public void reverse() {
         tunnelMotor.set(ControlMode.PercentOutput, -1.0);

@@ -88,10 +88,8 @@ public class Robot extends IterativeRobot {
 		
 		else {
 			Teleop.getInstance().drive();
-			//Teleop.getInstance().cargo();
-			//Teleop.getInstance().manipulator();
-			//Teleop.getInstance().shooter();
 			Teleop.getInstance().runIntake();
+			Teleop.getInstance().runTunnel();
 		}
 	
 	}
