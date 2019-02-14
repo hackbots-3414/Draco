@@ -17,57 +17,45 @@ import edu.wpi.first.wpilibj.Solenoid;
 /**
  * Add your docs here.
  */
-public class Intake {
+public class Tunnel {
 
-    private static Intake instance;
+    private static Tunnel instance;
 
-    public static Intake getInstance() {
+    public static Tunnel getInstance() {
         if (instance == null) {
-            instance = new Intake();
+            instance = new Tunnel();
         }
 
         return instance;
 
     }
 
-    TalonSRX intakeMotor;
-    Solenoid intakePiston0;
-    Solenoid intakePiston1;
+    TalonSRX tunnelMotor;
     public void init() {
-         intakeMotor = new TalonSRX(Config.INTAKE_TALON);
-         intakePiston0 = new Solenoid(Config.INTAKE_PISTON);
-         intakePiston1 = new Solenoid(Config.INTAKE_PISTON_TWO);
-         intakeMotor.setInverted(true);
-    }
+         tunnelMotor = new TalonSRX(Config.CARGO_MOTOR_ONE);
+         tunnelMotor.setInverted(true);
+        }
 
     public void set(double speed) {
 
-        intakeMotor.set(ControlMode.PercentOutput, speed);
+        tunnelMotor.set(ControlMode.PercentOutput, speed);
     }
 
     public void on() {
-        intakeMotor.set(ControlMode.PercentOutput, 1.0*Config.INTAKE_THROTTLE);
+        tunnelMotor.set(ControlMode.PercentOutput, 1.0);
     }
 
     public void off() {
-        intakeMotor.set(ControlMode.PercentOutput, 0.0*Config.INTAKE_THROTTLE);
+        tunnelMotor.set(ControlMode.PercentOutput, 0.0);
     }
 
     public void reverse() {
-        intakeMotor.set(ControlMode.PercentOutput, -1.0*Config.INTAKE_THROTTLE);
+        tunnelMotor.set(ControlMode.PercentOutput, -1.0);
     }
 
     public void positive() {
-        intakeMotor.set(ControlMode.PercentOutput, 1.0*Config.INTAKE_THROTTLE);
+        tunnelMotor.set(ControlMode.PercentOutput, 1.0);
     }
-    public void goDown(){
-        intakePiston0.set(false);
-        intakePiston1.set(true);
-    }
-    public void goUp(){
-        intakePiston0.set(true);
-        intakePiston0.set(false);
-       }
 
 	public void stop() {
 	}

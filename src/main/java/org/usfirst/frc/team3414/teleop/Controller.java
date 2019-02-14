@@ -15,17 +15,17 @@ public class Controller {
 			pad = null;
 		}
 	public boolean getAButton() {
-		return pad.getRawButton(1);
-
-	}
-
-	public boolean getBButton() {
 		return pad.getRawButton(2);
 
 	}
 
-	public boolean getXButton() {
+	public boolean getBButton() {
 		return pad.getRawButton(3);
+
+	}
+
+	public boolean getXButton() {
+		return pad.getRawButton(1);
 
 	}
 
@@ -35,7 +35,7 @@ public class Controller {
 	}
 
 	public boolean getLBButton() {
-		return pad.getRawButton(4);
+		return pad.getRawButton(5);
 
 	}
 

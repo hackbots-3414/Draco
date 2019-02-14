@@ -3,9 +3,19 @@ package org.usfirst.frc.team3414.config;
 import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Config {
+	static Preferences prefs = Preferences.getInstance();
+	/*public static double getIntakeThrottle(){
+	//	double input = prefs.getDouble("Throttle?", .5);
+		//OVERRIDE
+		double input = .5;
+		return input;
+	}
+	*/
+	public static final double INTAKE_THROTTLE = .55;
 	public static final int LEFT_FRONT = 1;
 	//public static final int LEFT_MIDDLE = 2;
 	public static final int LEFT_REAR = 2;
@@ -26,18 +36,19 @@ public class Config {
 	public static final int TUNNEL_TALON_BOTTOM = 51;
 	public static final int TUNNEL_TALON_TOP = 25;
 
-	public static final int INTAKE_TALON = 51;
-	public static final int INTAKE_PISTON = 4;
+	public static final int INTAKE_TALON = 6;
+	public static final int INTAKE_PISTON = 0;
+	public static final int INTAKE_PISTON_TWO = 1;
 //TODO implement bottom tunnel is 51
 //TODO SHould be 41
 	public static final int MANIPULATOR_ONE = 3;
 	public static final int MANIPULATOR_TWO = 2;
 	
 	public static final int CARGO_MOTOR_ONE = 51;
-	public static final int CARGO_MOTOR_TWO = 25;
+	public static final int CARGO_MOTOR_TWO = 45;
 	
-	public static final int CLIMBER_MOTOR_ONE = 34;
-	public static final int CLIMBER_MOTOR_TWO = 72;
+	public static final int CLIMBER_MOTOR_ONE = 21;
+	public static final int CLIMBER_MOTOR_TWO = 31;
 	public static final int CLIMBER_MOTOR_THREE = 11;
 	
 }

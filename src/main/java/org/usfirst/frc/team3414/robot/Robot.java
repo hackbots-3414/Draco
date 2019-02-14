@@ -9,6 +9,7 @@ package org.usfirst.frc.team3414.robot;
 
 import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.Intake;
+import org.usfirst.frc.team3414.actuators.Tunnel;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 import org.usfirst.frc.team3414.teleop.Teleop;
@@ -45,10 +46,11 @@ public class Robot extends IterativeRobot {
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
 		//HCompressor.init();
-		c.enabled();
+		//c.enabled();
 		c.setClosedLoopControl(true);
 		DriveTrain.getInstance().init();
 		Intake.getInstance().init();
+		Tunnel.getInstance().init();
 		
 	}
 
@@ -88,7 +90,7 @@ public class Robot extends IterativeRobot {
 			Teleop.getInstance().drive();
 			//Teleop.getInstance().cargo();
 			//Teleop.getInstance().manipulator();
-			Teleop.getInstance().shooter();
+			//Teleop.getInstance().shooter();
 			Teleop.getInstance().runIntake();
 		}
 	

@@ -1,14 +1,15 @@
 package org.usfirst.frc.team3414.teleop;
 
-import org.usfirst.frc.team3414.actuators.CargoTransport;
 import org.usfirst.frc.team3414.actuators.Climber;
 import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.HatchPanelManipulator;
 import org.usfirst.frc.team3414.actuators.Intake;
+import org.usfirst.frc.team3414.actuators.Tunnel;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Teleop {
 	private static Teleop instance;
@@ -29,19 +30,24 @@ public class Teleop {
 		DriveTrain.getInstance().teleop(left.getY(), right.getY());
 	}
 	public void runIntake(){
-		System.out.println("I exist");
+		SmartDashboard.putNumber("POV", pad.getPov());
 		if(pad.getAButton()){ //Turn on Intake
-		System.out.println("I'm running)");
+		System.out.println("Intake running)");
 		Intake.getInstance().on();
+		Tunnel.getInstance().on();
 		HatchPanelManipulator.getInstance().setOut();
 		}
 		else{
 			Intake.getInstance().off();
+			Tunnel.getInstance().off();
 		}
-		if(pad.isPovPositive())	{
+
+		if(pad.getYButton())	{
+			System.out.println("I should be going up");
 			Intake.getInstance().goUp();
 		}
-		else if(pad.isPovNegative()){
+		else if(pad.getXButton()){
+			System.out.println("I should be going down");
 			Intake.getInstance().goDown();
 		}
 
@@ -49,6 +55,7 @@ public class Teleop {
 			Intake.getInstance().stop();
 		}
 	}
+	/*
 	public void shooter(){
 		if(pad.getBButton()){
 			System.out.println("shooting");
@@ -58,6 +65,7 @@ public class Teleop {
 			CargoTransport.getInstance().stop();
 		}
 	}
+	*/
 	//BEGIN LEGACY CODE
 	public void legacyIntake() {
 		if (pad.getYButton()) {
@@ -94,12 +102,6 @@ public class Teleop {
 
 	}
 	*/ 
-	public void legacyCargo(){
-		if(pad.getAButton()){
-			CargoTransport.getInstance().positive();
-		}
-		else if(pad.getBButton()){
-			CargoTransport.getInstance().reverse();
-		}
+	
+
 	}
-}
