@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj.Solenoid;
  * Add your docs here.
  */
 public class HatchPanelManipulator {
-    Solenoid hatchPanelBackAndForth = new Solenoid(Config.MANIPULATOR_ONE);
-    Solenoid hatchPanelUpAndDown = new Solenoid(Config.MANIPULATOR_TWO);
+    Solenoid hatchPanelBackAndForth = new Solenoid(Config.HORIZONTAL_MANIPULATOR);
+    Solenoid hatchPanelUpAndDown = new Solenoid(Config.VERTICAL_MANIPULATOR);
 
     private static HatchPanelManipulator instance;
 

@@ -46,7 +46,7 @@ public class Intake {
     }
 
     public void on() {
-        intakeMotor.set(ControlMode.PercentOutput, 1.0*Config.INTAKE_THROTTLE);
+        intakeMotor.set(ControlMode.PercentOutput, 1*Config.INTAKE_THROTTLE);
     }
 
     public void off() {
@@ -66,7 +66,7 @@ public class Intake {
     }
     public void goUp(){
         intakePiston0.set(true);
-        intakePiston0.set(false);
+        intakePiston1.set(false);
        }
 
 	public void stop() {

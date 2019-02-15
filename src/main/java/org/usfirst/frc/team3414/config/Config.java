@@ -33,16 +33,15 @@ public class Config {
 	return	Diagnostic.position+"-"+SmartDashboard.getString("auton", "defaultValue");
 	}
 
-	public static final int TUNNEL_TALON_BOTTOM = 51;
 	public static final int TUNNEL_TALON_TOP = 25;
 
-	public static final int INTAKE_TALON = 6;
+	public static final int INTAKE_TALON = 41;
 	public static final int INTAKE_PISTON = 0;
 	public static final int INTAKE_PISTON_TWO = 1;
 //TODO implement bottom tunnel is 51
 //TODO SHould be 41
-	public static final int MANIPULATOR_ONE = 3;
-	public static final int MANIPULATOR_TWO = 2;
+	public static final int HORIZONTAL_MANIPULATOR = 3;
+	public static final int VERTICAL_MANIPULATOR = 2;
 	
 	public static final int CARGO_MOTOR_ONE = 51;
 	public static final int CARGO_MOTOR_TWO = 45;
