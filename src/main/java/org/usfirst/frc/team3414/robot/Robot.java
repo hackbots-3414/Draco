@@ -88,8 +88,7 @@ public class Robot extends IterativeRobot {
 		
 		else {
 			Teleop.getInstance().drive();
-			Teleop.getInstance().runIntake();
-			Teleop.getInstance().runTunnel();
+			Teleop.getInstance().ball();
 		}
 	
 	}
@@ -102,3 +101,4 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 	}
 }
+

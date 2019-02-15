@@ -13,13 +13,13 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import org.usfirst.frc.team3414.config.Config;
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
  */
 public class Intake {
-    private double throttle = Config.INTAKE_THROTTLE; 
-    //In theory this is faster than calling back to config each time. Probably nanoseconds of difference but at least this way if I ever need to change the way this is calculated its easier
+   
     
 
     private static Intake instance;
@@ -33,13 +33,14 @@ public class Intake {
 
     }
 
-    TalonSRX intakeMotor;
+    public TalonSRX intakeMotor;
     Solenoid intakePiston0;
     Solenoid intakePiston1;
     public void init() {
          intakeMotor = new TalonSRX(Config.INTAKE_TALON);
          intakePiston0 = new Solenoid(Config.INTAKE_PISTON);
          intakePiston1 = new Solenoid(Config.INTAKE_PISTON_TWO);
+         
          intakeMotor.setInverted(true);
     }
 
@@ -49,29 +50,37 @@ public class Intake {
     }
 
     public void on() {
-        intakeMotor.set(ControlMode.PercentOutput, 1.0*throttle);
+    System.out.println("Intake is on");
+    intakeMotor.set(ControlMode.PercentOutput, 1*Config.INTAKE_THROTTLE);
     }
 
     public void off() {
-        intakeMotor.set(ControlMode.PercentOutput, 0.0*throttle);
+        intakeMotor.set(ControlMode.PercentOutput, 0.0*Config.INTAKE_THROTTLE);
     }
 
     public void reverse() {
-        intakeMotor.set(ControlMode.PercentOutput, -1.0*throttle);
+        intakeMotor.set(ControlMode.PercentOutput, -1.0*Config.INTAKE_THROTTLE);
     }
 
     public void positive() {
-        intakeMotor.set(ControlMode.PercentOutput, 1.0*throttle);
+        intakeMotor.set(ControlMode.PercentOutput, 1.0*Config.INTAKE_THROTTLE);
     }
     public void goDown(){
         intakePiston0.set(false);
-        intakePiston1.set(true);
+       intakePiston1.set(true);
     }
     public void goUp(){
         intakePiston0.set(true);
-        intakePiston0.set(false);
+        intakePiston1.set(false);
+
        }
 
 	public void stop() {
-	}
+        off();
+    }
+    public void diagnostic(){
+        SmartDashboard.putBoolean("Solenoid channel 0:", intakePiston0.get());
+        SmartDashboard.putBoolean("Solenoid channel 1", intakePiston1.get());
+        SmartDashboard.putNumber("Intake Motor:", intakeMotor.getMotorOutputPercent());
+    }
 }

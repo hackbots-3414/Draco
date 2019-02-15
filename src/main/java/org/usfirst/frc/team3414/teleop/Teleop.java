@@ -1,5 +1,9 @@
 package org.usfirst.frc.team3414.teleop;
 
+import java.awt.SystemTray;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import org.usfirst.frc.team3414.actuators.Climber;
 import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.HatchPanelManipulator;
@@ -29,21 +33,29 @@ public class Teleop {
 	public void drive() {
 		DriveTrain.getInstance().teleop(left.getY(), right.getY());
 	}
-	public void runIntake(){
-		SmartDashboard.putNumber("POV", pad.getPov());
+	public void ball(){
+		Intake.getInstance().intakeMotor.set(ControlMode.PercentOutput, 5);
 		if(pad.getAButton()){ //Turn on Intake, run tunnel
-		System.out.println("Intake running)");
-		Intake.getInstance().on();
-		Tunnel.getInstance().setBlock(true);
+		System.out.println("Intake running");
+		//Intake.getInstance().on();
 		Tunnel.getInstance().on();
 		HatchPanelManipulator.getInstance().setOut();
+		System.out.println("A Button");
 		}
+		/*
+		else if(pad.getBButton()){
+			System.out.println("Get B button");
+			Tunnel.getInstance().on();
+		}
+		*/
 		else{
-			Intake.getInstance().off();
-			Tunnel.getInstance().setBlock(false);
+			System.out.println("This is the else code");
 			Tunnel.getInstance().off();
+			//Intake.getInstance().off();
 		}
+	
 
+	
 		if(pad.getYButton())	{
 			System.out.println("I should be going up");
 			Intake.getInstance().goUp();
@@ -57,15 +69,7 @@ public class Teleop {
 			Intake.getInstance().stop();
 		}
 	}
-	public void runTunnel(){
-		if(pad.getBButton()){
-			Tunnel.getInstance().setBlock(true);
-			Tunnel.getInstance().on();
-		}
-		else{
-			Tunnel.getInstance().setBlock(false);
-			Tunnel.getInstance().off();;
-		}
+	
 	}
 	
 	/*	BEGIN LEGACY CODE
@@ -106,4 +110,4 @@ public class Teleop {
 	}
 	
 	*/
-	}
+	

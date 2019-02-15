@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj.Solenoid;
  * Add your docs here.
  */
 public class HatchPanelManipulator {
-    Solenoid hatchPanelBackAndForth = new Solenoid(Config.MANIPULATOR_ONE);
-    Solenoid hatchPanelUpAndDown = new Solenoid(Config.MANIPULATOR_TWO);
+    Solenoid horizontal = new Solenoid(Config.VERTICAL_MANIPULATOR);
+    Solenoid vertical = new Solenoid(Config.HORIZONTAL_MANIPULATOR);
 
     private static HatchPanelManipulator instance;
 
@@ -34,30 +34,31 @@ public class HatchPanelManipulator {
 }
 /*
         public void outandup(){
-            hatchPanelBackAndForth.set(true);
-            hatchPanelUpAndDown.set(true);
+            horizontal.set(true);
+            vertical.set(true);
         }
         public void outanddown(){
-            hatchPanelBackAndForth.set(true);
-            hatchPanelUpAndDown.set(false);
+            horizontal.set(true);
+            vertical.set(false);
         }
         public void inanddown(){
-            hatchPanelBackAndForth.set(false);
-            hatchPanelUpAndDown.set(false);
+            horizontal.set(false);
+            vertical.set(false);
         }
         */
         public void setOut(){
-            hatchPanelBackAndForth.set(true);
+            horizontal.set(true);
         }
         public void setIn(){
-            hatchPanelBackAndForth.set(false);
+            horizontal.set(false);
         }
         public void setUp(){
-            hatchPanelUpAndDown.set(true);
+            vertical.set(true);
         }
         public void setDown(){
-            hatchPanelUpAndDown.set(false);
+            vertical.set(false);
         }
+        
 
         
 
