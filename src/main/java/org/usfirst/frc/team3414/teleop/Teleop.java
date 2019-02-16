@@ -30,10 +30,13 @@ public class Teleop {
 		DriveTrain.getInstance().teleop(left.getY(), right.getY());
 	}
 	public void ball(){
+		SmartDashboard.putNumber("POV", pad.getPov());
 		if(pad.getAButton()){ //Turn on Intake, run tunnel
-        System.out.println("Intake running");
 		Intake.getInstance().on();
 		Tunnel.getInstance().on();
+		}
+		else if(pad.getBButton()){
+			Tunnel.getInstance().on();
 		}
 		else{
 			Intake.getInstance().off();
@@ -45,6 +48,20 @@ public class Teleop {
 		else if(pad.getXButton()){
 			Intake.getInstance().goDown();
 		}
+		}
+		public void manipulator(){
+			if(pad.getPov() == 0){
+				HatchPanelManipulator.getInstance().setOut();
+			}
+			else if(pad.getPov() == 180){
+				HatchPanelManipulator.getInstance().setIn();
+			}
+			else if(pad.getLBButton()){
+				HatchPanelManipulator.getInstance().setUp();
+			}
+			else if(pad.getLT()){
+				HatchPanelManipulator.getInstance().setDown();
+			}
 		}
 		/*
 	public void runIntake(){

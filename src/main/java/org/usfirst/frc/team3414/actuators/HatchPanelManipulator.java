@@ -18,8 +18,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Add your docs here.
  */
 public class HatchPanelManipulator {
-    Solenoid hatchPanelBackAndForth = new Solenoid(Config.HORIZONTAL_MANIPULATOR);
-    Solenoid hatchPanelUpAndDown = new Solenoid(Config.VERTICAL_MANIPULATOR);
+    Solenoid sliderOut = new Solenoid(Config.HORIZONTAL_MANIPULATOR_OUT);
+    Solenoid sliderIn = new Solenoid(Config.HORIZONTAL_MANIPULATOR_IN);
+    Solenoid hatchUp = new Solenoid(Config.VERTICAL_MANIPULATOR_UP);
+    Solenoid hatchDown = new Solenoid(Config.VERTICAL_MANIPULATOR_DOWN);
+    
 
     private static HatchPanelManipulator instance;
 
@@ -48,20 +51,25 @@ public class HatchPanelManipulator {
         }
         */
         public void setOut(){
-            hatchPanelBackAndForth.set(true);
+            sliderOut.set(true);
+            sliderIn.set(false);
         }
         public void setIn(){
-            hatchPanelBackAndForth.set(false);
-        }
+            sliderOut.set(false);
+            sliderIn.set(true);
+                }
         public void setUp(){
-            hatchPanelUpAndDown.set(true);
-        }
+        hatchUp.set(true);
+        hatchDown.set(false);
+            
+                }
         public void setDown(){
-            hatchPanelUpAndDown.set(false);
+            hatchUp.set(false);
+            hatchDown.set(true);
         }
         public void diagnostic(){
-            SmartDashboard.putBoolean("Set Out?:", hatchPanelBackAndForth.get());
-            SmartDashboard.putBoolean("Set Up?:", hatchPanelUpAndDown.get());
+      // SmartDashboard.putBoolean("Set Out , hatchPanelBackAndForth.get());
+       //SmartDashboard.putBoolean("Set Up?:", hatchPanelUpAndDown.get());
         }
         
 

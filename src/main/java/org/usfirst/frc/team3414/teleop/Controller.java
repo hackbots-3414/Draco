@@ -44,7 +44,7 @@ public class Controller {
 	}
 
 	public boolean getLT() {
-		return pad.getRawButton(6);
+		return pad.getRawButton(7);
 
 	}
 

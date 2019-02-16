@@ -40,7 +40,7 @@ public class Robot extends IterativeRobot {
 
 	
 	
-	 Compressor c = new Compressor(Config.COMPRESSOR);
+	//Fc. Compressor c = new Compressor(Config.COMPRESSOR);
 	@Override
 	public void robotInit() {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
@@ -48,7 +48,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", m_chooser);
 		//HCompressor.init();
 		//c.enabled();
-		c.setClosedLoopControl(true);
+		//c.setClosedLoopControl(true);
 		DriveTrain.getInstance().init();
 		Intake.getInstance().init();
 		Tunnel.getInstance().init();
@@ -84,6 +84,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 			Teleop.getInstance().drive();
 			Teleop.getInstance().ball();
+			Teleop.getInstance().manipulator();
 			DashboardOutput.diagnostic();
 	}
 	public void teleopInit() {
