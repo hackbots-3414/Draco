@@ -3,6 +3,7 @@ package org.usfirst.frc.team3414.actuators;
 import org.usfirst.frc.team3414.config.Config;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain {
 	
@@ -68,8 +69,9 @@ public class DriveTrain {
 	}
 	public void init(){
 		right.setInverted(true);
-
+	
 	}
+	
 		public static DriveTrain getInstance()
 		{
 			if(instance == null)
@@ -82,5 +84,11 @@ public class DriveTrain {
 	}
 		public void stop() {
 			teleop(0,0);
+		}
+		public void diagnostic(){
+			SmartDashboard.putNumber("Left Motor Front %:", left.getFront());
+			SmartDashboard.putNumber("Left Motor Rear %:", left.getRear());
+			SmartDashboard.putNumber("Right Motor Front %:", right.getFront());
+			SmartDashboard.putNumber("Right Motor Rear %:", right.getRear());
 		}
 }

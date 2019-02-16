@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import org.usfirst.frc.team3414.config.Config;
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
@@ -58,7 +59,10 @@ public class HatchPanelManipulator {
         public void setDown(){
             hatchPanelUpAndDown.set(false);
         }
-
+        public void diagnostic(){
+            SmartDashboard.putBoolean("Set Out?:", hatchPanelBackAndForth.get());
+            SmartDashboard.putBoolean("Set Up?:", hatchPanelUpAndDown.get());
+        }
         
 
     }

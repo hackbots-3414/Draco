@@ -12,6 +12,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import org.usfirst.frc.team3414.config.Config;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * Add your docs here.
  */
@@ -51,5 +53,11 @@ public class Climber {
         climberOne.set(ControlMode.PercentOutput, 0.0);
         climberTwo.set(ControlMode.PercentOutput, 0.0);
         climberThree.set(ControlMode.PercentOutput, 0.0);   
+    }
+    public void diagnostic(){
+    SmartDashboard.putNumber("Climber One %:", climberOne.getMotorOutputPercent());
+    SmartDashboard.putNumber("Climber Two %:", climberTwo.getMotorOutputPercent());
+    SmartDashboard.putNumber("Climber Three %:", climberThree.getMotorOutputPercent());
+    
     }
 }

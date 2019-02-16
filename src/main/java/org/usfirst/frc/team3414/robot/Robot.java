@@ -11,6 +11,7 @@ import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.Tunnel;
 import org.usfirst.frc.team3414.config.Config;
+import org.usfirst.frc.team3414.diagnostic.DashboardOutput;
 import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
@@ -81,17 +82,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		if(Diagnostic.isRunning()) {
-			Diagnostic.runTeleop();
-		}
-			
-		
-		else {
 			Teleop.getInstance().drive();
 			Teleop.getInstance().ball();
-	
-		}
-	
+			DashboardOutput.diagnostic();
 	}
 	public void teleopInit() {
 	}

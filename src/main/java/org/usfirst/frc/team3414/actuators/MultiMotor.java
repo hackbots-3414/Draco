@@ -47,4 +47,10 @@ public class MultiMotor {
 	public double getEncoder() {
 		return 0;
 	}
+	public double getFront(){
+		return front.getMotorOutputPercent();
+	}
+	public double getRear(){
+		return front.getMotorOutputPercent();
+	}
 }

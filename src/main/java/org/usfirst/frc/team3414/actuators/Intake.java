@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import org.usfirst.frc.team3414.config.Config;
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
@@ -70,5 +71,11 @@ public class Intake {
        }
 
 	public void stop() {
+	}
+
+	public void diagnostic() {
+        SmartDashboard.putNumber("Intake Motor %", intakeMotor.getMotorOutputPercent());
+        SmartDashboard.putBoolean("Intake Piston 0", intakePiston0.get());
+        SmartDashboard.putBoolean("Intake Piston 1", intakePiston1.get());
 	}
 }
