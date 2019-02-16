@@ -13,6 +13,7 @@ import org.usfirst.frc.team3414.actuators.Tunnel;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.DashboardOutput;
 import org.usfirst.frc.team3414.diagnostic.Diagnostic;
+import org.usfirst.frc.team3414.sensors.Limelight;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -52,6 +53,7 @@ public class Robot extends IterativeRobot {
 		DriveTrain.getInstance().init();
 		Intake.getInstance().init();
 		Tunnel.getInstance().init();
+		Limelight.init();
 		
 	}
 
@@ -88,6 +90,7 @@ public class Robot extends IterativeRobot {
 			DashboardOutput.diagnostic();
 	}
 	public void teleopInit() {
+		Limelight.init();
 	}
 	/**
 	 * This function is called periodically during test mode.

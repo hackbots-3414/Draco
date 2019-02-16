@@ -70,7 +70,7 @@ public class DriveTrain {
 		return rightJoySpeed;
 	}
 	public void init(){
-		right.setInverted(true);
+		left.setInverted(true);
 	
 	}
 	

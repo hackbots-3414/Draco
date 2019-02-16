@@ -9,6 +9,7 @@ import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Teleop {
@@ -26,8 +27,14 @@ public class Teleop {
 	Joystick left = new Joystick(Config.LEFT_STICK);
 	Joystick right = new Joystick(Config.RIGHT_STICK);
 	Controller pad = new Controller(Config.CONTROLLER_CHANNEL);
+	Preferences prefs;
 	public void drive() {
+		prefs = Preferences.getInstance();
 		DriveTrain.getInstance().teleop(left.getY(), right.getY());
+		boolean gamepadmode = prefs.getBoolean("Solo Drive?",false);
+		if(gamepadmode){
+			System.out.println("gamepad mode");
+		}
 	}
 	public void ball(){
 		SmartDashboard.putNumber("POV", pad.getPov());
