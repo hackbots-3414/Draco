@@ -7,11 +7,12 @@ public class MultiMotor {
 	TalonSRX front;
 	TalonSRX middle;
 	TalonSRX rear;
-	
+	int front_id;
 	public MultiMotor(int front_channel,int middle_channel, int rear_channel) {
 		front = new TalonSRX(front_channel);
 		middle = new TalonSRX(middle_channel);
 		rear = new TalonSRX(rear_channel);
+		front_id = front_channel;
 
 	}
 	public MultiMotor(int front_channel, int rear_channel) {
@@ -22,7 +23,7 @@ public class MultiMotor {
 	public void set(double speed) {
 		front.set(ControlMode.PercentOutput, speed);
 		//middle.set(ControlMode.PercentOutput, speed);
-		rear.set(ControlMode.PercentOutput, speed);
+		rear.set(ControlMode.Follower, front_id);
 	}
 	public void setFront(double speed) {
 		front.set(ControlMode.PercentOutput, speed);
