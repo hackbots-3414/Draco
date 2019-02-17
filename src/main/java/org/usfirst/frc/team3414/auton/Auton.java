@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.config.Config;
-import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 
 public class Auton {
 	private static Auton instance;
@@ -23,8 +22,9 @@ public class Auton {
         return instance;
         
 }
+boolean driving;
 public boolean isDriveActive(){
-	return false;
+	return driving;
 }
 	// BEGIN RECORDING CODE
 	long startTime;
@@ -42,7 +42,7 @@ public boolean isDriveActive(){
 	}
 
 	public void record() throws IOException {
-		if(Diagnostic.isRecording()) {
+		recordInit();
 		if (writer != null) {
 			// start each "frame" with the elapsed time since we started recording
 			writer.append("" + (System.currentTimeMillis() - startTime));
@@ -80,7 +80,7 @@ public boolean isDriveActive(){
 			 */
 		}
 	}
-	}
+	
 
 	// this method closes the writer and makes sure that all the data you recorded
 	// makes it into the file
@@ -112,7 +112,8 @@ public boolean isDriveActive(){
 		startTimeReplay = System.currentTimeMillis();
 	}
 
-	public void replay() {
+	public void replay() throws FileNotFoundException {
+		replayInit();
 		// if recordedAuto.csv has a double to read next, then read it
 		if ((scanner != null) && (scanner.hasNextDouble())) {
 			double t_delta;
@@ -179,6 +180,7 @@ public boolean isDriveActive(){
 
 	}
 	public void replayDrive() {
+		driving = true;
 		// if recordedAuto.csv has a double to read next, then read it
 		if ((scanner != null) && (scanner.hasNextDouble())) {
 			double t_delta;

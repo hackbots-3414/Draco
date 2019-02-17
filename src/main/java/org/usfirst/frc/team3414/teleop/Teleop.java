@@ -1,5 +1,8 @@
 package org.usfirst.frc.team3414.teleop;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import org.usfirst.frc.team3414.actuators.Climber;
 import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.HatchPanelManipulator;
@@ -28,10 +31,23 @@ public class Teleop {
 	Joystick left = new Joystick(Config.LEFT_STICK);
 	Joystick right = new Joystick(Config.RIGHT_STICK);
 	Controller pad = new Controller(Config.CONTROLLER_CHANNEL);
-	public void record(){
+	public void record() throws IOException{
 		int presses = 0;
 		if(pad.getRBButton()){
 			presses++;
+			SmartDashboard.putNumber("RB Presses", presses);
+			if(presses >= 10){
+				auton.record();
+			}
+		}
+	}
+	public void replay() throws FileNotFoundException{
+		int presses = 0;
+		if(pad.getRT()){
+			presses++;
+			if(presses >= 10){
+				auton.replay();
+			}
 		}
 	}
 	public void drive() {

@@ -7,6 +7,9 @@
 
 package org.usfirst.frc.team3414.robot;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.Tunnel;
@@ -84,6 +87,16 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		try {
+			Teleop.getInstance().record();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			Teleop.getInstance().replay();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 			Teleop.getInstance().drive();
 			Teleop.getInstance().ball();
 			Teleop.getInstance().manipulator();
