@@ -40,7 +40,7 @@ public class Controller {
 	}
 
 	public boolean getRBButton() {
-		return pad.getRawButton(5);
+		return pad.getRawButton(6);
 	}
 
 	public boolean getLT() {
@@ -49,8 +49,14 @@ public class Controller {
 	}
 
 	public boolean getRT() {
-		return pad.getRawButton(7);
+		return pad.getRawButton(8);
 
+	}
+	public boolean getLSButton(){
+		return pad.getRawButton(11);
+	}
+	public boolean getRSButton(){
+		return pad.getRawButton(12);
 	}
 
 	public double getPov() {

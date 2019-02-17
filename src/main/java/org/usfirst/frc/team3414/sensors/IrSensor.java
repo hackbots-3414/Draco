@@ -8,8 +8,7 @@
 package org.usfirst.frc.team3414.sensors;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  * Add your docs here.

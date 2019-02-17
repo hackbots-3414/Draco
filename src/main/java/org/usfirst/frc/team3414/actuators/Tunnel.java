@@ -11,11 +11,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import org.usfirst.frc.team3414.config.Config;
-import org.usfirst.frc.team3414.sensors.IrSensor;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -35,13 +32,13 @@ public class Tunnel {
     }
 
     TalonSRX tunnelMotor;
-    //IrSensor bottomBallSensor;
-    //IrSensor topBallSensor;
+    DigitalInput bottomBallSensor;
+    DigitalInput topBallSensor;
     public void init() {
         tunnelMotor = new TalonSRX(Config.CARGO_MOTOR_ONE);
         tunnelMotor.setInverted(true);
-     //  bottomBallSensor = new IrSensor(Config.BALL_SENSOR_BOTTOM);
-      // topBallSensor = new IrSensor(Config.BALL_SENSOR_TOP);
+     bottomBallSensor = new DigitalInput(Config.BALL_SENSOR_BOTTOM);
+     topBallSensor = new DigitalInput(Config.BALL_SENSOR_TOP);
     }
 
     public void set(double speed) {
@@ -68,28 +65,12 @@ public class Tunnel {
     public void stop() {
     }
 
-    public boolean isBallTop() {
-        // if (topBallSensor.getVoltage() >= 3.0) {
-        //     return true;
-        // }
-        // else{
-            return false;
-        // }
-    }
     
-    public boolean isBallBottom() {
-        // if (bottomBallSensor.getVoltage() >= 3.0) {
-        //     return true;
-        // }
-        // else{
-            return false;
-        // }
-    }
 
     public void diagnostic() {
         SmartDashboard.putNumber("Tunnel Motor Value:", tunnelMotor.getMotorOutputPercent());
-        // SmartDashboard.putNumber("Top Tunnel Sensor Output:", topBallSensor.getVoltage());
-        // SmartDashboard.putNumber("Bottom Tunnel Sensor Output:", bottomBallSensor.getVoltage());
+        SmartDashboard.putBoolean("Top Tunnel Sensor Output:", !topBallSensor.get());
+         SmartDashboard.putBoolean("Bottom Tunnel Sensor Output:", !bottomBallSensor.get());
     }
     
 

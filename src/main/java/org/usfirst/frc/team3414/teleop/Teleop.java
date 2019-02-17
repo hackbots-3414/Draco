@@ -3,17 +3,14 @@ package org.usfirst.frc.team3414.teleop;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.usfirst.frc.team3414.actuators.Climber;
 import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.HatchPanelManipulator;
 import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.Tunnel;
 import org.usfirst.frc.team3414.auton.Auton;
 import org.usfirst.frc.team3414.config.Config;
-import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Teleop {
@@ -31,28 +28,77 @@ public class Teleop {
 	Joystick left = new Joystick(Config.LEFT_STICK);
 	Joystick right = new Joystick(Config.RIGHT_STICK);
 	Controller pad = new Controller(Config.CONTROLLER_CHANNEL);
+	int rbpresses = 0;
+	int recordcounter = 0;
+	int replaycounter = 1;
+	int stopcounter = 0;
 	public void record() throws IOException{
-		int presses = 0;
-		if(pad.getRBButton()){
-			presses++;
-			SmartDashboard.putNumber("RB Presses", presses);
-			if(presses >= 10){
-				auton.record();
-			}
+		if(recordcounter == 0){
+			recordcounter++;
+			auton.recordInit();
 		}
-	}
-	public void replay() throws FileNotFoundException{
-		int presses = 0;
-		if(pad.getRT()){
-			presses++;
-			if(presses >= 10){
+		if(stopcounter == 0){
+			auton.record();
+		}
+		if(pad.getRSButton() && pad.getLSButton()){
+			stopcounter++;
+			auton.endRecording();
+		}
+		}
+		public void replay() throws IOException{
+			if(replaycounter == 0){
+				replaycounter++;
+				auton.replayInit();
+			}
+			if(stopcounter == 0){
 				auton.replay();
 			}
+			if(pad.getRSButton() && pad.getLSButton()){
+				stopcounter++;
+				auton.endReplay();
+			}
 		}
-	}
+		/*
+		SmartDashboard.putNumber("RB Presses", rbpresses);
+		if(pad.getRBButton() && !auton.isDriveActive()){
+			System.out.print("RB Pressed");
+			rbpresses++;
+		}
+		if(rbpresses >=50 && recordcounter ==0){
+			recordcounter++;
+			auton.recordInit();
+		}
+
+		if(rbpresses >= 50 && rbpresses <= 500){
+			auton.record();
+				}
+		else if(rbpresses > 500){
+			auton.endRecording();
+		}
+		}
+		*/
+	
+		/*
+	int rtpresses = 0;
+
+	public void replay() throws FileNotFoundException{
+			SmartDashboard.putNumber("RT Presses", rtpresses);
+		if(pad.getRT()){
+			rtpresses++;
+			
+		}
+		if(rtpresses >= 50 && replaycounter==0){
+			replaycounter++;
+			auton.replayInit();
+		}
+		if(rtpresses >=70){
+			auton.replay();
+		}
+				
+	}*/
 	public void drive() {
 		if(auton.isDriveActive()){
-			auton.replayDrive();
+		//	auton.replayDrive();
 		}
 		else{
 		DriveTrain.getInstance().teleop(left.getY(), right.getY());
@@ -92,80 +138,4 @@ public class Teleop {
 				HatchPanelManipulator.getInstance().setDown();
 			}
 		}
-		/*
-	public void runIntake(){
-		SmartDashboard.putNumber("POV", pad.getPov());
-		if(pad.getAButton()){ //Turn on Intake
-		System.out.println("Intake running)");
-		Intake.getInstance().on();
-		Tunnel.getInstance().on();
-		HatchPanelManipulator.getInstance().setOut();
-		}
-		else{
-			Intake.getInstance().off();
-			Tunnel.getInstance().off();
-		}
-
-		if(pad.getYButton())	{
-			System.out.println("I should be going up");
-			Intake.getInstance().goUp();
-		}
-		else if(pad.getXButton()){
-			System.out.println("I should be going down");
-			Intake.getInstance().goDown();
-		}
-
-		else{
-		}
-	}
-	
-	/*
-	public void shooter(){
-		if(pad.getBButton()){
-			System.out.println("shooting");
-			CargoTransport.getInstance().positive();
-		}
-		else{
-			CargoTransport.getInstance().stop();
-		}
-	}
-	*/
-	//BEGIN LEGACY CODE
-	public void legacyIntake() {
-		if (pad.getYButton()) {
-			Intake.getInstance().on();
-
-		} else {
-			Intake.getInstance().off();
-		}
-	}
-
-	
-
-	public void legacyClimber() { 
-		if (pad.getRBButton()) {
-			Climber.getInstance().up();
-		} else if (pad.getLBButton()) {
-			Climber.getInstance().down();
-		} else {
-			Climber.getInstance().stop();
-		}
-
-	}
-/*
-	public void legacyManipulator() {
-		if (pad.getLT() && pad.getRT()) {
-			HatchPanelManipulator.getInstance().outandup();
-			}
-			else if (pad.getLT()) {
-				HatchPanelManipulator.getInstance().outanddown();
-			}
-			else{
-				HatchPanelManipulator.getInstance().inanddown();
-			}
-
-	}
-	*/ 
-	
-
-	}
+}

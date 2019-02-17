@@ -13,13 +13,10 @@ import java.io.IOException;
 import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.Tunnel;
-import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.DashboardOutput;
-import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 import org.usfirst.frc.team3414.sensors.Limelight;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -56,8 +53,7 @@ public class Robot extends IterativeRobot {
 		DriveTrain.getInstance().init();
 		Intake.getInstance().init();
 		Tunnel.getInstance().init();
-		Limelight.init();
-		
+		Limelight.init();		
 	}
 
 	/**
@@ -88,16 +84,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		try {
-			Teleop.getInstance().record();
+			Teleop.getInstance().replay();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		try {
-			Teleop.getInstance().replay();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-			Teleop.getInstance().drive();
+		
+			//Teleop.getInstance().drive();
 			Teleop.getInstance().ball();
 			Teleop.getInstance().manipulator();
 			DashboardOutput.diagnostic();

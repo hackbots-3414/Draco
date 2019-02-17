@@ -4,7 +4,6 @@ import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Config {
 	static Preferences prefs = Preferences.getInstance();
@@ -15,7 +14,7 @@ public class Config {
 		return input;
 	}
 	*/
-	public static final double INTAKE_THROTTLE = .5;
+	public static final double INTAKE_THROTTLE = .60;
 	public static final int LEFT_FRONT = 1;
 	//public static final int LEFT_MIDDLE = 2;
 	public static final int LEFT_REAR = 2;
@@ -31,7 +30,7 @@ public class Config {
 	public static String autoFile = (Diagnostic.position+"-"+DriverStation.getInstance().getGameSpecificMessage());
 	public static String getAutoFile(){
 	//return	Diagnostic.position+"-"+SmartDashboard.getString("auton", "defaultValue");.
-	return "~/Output.txt";
+	return "/home/lvuser/Output.txt";
 	}
 
 	public static final int TUNNEL_TALON_TOP = 25;
@@ -53,6 +52,6 @@ public class Config {
 	public static final int CLIMBER_MOTOR_TWO = 31;
 	public static final int CLIMBER_MOTOR_THREE = 11;
 	
-	public static final int BALL_SENSOR_TOP = 0;
-	public static final  int BALL_SENSOR_BOTTOM = 1;
+	public static final int BALL_SENSOR_TOP = 1;
+	public static final  int BALL_SENSOR_BOTTOM = 0;
 }
