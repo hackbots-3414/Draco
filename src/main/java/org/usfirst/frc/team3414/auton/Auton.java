@@ -11,10 +11,26 @@ import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 
 public class Auton {
+	private static Auton instance;
+
+    public static Auton getInstance()
+    {
+        if(instance == null)
+        {
+            instance = new Auton();
+        }
+        
+        return instance;
+        
+}
+public boolean isDriveActive(){
+	return false;
+}
 	// BEGIN RECORDING CODE
 	long startTime;
 	FileWriter writer;
-	public void recordInit() throws IOException {
+
+	public  void recordInit() throws IOException {
 		startTime = System.currentTimeMillis();
 		// record the time we started recording
 
@@ -97,6 +113,72 @@ public class Auton {
 	}
 
 	public void replay() {
+		// if recordedAuto.csv has a double to read next, then read it
+		if ((scanner != null) && (scanner.hasNextDouble())) {
+			double t_delta;
+
+			// if we have waited the recorded amount of time assigned to each respective
+			// motor value,
+			// then move on to the next double value
+			// prevents the macro playback from getting ahead of itself and writing
+			// different
+			// motor values too quickly
+			if (onTime) {
+				// take next value
+				nextDouble = scanner.nextDouble();
+			}
+
+			// time recorded for values minus how far into replaying it we are--> if not
+			// zero, hold up
+			t_delta = nextDouble - (System.currentTimeMillis() - startTimeReplay);
+			// if we are on time, then set motor values
+			if (t_delta <= 0) {
+				// for 2015 robot. these are all the motors available to manipulate during
+				// autonomous.
+				// it is extremely important to set the motors in the SAME ORDER as was recorded
+				// in BTMacroRecord
+				// otherwise, motor values will be sent to the wrong motors and the robot will
+				// be unpredicatable
+				// ORIGINAL writer.append("," + tankControl.getLeftJoy());
+				// ORIGINAL writer.append("," + tankControl.getRightJoy());
+				DriveTrain.getInstance().teleop(scanner.nextDouble(), scanner.nextDouble());
+				
+				/*
+				 * storage.robot.getFrontLeftMotor().setX(scanner.nextDouble());
+				 * storage.robot.getFrontRightMotor().setX(scanner.nextDouble());
+				 * storage.robot.getBackRightMotor().setX(scanner.nextDouble());
+				 * storage.robot.getBackLeftMotor().setX(scanner.nextDouble());
+				 * 
+				 * storage.robot.getBarrelMotorLeft().setX(scanner.nextDouble());
+				 * storage.robot.getBarrelMotorRight().setX(scanner.nextDouble());
+				 * 
+				 * storage.robot.getLeftForkLeft().setX(scanner.nextDouble());
+				 * storage.robot.getLeftForkRight().setX(scanner.nextDouble());
+				 * storage.robot.getRightForkLeft().setX(scanner.nextDouble());
+				 * storage.robot.getRightForkRight().setX(scanner.nextDouble());
+				 * 
+				 * storage.robot.getToteClamp().set(storage.robot.getToteClamp().isExtended());
+				 */
+				// go to next double
+				onTime = true;
+			}
+			// else don't change the values of the motors until we are "onTime"
+			else {
+				onTime = false;
+				System.out.println("Error, catch up!");
+			}
+		}
+		// end play, there are no more values to find
+		else {
+			endReplay();
+			if (scanner != null) {
+				scanner.close();
+				scanner = null;
+			}
+		}
+
+	}
+	public void replayDrive() {
 		// if recordedAuto.csv has a double to read next, then read it
 		if ((scanner != null) && (scanner.hasNextDouble())) {
 			double t_delta;
