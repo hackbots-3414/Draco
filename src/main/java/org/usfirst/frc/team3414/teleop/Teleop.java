@@ -5,6 +5,7 @@ import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.HatchPanelManipulator;
 import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.Tunnel;
+import org.usfirst.frc.team3414.auton.Auton;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 
@@ -23,17 +24,21 @@ public class Teleop {
 		return instance;
 
 	}
-
+	Auton auton = new Auton();
 	Joystick left = new Joystick(Config.LEFT_STICK);
 	Joystick right = new Joystick(Config.RIGHT_STICK);
 	Controller pad = new Controller(Config.CONTROLLER_CHANNEL);
+	public void record(){
+		int presses = 0;
+		if(pad.getRBButton()){
+			presses++;
+		}
+	}
 	public void drive() {
-		if(Auton.isDriveActive){
-
+		if(auton.isDriveActive()){
+			auton.replayDrive();
 		}
 		else{
-
-		
 		DriveTrain.getInstance().teleop(left.getY(), right.getY());
 		}
 	}

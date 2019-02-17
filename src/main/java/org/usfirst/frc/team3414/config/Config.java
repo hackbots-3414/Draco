@@ -30,7 +30,8 @@ public class Config {
 	public static final int COMPRESSOR = 0;
 	public static String autoFile = (Diagnostic.position+"-"+DriverStation.getInstance().getGameSpecificMessage());
 	public static String getAutoFile(){
-	return	Diagnostic.position+"-"+SmartDashboard.getString("auton", "defaultValue");
+	//return	Diagnostic.position+"-"+SmartDashboard.getString("auton", "defaultValue");.
+	return "~/Output.txt";
 	}
 
 	public static final int TUNNEL_TALON_TOP = 25;
