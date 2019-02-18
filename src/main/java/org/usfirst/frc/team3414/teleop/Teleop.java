@@ -30,7 +30,7 @@ public class Teleop {
 	Controller pad = new Controller(Config.CONTROLLER_CHANNEL);
 	int rbpresses = 0;
 	int recordcounter = 0;
-	int replaycounter = 1;
+	int replaycounter = 0;
 	int stopcounter = 0;
 	public void record() throws IOException{
 		if(recordcounter == 0){
