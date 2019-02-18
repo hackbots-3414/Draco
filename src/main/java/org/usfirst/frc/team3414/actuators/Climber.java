@@ -30,34 +30,33 @@ public class Climber {
         return instance;
         
 }
-    TalonSRX climberOne = new TalonSRX(Config.CLIMBER_MOTOR_ONE);
-    TalonSRX climberTwo = new TalonSRX(Config.CLIMBER_MOTOR_TWO);
-    TalonSRX climberThree = new TalonSRX(Config.CLIMBER_MOTOR_THREE);
+    TalonSRX motorOne;
+    TalonSRX motorTwo;
+    TalonSRX motorThree;
 
-    public void setSpeed(double speed) {
-        climberOne.set(ControlMode.PercentOutput, speed);
-        climberTwo.set(ControlMode.PercentOutput, speed);
-        climberThree.set(ControlMode.PercentOutput, speed);        
-    }
-    public void up(){
-        climberOne.set(ControlMode.PercentOutput, 1.0);
-        climberTwo.set(ControlMode.PercentOutput, 1.0);
-        climberThree.set(ControlMode.PercentOutput, 1.0);
-    }
-    public void down(){
-        climberOne.set(ControlMode.PercentOutput, -1.0);
-        climberTwo.set(ControlMode.PercentOutput, -1.0);
-        climberThree.set(ControlMode.PercentOutput, -1.0);    
-    }
-    public void stop(){
-        climberOne.set(ControlMode.PercentOutput, 0.0);
-        climberTwo.set(ControlMode.PercentOutput, 0.0);
-        climberThree.set(ControlMode.PercentOutput, 0.0);   
-    }
+   public void init(){
+     motorOne = new TalonSRX(Config.CLIMBER_MOTOR_ONE);
+     motorTwo = new TalonSRX(Config.CLIMBER_MOTOR_TWO);
+     motorThree = new TalonSRX(Config.CLIMBER_MOTOR_THREE);
+   }
+   public void extendAll(){
+       motorOne.set(ControlMode.PercentOutput, 1);
+       motorTwo.set(ControlMode.PercentOutput, 1);
+       
+   }
+   public void moveForward(){
+       motorThree.set(ControlMode.PercentOutput, 1);
+   }
+   public void retractFront(){
+       motorOne.set(ControlMode.PercentOutput, -1);
+   }
+   public void retractRear(){
+       motorTwo.set(ControlMode.PercentOutput, -1);
+   }
     public void diagnostic(){
-    SmartDashboard.putNumber("Climber One %:", climberOne.getMotorOutputPercent());
-    SmartDashboard.putNumber("Climber Two %:", climberTwo.getMotorOutputPercent());
-    SmartDashboard.putNumber("Climber Three %:", climberThree.getMotorOutputPercent());
+    SmartDashboard.putNumber("Climber One %:", motorOne.getMotorOutputPercent());
+    SmartDashboard.putNumber("Climber Two %:", motorTwo.getMotorOutputPercent());
+    SmartDashboard.putNumber("Climber Three %:", motorThree.getMotorOutputPercent());
     
     }
 }

@@ -34,12 +34,30 @@ public class Tunnel {
     TalonSRX tunnelMotor;
     DigitalInput bottomBallSensor;
     DigitalInput topBallSensor;
+    //All calls to DigitalInput with the Chinese tunnel sensors need to use !, because false really means true. 
     public void init() {
         tunnelMotor = new TalonSRX(Config.CARGO_MOTOR_ONE);
         tunnelMotor.setInverted(true);
      bottomBallSensor = new DigitalInput(Config.BALL_SENSOR_BOTTOM);
      topBallSensor = new DigitalInput(Config.BALL_SENSOR_TOP);
     }
+    public int getBallPos(){
+        if((!bottomBallSensor.get())&&(!topBallSensor.get())){
+            return 3;
+        }
+               else if(!topBallSensor.get()){
+            return 2;
+        }
+    else if(!bottomBallSensor.get()){
+        return 1;
+    }
+     
+    else{
+        return 0;
+    }
+
+        }
+    
 
     public void set(double speed) {
 
@@ -49,7 +67,7 @@ public class Tunnel {
     public void on() {
         tunnelMotor.set(ControlMode.PercentOutput, 1.0);
     }
-
+    
     public void off() {
         tunnelMotor.set(ControlMode.PercentOutput, 0.0);
     }
@@ -71,6 +89,7 @@ public class Tunnel {
         SmartDashboard.putNumber("Tunnel Motor Value:", tunnelMotor.getMotorOutputPercent());
         SmartDashboard.putBoolean("Top Tunnel Sensor Output:", !topBallSensor.get());
          SmartDashboard.putBoolean("Bottom Tunnel Sensor Output:", !bottomBallSensor.get());
+         SmartDashboard.putNumber("Ball Position", getBallPos());
     }
     
 

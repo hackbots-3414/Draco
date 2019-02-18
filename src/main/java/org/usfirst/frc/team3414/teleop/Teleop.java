@@ -50,10 +50,11 @@ public class Teleop {
 				replaycounter++;
 				auton.replayInit();
 			}
-			if(stopcounter == 0){
+			if(pad.getRT()){
 				auton.replay();
 			}
-			if(pad.getRSButton() && pad.getLSButton()){
+			//if(pad.getRSButton() && pad.getLSButton()){
+				if(pad.getRBButton()){
 				stopcounter++;
 				auton.endReplay();
 			}
@@ -111,7 +112,8 @@ public class Teleop {
 		Tunnel.getInstance().on();
 		}
 		else if(pad.getBButton()){
-			Tunnel.getInstance().on();
+			Tunnel.getInstance().reverse();
+			Intake.getInstance().reverse();
 		}
 		else{
 			Intake.getInstance().off();

@@ -10,6 +10,7 @@ package org.usfirst.frc.team3414.robot;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.usfirst.frc.team3414.actuators.Climber;
 import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.Tunnel;
@@ -53,6 +54,7 @@ public class Robot extends IterativeRobot {
 		DriveTrain.getInstance().init();
 		Intake.getInstance().init();
 		Tunnel.getInstance().init();
+		Climber.getInstance().init();
 		Limelight.init();		
 	}
 
@@ -83,13 +85,16 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		/*
 		try {
 			Teleop.getInstance().replay();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		*/
 		
-			//Teleop.getInstance().drive();
+			Teleop.getInstance().drive();
 			Teleop.getInstance().ball();
 			Teleop.getInstance().manipulator();
 			DashboardOutput.diagnostic();

@@ -101,7 +101,7 @@ public boolean isDriveActive(){
 		// create a scanner to read the file created during BTMacroRecord
 		// scanner is able to read out the doubles recorded into recordedAuto.csv (as of
 		// 2015)
-		scanner = new Scanner(new File(Config.getAutoFile()));
+		 scanner = new Scanner(new File(Config.getAutoFile()));
 
 		// let scanner know that the numbers are separated by a comma or a newline, as
 		// it is a .csv file
@@ -110,10 +110,10 @@ public boolean isDriveActive(){
 		// lets set start time to the current time you begin autonomous
 		startTimeReplay = System.currentTimeMillis();
 	}
-
+	private int loopcount = 0;
 	public void replay() throws FileNotFoundException{
-		if(scanner.hasNextDouble()){
-		//if ((scanner. != null) && (scanner.hasNextDouble())) {
+		//if(scanner.hasNextDouble()){
+		if ((scanner != null) && (scanner.hasNextDouble())) {
 			double t_delta;
 			System.out.println("The scanner is not null and has a next double");
 			// if we have waited the recorded amount of time assigned to each respective
@@ -129,23 +129,22 @@ public boolean isDriveActive(){
 
 			// time recorded for values minus how far into replaying it we are--> if not
 			// zero, hold up
-			System.out.println("I'm executed");
 			t_delta = nextDouble - (System.currentTimeMillis() - startTimeReplay);
 			// if we are on time, then set motor values
 			if (t_delta <= 0) {
 				// for 2015 robot. these are all the motors available to manipulate during
-				// autonomous.
+				// autonomous
 				// it is extremely important to set the motors in the SAME ORDER as was recorded
 				// in BTMacroRecord
 				// otherwise, motor values will be sent to the wrong motors and the robot will
 				// be unpredicatable
 				// ORIGINAL writer.append("," + tankControl.getLeftJoy());
-				// ORIGINAL writer.append("," + tankControl.getRightJoy());
-				scanner.nextDouble();
-				scanner.nextDouble();
-				DriveTrain.getInstance().teleop(.5, .5);
-				//DriveTrain.getInstance().teleop(scanner.nextDouble(), scanner.nextDouble());
-				
+				// ORIGINAL writer.append("," + tankControl.getRightJoy())
+				//System.out.println(scanner.nextDouble());
+				System.out.println("sending commands to DriveTrain");
+				DriveTrain.getInstance().teleop(scanner.nextDouble(), scanner.nextDouble());
+				loopcount++;
+				System.out.println(loopcount);
 				/*
 				 * storage.robot.getFrontLeftMotor().setX(scanner.nextDouble());
 				 * storage.robot.getFrontRightMotor().setX(scanner.nextDouble());
@@ -174,10 +173,8 @@ public boolean isDriveActive(){
 		// end play, there are no more values to find
 		else {
 			endReplay();
-			if (scanner != null) {
-				scanner.close();
-				scanner = null;
-			}
+			
+			
 		}
 
 	}

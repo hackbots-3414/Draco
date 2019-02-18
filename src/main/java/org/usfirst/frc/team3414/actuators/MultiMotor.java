@@ -44,9 +44,9 @@ public class MultiMotor {
 	public void resetEncoder() {
 		
 	}
-	public double getEncoder() {
+	public double getEncoder(){
 		return 0;
-	}
+		}
 	public double getFront(){
 		return front.getMotorOutputPercent();
 	}
