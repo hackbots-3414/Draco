@@ -3,6 +3,7 @@ package org.usfirst.frc.team3414.teleop;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.usfirst.frc.team3414.actuators.Climber;
 import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.HatchPanelManipulator;
 import org.usfirst.frc.team3414.actuators.Intake;
@@ -107,6 +108,7 @@ public class Teleop {
 	}
 	public void ball(){
 		SmartDashboard.putNumber("POV", pad.getPov());		
+		boolean isBallMiddle = false;
 		if(pad.getAButton() && (Tunnel.getInstance().getBallPos() == 0)){ //Turn on Intake, run tunnel
 		Intake.getInstance().on();
 		Intake.getInstance().goDown();
@@ -115,9 +117,17 @@ public class Teleop {
 		else if(pad.getAButton() && Tunnel.getInstance().getBallPos() == 1){
 			Intake.getInstance().goUp();
 			Tunnel.getInstance().on();
+			isBallMiddle = true;
+		}
+		else if(pad.getAButton() && isBallMiddle && (Tunnel.getInstance().getBallPos() !=2)){
+			Intake.getInstance().goUp();
+			Intake.getInstance().off();
+			Tunnel.getInstance().on();
 		}
 		else if(pad.getAButton() && Tunnel.getInstance().getBallPos() == 2){
+			isBallMiddle = false;
 			Intake.getInstance().off();
+			Intake.getInstance().goUp();
 			Tunnel.getInstance().off();
 		}
 		else if(pad.getBButton()){
@@ -147,6 +157,40 @@ public class Teleop {
 			}
 			else if(pad.getLT()){
 				HatchPanelManipulator.getInstance().setDown();
+			}
+		}
+		public void climber() {
+			if(right.getRawButton(3)){
+				Climber.getInstance().stop();
+			}
+			if(right.getRawButton(6)){ //Step 1
+				System.out.println("B6 is pressed");
+				Climber.getInstance().lockDriveTrain();
+				Climber.getInstance().stop();
+				Climber.getInstance().extendAll();
+			}
+			else if(right.getRawButton(7)){ //Step 2
+				Climber.getInstance().stop();
+				Climber.getInstance().moveBottomForward();
+			}
+			else if(right.getRawButton(8)){ //Step 3
+				Climber.getInstance().stop();
+				Climber.getInstance().retractFront();
+			}
+			else if(right.getRawButton(9)){ //step 4
+				Climber.getInstance().stop();
+				Climber.getInstance().moveForward();
+			}
+			else if(right.getRawButton(10)){ //Step 5
+				Climber.getInstance().stop();
+				Climber.getInstance().retractRear();
+			}
+			else if(right.getRawButton(11)){ //Step 6
+				Climber.getInstance().stop();
+				Climber.getInstance().unlockDriveTrain();
+			}
+			else{
+				Climber.getInstance().stop();
 			}
 		}
 }

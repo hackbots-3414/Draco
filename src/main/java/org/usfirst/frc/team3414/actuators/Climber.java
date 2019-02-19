@@ -39,17 +39,21 @@ public class Climber {
      motorTwo = new TalonSRX(Config.CLIMBER_MOTOR_TWO);
      motorThree = new TalonSRX(Config.CLIMBER_MOTOR_THREE);
    }
+   public void lockDriveTrain(){
+    DriveTrain.getInstance().setBlock(true); //Put a block on the drivetain so Teleop Control doesn't mess with this
+   }
    public void extendAll(){
        motorOne.set(ControlMode.PercentOutput, 1);
        motorTwo.set(ControlMode.PercentOutput, 1);
        
    }
-   public void moveForward(){
+   public void moveBottomForward(){
        motorThree.set(ControlMode.PercentOutput, 1);
-       DriveTrain.getInstance().setBlock(true); //Put a block on the drivetain so Teleop Control doesn't mess with this
-       DriveTrain.getInstance().set(1,1);
    }
-   public void releaseDriveTrain(){
+   public void moveForward(){
+    DriveTrain.getInstance().set(.5,.5);
+   }
+   public void unlockDriveTrain(){
        DriveTrain.getInstance().setBlock(false); //Release drivetrain block
    }
    public void retractFront(){
@@ -57,6 +61,13 @@ public class Climber {
    }
    public void retractRear(){
        motorTwo.set(ControlMode.PercentOutput, -1);
+   }
+   public void stop(){
+       motorOne.set(ControlMode.PercentOutput, 0);
+       motorTwo.set(ControlMode.PercentOutput, 0);
+       motorThree.set(ControlMode.PercentOutput, 0);
+       DriveTrain.getInstance().set(0,0);
+
    }
     public void diagnostic(){
     SmartDashboard.putNumber("Climber One %:", motorOne.getMotorOutputPercent());

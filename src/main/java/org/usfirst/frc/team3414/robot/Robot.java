@@ -97,6 +97,7 @@ public class Robot extends IterativeRobot {
 			Teleop.getInstance().drive();
 			Teleop.getInstance().ball();
 			Teleop.getInstance().manipulator();
+			Teleop.getInstance().climber();
 			DashboardOutput.diagnostic();
 	}
 	public void teleopInit() {
