@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.Preferences;
 public class Config {
 	public static final double INTAKE_THROTTLE = .60;
 	public static final String REPLAY_MODE = "disabled";
-	public static String LIMELIGHT_MODE = "pit"; //options are pit and comp
-	
+	public static int LIMELIGHT_MODE = 1; //0-Comp mode 1-Pit mode
+
 	public static final int LEFT_STICK = 0;
 	public static final int RIGHT_STICK = 1;
 	public static final int CONTROLLER_CHANNEL = 2;

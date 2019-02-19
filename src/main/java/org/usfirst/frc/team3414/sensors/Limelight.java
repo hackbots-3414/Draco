@@ -16,12 +16,16 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  */
 public class Limelight {
     public static void init(){
-        if(Config.LIMELIGHT_MODE == "pit"){
+        if(Config.LIMELIGHT_MODE == 1){
         pitMode();
         }
-        if(Config.LIMELIGHT_MODE == "comp"){
+        if(Config.LIMELIGHT_MODE == 0){
             yieldAll();
         }
+        else{
+            yieldAll();
+        }
+    
     }
     public static void setLED(int state){
         //0-Use pipeline mode 1-Force off 2-Force Blink 3-Force on
