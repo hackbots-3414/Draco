@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team3414.sensors;
 
+import org.usfirst.frc.team3414.config.Config;
+
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
@@ -14,13 +16,28 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  */
 public class Limelight {
     public static void init(){
-        setLED(1);
-        setMode(1);
+        if(Config.LIMELIGHT_MODE == "pit"){
+        pitMode();
+        }
+        if(Config.LIMELIGHT_MODE == "comp"){
+            yieldAll();
+        }
     }
     public static void setLED(int state){
         //0-Use pipeline mode 1-Force off 2-Force Blink 3-Force on
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(state);
 
+    }
+    public static void yieldAll(){
+        setLED(0);
+        setMode(0);
+    }
+    public static void pitMode(){
+        setLED(1);
+        setMode(1);
+    }
+    public static void driveMode(){
+        pitMode();
     }
     public static void setMode(int mode){
         //0-Vision Mode 1- Driver Mode

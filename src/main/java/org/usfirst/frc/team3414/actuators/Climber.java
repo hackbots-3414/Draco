@@ -66,7 +66,6 @@ public class Climber {
        motorOne.set(ControlMode.PercentOutput, 0);
        motorTwo.set(ControlMode.PercentOutput, 0);
        motorThree.set(ControlMode.PercentOutput, 0);
-       DriveTrain.getInstance().set(0,0);
 
    }
     public void diagnostic(){

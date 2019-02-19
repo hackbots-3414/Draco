@@ -1,5 +1,8 @@
 package org.usfirst.frc.team3414.actuators;
 
+import java.io.IOException;
+
+import org.usfirst.frc.team3414.auton.Auton;
 import org.usfirst.frc.team3414.config.Config;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -52,6 +55,14 @@ public void setBlock(boolean block){
 		if(!blocked){
 		left.set(leftSpeed);
 		right.set(rightSpeed);
+		
+			try {
+				Auton.getInstance().record(leftSpeed, rightSpeed);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		leftJoySpeed = leftSpeed;
 		rightJoySpeed = rightSpeed;
 		}

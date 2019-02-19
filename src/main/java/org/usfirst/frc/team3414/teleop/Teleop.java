@@ -25,6 +25,7 @@ public class Teleop {
 		return instance;
 
 	}
+
 	Auton auton = new Auton();
 	Joystick left = new Joystick(Config.LEFT_STICK);
 	Joystick right = new Joystick(Config.RIGHT_STICK);
@@ -33,133 +34,103 @@ public class Teleop {
 	int recordcounter = 0;
 	int replaycounter = 0;
 	int stopcounter = 0;
-	public void record() throws IOException{
-		if(recordcounter == 0){
-			recordcounter++;
-			auton.recordInit();
-		}
-		if(stopcounter == 0){
-			auton.record();
-		}
-		if(pad.getRSButton() && pad.getLSButton()){
+
+	public void record() throws IOException {
+
+		if (pad.getRSButton() && pad.getLSButton()) {
 			stopcounter++;
 			auton.endRecording();
 		}
-		}
-		public void replay() throws IOException{
-			if(replaycounter == 0){
-				replaycounter++;
-				auton.replayInit();
-			}
-			if(pad.getRT()){
-				auton.replay();
-			}
-			//if(pad.getRSButton() && pad.getLSButton()){
-				if(pad.getRBButton()){
-				stopcounter++;
-				auton.endReplay();
-			}
-		}
-		/*
-		SmartDashboard.putNumber("RB Presses", rbpresses);
-		if(pad.getRBButton() && !auton.isDriveActive()){
-			System.out.print("RB Pressed");
-			rbpresses++;
-		}
-		if(rbpresses >=50 && recordcounter ==0){
-			recordcounter++;
-			auton.recordInit();
-		}
+	}
 
-		if(rbpresses >= 50 && rbpresses <= 500){
-			auton.record();
-				}
-		else if(rbpresses > 500){
-			auton.endRecording();
-		}
-		}
-		*/
-	
-		/*
-	int rtpresses = 0;
-
-	public void replay() throws FileNotFoundException{
-			SmartDashboard.putNumber("RT Presses", rtpresses);
-		if(pad.getRT()){
-			rtpresses++;
-			
-		}
-		if(rtpresses >= 50 && replaycounter==0){
-			replaycounter++;
+	public void replay() throws IOException {
+		if (pad.getXButton()) {
 			auton.replayInit();
 		}
-		if(rtpresses >=70){
+		if (pad.getRT()) {
 			auton.replay();
 		}
-				
-	}*/
-	public void drive() {
-		if(auton.isDriveActive()){
-		//	auton.replayDrive();
-		}
-		else{
-		DriveTrain.getInstance().teleop(left.getY(), right.getY());
+		// if(pad.getRSButton() && pad.getLSButton()){
+		if (pad.getRBButton()) {
+			stopcounter++;
+			auton.endReplay();
 		}
 	}
-	public void ball(){
-		SmartDashboard.putNumber("POV", pad.getPov());		
-		boolean isBallMiddle = false;
-		if(pad.getAButton() && (Tunnel.getInstance().getBallPos() == 0)){ //Turn on Intake, run tunnel
-		Intake.getInstance().on();
-		Intake.getInstance().goDown();
-		Tunnel.getInstance().on();
+	/*
+	 * SmartDashboard.putNumber("RB Presses", rbpresses); if(pad.getRBButton() &&
+	 * !auton.isDriveActive()){ System.out.print("RB Pressed"); rbpresses++; }
+	 * if(rbpresses >=50 && recordcounter ==0){ recordcounter++; auton.recordInit();
+	 * }
+	 * 
+	 * if(rbpresses >= 50 && rbpresses <= 500){ auton.record(); } else if(rbpresses
+	 * > 500){ auton.endRecording(); } }
+	 */
+
+	/*
+	 * int rtpresses = 0;
+	 * 
+	 * public void replay() throws FileNotFoundException{
+	 * SmartDashboard.putNumber("RT Presses", rtpresses); if(pad.getRT()){
+	 * rtpresses++;
+	 * 
+	 * } if(rtpresses >= 50 && replaycounter==0){ replaycounter++;
+	 * auton.replayInit(); } if(rtpresses >=70){ auton.replay(); }
+	 * 
+	 * }
+	 */
+	public void drive() {
+		if (auton.isDriveActive()) {
+			// auton.replayDrive();
+		} else {
+			DriveTrain.getInstance().teleop(left.getY(), right.getY());
 		}
-		else if(pad.getAButton() && Tunnel.getInstance().getBallPos() == 1){
+	}
+
+	public void ball() {
+		SmartDashboard.putNumber("POV", pad.getPov());
+		boolean isBallMiddle = false;
+		if (pad.getAButton() && (Tunnel.getInstance().getBallPos() == 0)) { // Turn on Intake, run tunnel
+			Intake.getInstance().on();
+			Intake.getInstance().goDown();
+			Tunnel.getInstance().on();
+		} else if (pad.getAButton() && Tunnel.getInstance().getBallPos() == 1) {
 			Intake.getInstance().goUp();
 			Tunnel.getInstance().on();
 			isBallMiddle = true;
-		}
-		else if(pad.getAButton() && isBallMiddle && (Tunnel.getInstance().getBallPos() !=2)){
+		} else if (pad.getAButton() && isBallMiddle && (Tunnel.getInstance().getBallPos() != 2)) {
 			Intake.getInstance().goUp();
 			Intake.getInstance().off();
 			Tunnel.getInstance().on();
-		}
-		else if(pad.getAButton() && Tunnel.getInstance().getBallPos() == 2){
+		} else if (pad.getAButton() && Tunnel.getInstance().getBallPos() == 2) {
 			isBallMiddle = false;
 			Intake.getInstance().off();
 			Intake.getInstance().goUp();
 			Tunnel.getInstance().off();
-		}
-		else if(pad.getBButton()){
+		} else if (pad.getBButton()) {
 			Intake.getInstance().off();
 			Tunnel.getInstance().on();
-		}
-		else{
+		} else {
 			Intake.getInstance().off();
 			Tunnel.getInstance().off();
 		}
-		if(pad.getYButton()){
+		if (pad.getYButton()) {
 			Intake.getInstance().goUp();
 		}
-		else if(pad.getXButton()){
-			Intake.getInstance().goDown();
+	}
+
+	public void manipulator() {
+		if (pad.getPov() == 0) {
+			HatchPanelManipulator.getInstance().setOut();
+		} else if (pad.getPov() == 180) {
+			HatchPanelManipulator.getInstance().setIn();
+		} else if (pad.getLBButton()) {
+			HatchPanelManipulator.getInstance().setUp();
+		} else if (pad.getLT()) {
+			HatchPanelManipulator.getInstance().setDown();
 		}
-		}
-		public void manipulator(){
-			if(pad.getPov() == 0){
-				HatchPanelManipulator.getInstance().setOut();
-			}
-			else if(pad.getPov() == 180){
-				HatchPanelManipulator.getInstance().setIn();
-			}
-			else if(pad.getLBButton()){
-				HatchPanelManipulator.getInstance().setUp();
-			}
-			else if(pad.getLT()){
-				HatchPanelManipulator.getInstance().setDown();
-			}
-		}
-		public void climber() {
+	}
+
+	public void climber() {
 			if(right.getRawButton(3)){
 				Climber.getInstance().stop();
 			}
@@ -193,4 +164,25 @@ public class Teleop {
 				Climber.getInstance().stop();
 			}
 		}
-}
+
+	
+
+	public void replaySystem() {
+			if(Config.REPLAY_MODE == "record"){
+				try {
+				record();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			else if(Config.REPLAY_MODE == "replay"){
+				try{
+					replay();
+				}
+				catch(IOException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}

@@ -41,15 +41,17 @@ public boolean isDriveActive(){
 		writer = new FileWriter(Config.getAutoFile());
 	}
 
-	public void record() throws IOException {
+	public void record(double l, double r) throws IOException {
 		if (writer != null) {
 			// start each "frame" with the elapsed time since we started recording
 			writer.append("" + (System.currentTimeMillis() - startTime));
 			
 			
 			// drive motors
-			writer.append("," + DriveTrain.getInstance().getLeft());
-			writer.append("," + DriveTrain.getInstance().getRight() + "\n");
+			//writer.append("," + DriveTrain.getInstance().getLeft());
+			//writer.append("," + DriveTrain.getInstance().getRight() + "\n");
+			writer.append("," + l);
+			writer.append("," + r + "\n");
 			//Original Code calls for a delimiter as part of the last entry
 			
 			
@@ -109,6 +111,7 @@ public boolean isDriveActive(){
 
 		// lets set start time to the current time you begin autonomous
 		startTimeReplay = System.currentTimeMillis();
+		DriveTrain.getInstance().setBlock(true);
 	}
 	private int loopcount = 0;
 	public void replay() throws FileNotFoundException{
@@ -142,7 +145,7 @@ public boolean isDriveActive(){
 				// ORIGINAL writer.append("," + tankControl.getRightJoy())
 				//System.out.println(scanner.nextDouble());
 				System.out.println("sending commands to DriveTrain");
-				DriveTrain.getInstance().teleop(scanner.nextDouble(), scanner.nextDouble());
+				DriveTrain.getInstance().set(scanner.nextDouble(), scanner.nextDouble());
 				loopcount++;
 				System.out.println(loopcount);
 				/*

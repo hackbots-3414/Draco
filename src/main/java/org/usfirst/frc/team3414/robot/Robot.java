@@ -14,6 +14,8 @@ import org.usfirst.frc.team3414.actuators.Climber;
 import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.Tunnel;
+import org.usfirst.frc.team3414.auton.Auton;
+import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.DashboardOutput;
 import org.usfirst.frc.team3414.sensors.Limelight;
 import org.usfirst.frc.team3414.teleop.Teleop;
@@ -30,47 +32,48 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends IterativeRobot {
-	//testing
+	// testing
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
+
 	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
+	 * This function is run when the robot is first started up and should be used
+	 * for any initialization code.
 	 */
 
-	
-	
-	//Fc. Compressor c = new Compressor(Config.COMPRESSOR);
+	// Fc. Compressor c = new Compressor(Config.COMPRESSOR);
 	@Override
 	public void robotInit() {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
-		//HCompressor.init();
-		//c.enabled();
-		//c.setClosedLoopControl(true);
+		// HCompressor.init();
+		// c.enabled();
+		// c.setClosedLoopControl(true);
 		DriveTrain.getInstance().init();
 		Intake.getInstance().init();
 		Tunnel.getInstance().init();
 		Climber.getInstance().init();
-		Limelight.init();		
+		Limelight.init();
 	}
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString line to get the auto name from the text box below the Gyro
+	 * between different autonomous modes using the dashboard. The sendable chooser
+	 * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
+	 * remove all of the chooser code and uncomment the getString line to get the
+	 * auto name from the text box below the Gyro
 	 *
-	 * <p>You can add additional auto modes by adding additional comparisons to
-	 * the switch structure below with additional strings. If using the
-	 * SendableChooser make sure to add them to the chooser code above as well.
+	 * <p>
+	 * You can add additional auto modes by adding additional comparisons to the
+	 * switch structure below with additional strings. If using the SendableChooser
+	 * make sure to add them to the chooser code above as well.
 	 */
 	@Override
 	public void autonomousInit() {
+
 		m_autoSelected = m_chooser.getSelected();
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
@@ -85,24 +88,37 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		/*
-		try {
-			Teleop.getInstance().replay();
+		Teleop.getInstance().replaySystem();
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		*/
-		
-			Teleop.getInstance().drive();
-			Teleop.getInstance().ball();
-			Teleop.getInstance().manipulator();
-			Teleop.getInstance().climber();
-			DashboardOutput.diagnostic();
+		Teleop.getInstance().drive();
+		Teleop.getInstance().ball();
+		Teleop.getInstance().manipulator();
+		Teleop.getInstance().climber();
+		DashboardOutput.diagnostic();
 	}
+
 	public void teleopInit() {
+		if (Config.REPLAY_MODE == "replay") {
+			try {
+				Auton.getInstance().replayInit();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		else if (Config.REPLAY_MODE == "record") {
+			try {
+				Auton.getInstance().recordInit();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 		Limelight.init();
 	}
+
 	/**
 	 * This function is called periodically during test mode.
 	 */
