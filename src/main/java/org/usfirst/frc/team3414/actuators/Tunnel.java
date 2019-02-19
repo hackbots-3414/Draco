@@ -34,30 +34,31 @@ public class Tunnel {
     TalonSRX tunnelMotor;
     DigitalInput bottomBallSensor;
     DigitalInput topBallSensor;
-    //All calls to DigitalInput with the Chinese tunnel sensors need to use !, because false really means true. 
+
+    // All calls to DigitalInput with the Chinese tunnel sensors need to use !,
+    // because false really means true.
     public void init() {
         tunnelMotor = new TalonSRX(Config.CARGO_MOTOR_ONE);
         tunnelMotor.setInverted(true);
-     bottomBallSensor = new DigitalInput(Config.BALL_SENSOR_BOTTOM);
-     topBallSensor = new DigitalInput(Config.BALL_SENSOR_TOP);
-    }
-    public int getBallPos(){
-        if((!bottomBallSensor.get())&&(!topBallSensor.get())){
-            return 3;
-        }
-               else if(!topBallSensor.get()){
-            return 2;
-        }
-    else if(!bottomBallSensor.get()){
-        return 1;
-    }
-     
-    else{
-        return 0;
+        bottomBallSensor = new DigitalInput(Config.BALL_SENSOR_BOTTOM);
+        topBallSensor = new DigitalInput(Config.BALL_SENSOR_TOP);
     }
 
+    public int getBallPos() {
+        if ((!bottomBallSensor.get()) && (!topBallSensor.get())) { // If there Sensors on Top and Bottom see a ball,
+            // return 3
+            return 3;
+        } else if (!topBallSensor.get()) { // If the Ball Sensor on top sees a ball
+            return 2;
+        } else if (!bottomBallSensor.get()) { // if the bottom sensor sees a ball
+            return 1;
         }
-    
+
+        else {
+            return 0;
+        }
+
+    }
 
     public void set(double speed) {
 
@@ -67,7 +68,7 @@ public class Tunnel {
     public void on() {
         tunnelMotor.set(ControlMode.PercentOutput, 1.0);
     }
-    
+
     public void off() {
         tunnelMotor.set(ControlMode.PercentOutput, 0.0);
     }
@@ -83,14 +84,11 @@ public class Tunnel {
     public void stop() {
     }
 
-    
-
     public void diagnostic() {
         SmartDashboard.putNumber("Tunnel Motor Value:", tunnelMotor.getMotorOutputPercent());
         SmartDashboard.putBoolean("Top Tunnel Sensor Output:", !topBallSensor.get());
-         SmartDashboard.putBoolean("Bottom Tunnel Sensor Output:", !bottomBallSensor.get());
-         SmartDashboard.putNumber("Ball Position", getBallPos());
+        SmartDashboard.putBoolean("Bottom Tunnel Sensor Output:", !bottomBallSensor.get());
+        SmartDashboard.putNumber("Ball Position", getBallPos());
     }
-    
 
 }

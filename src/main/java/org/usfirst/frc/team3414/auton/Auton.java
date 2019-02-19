@@ -45,7 +45,7 @@ public boolean isDriveActive(){
 		if (writer != null) {
 			// start each "frame" with the elapsed time since we started recording
 			writer.append("" + (System.currentTimeMillis() - startTime));
-
+			
 			
 			// drive motors
 			writer.append("," + DriveTrain.getInstance().getLeft());

@@ -46,6 +46,11 @@ public class Climber {
    }
    public void moveForward(){
        motorThree.set(ControlMode.PercentOutput, 1);
+       DriveTrain.getInstance().setBlock(true); //Put a block on the drivetain so Teleop Control doesn't mess with this
+       DriveTrain.getInstance().set(1,1);
+   }
+   public void releaseDriveTrain(){
+       DriveTrain.getInstance().setBlock(false); //Release drivetrain block
    }
    public void retractFront(){
        motorOne.set(ControlMode.PercentOutput, -1);

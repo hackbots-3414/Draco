@@ -42,15 +42,23 @@ public class DriveTrain {
   }
   // Timer.delay(1);
 }
-
-	
+boolean blocked = false;
+public void setBlock(boolean block){
+	blocked = block;
+}
 	
 
 	public void teleop(double leftSpeed, double rightSpeed) {
+		if(!blocked){
 		left.set(leftSpeed);
 		right.set(rightSpeed);
 		leftJoySpeed = leftSpeed;
 		rightJoySpeed = rightSpeed;
+		}
+	}
+	public void set(double leftSpeed, double rightSpeed){
+		left.set(leftSpeed);
+		right.set(rightSpeed);
 	}
 	public void teleopLimit(double limit, double leftSpeed, double rightSpeed) {
 		left.set(leftSpeed*limit);

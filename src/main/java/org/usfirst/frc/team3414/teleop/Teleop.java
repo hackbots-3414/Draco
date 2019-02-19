@@ -106,14 +106,23 @@ public class Teleop {
 		}
 	}
 	public void ball(){
-		SmartDashboard.putNumber("POV", pad.getPov());
-		if(pad.getAButton()){ //Turn on Intake, run tunnel
+		SmartDashboard.putNumber("POV", pad.getPov());		
+		if(pad.getAButton() && (Tunnel.getInstance().getBallPos() == 0)){ //Turn on Intake, run tunnel
 		Intake.getInstance().on();
+		Intake.getInstance().goDown();
 		Tunnel.getInstance().on();
 		}
+		else if(pad.getAButton() && Tunnel.getInstance().getBallPos() == 1){
+			Intake.getInstance().goUp();
+			Tunnel.getInstance().on();
+		}
+		else if(pad.getAButton() && Tunnel.getInstance().getBallPos() == 2){
+			Intake.getInstance().off();
+			Tunnel.getInstance().off();
+		}
 		else if(pad.getBButton()){
-			Tunnel.getInstance().reverse();
-			Intake.getInstance().reverse();
+			Intake.getInstance().off();
+			Tunnel.getInstance().on();
 		}
 		else{
 			Intake.getInstance().off();
