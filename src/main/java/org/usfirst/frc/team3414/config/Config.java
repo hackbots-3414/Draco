@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 
 public class Config {
-	public static final double INTAKE_THROTTLE = .60;
+	public static final double INTAKE_THROTTLE = .65;
 	public static final String REPLAY_MODE = "disabled";
-	public static int LIMELIGHT_MODE = 1; //0-Comp mode 1-Pit mode
+	public static boolean PIT_MODE = true; //0-Comp mode 1-Pit mode
 
 	public static final int LEFT_STICK = 0;
 	public static final int RIGHT_STICK = 1;
@@ -38,8 +38,8 @@ public class Config {
 	public static final int CARGO_MOTOR_ONE = 51;
 	public static final int CARGO_MOTOR_TWO = 45;
 
-	public static final int CLIMBER_MOTOR_ONE = 21;
-	public static final int CLIMBER_MOTOR_TWO = 31;
+	public static final int CLIMBER_FRONT = 21;
+	public static final int CLIMBER_REAR = 31;
 	public static final int CLIMBER_MOTOR_THREE = 11;
 
 	public static final int BALL_SENSOR_TOP = 1;

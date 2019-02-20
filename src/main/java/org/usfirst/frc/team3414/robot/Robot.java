@@ -88,12 +88,16 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		Teleop.getInstance().replaySystem();
-
+		//Teleop.getInstance().replaySystem();
+		//Teleop.getInstance().align();
+		//Teleop.getInstance().driveStraight();
+		//WORKING OFFICIALLY
 		Teleop.getInstance().drive();
 		Teleop.getInstance().ball();
 		Teleop.getInstance().manipulator();
+		//SHOULD WORK
 		Teleop.getInstance().climber();
+		//BONUS
 		DashboardOutput.diagnostic();
 	}
 

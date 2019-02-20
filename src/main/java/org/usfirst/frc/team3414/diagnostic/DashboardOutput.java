@@ -11,6 +11,7 @@ import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.HatchPanelManipulator;
 import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.Tunnel;
+import org.usfirst.frc.team3414.auton.Align;
 import org.usfirst.frc.team3414.actuators.Climber;
 
 
@@ -36,12 +37,16 @@ public class DashboardOutput {
     public static void outputHatchPanels(){
         HatchPanelManipulator.getInstance().diagnostic();
     }
+    public static void outputAlign(){
+        Align.diagnostic();
+    }
     public static void diagnostic(){
         outputIntake();
         outputDriveTrain();
         outputTunnel();
         outputClimber();
         outputHatchPanels();
+        outputAlign();
     }
     
 }

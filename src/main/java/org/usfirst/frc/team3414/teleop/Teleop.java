@@ -8,7 +8,9 @@ import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.HatchPanelManipulator;
 import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.Tunnel;
+import org.usfirst.frc.team3414.auton.Align;
 import org.usfirst.frc.team3414.auton.Auton;
+import org.usfirst.frc.team3414.auton.DriveStraight;
 import org.usfirst.frc.team3414.config.Config;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -50,42 +52,26 @@ public class Teleop {
 		if (pad.getRT()) {
 			auton.replay();
 		}
-		// if(pad.getRSButton() && pad.getLSButton()){
 		if (pad.getRBButton()) {
 			stopcounter++;
 			auton.endReplay();
 		}
 	}
-	/*
-	 * SmartDashboard.putNumber("RB Presses", rbpresses); if(pad.getRBButton() &&
-	 * !auton.isDriveActive()){ System.out.print("RB Pressed"); rbpresses++; }
-	 * if(rbpresses >=50 && recordcounter ==0){ recordcounter++; auton.recordInit();
-	 * }
-	 * 
-	 * if(rbpresses >= 50 && rbpresses <= 500){ auton.record(); } else if(rbpresses
-	 * > 500){ auton.endRecording(); } }
-	 */
-
-	/*
-	 * int rtpresses = 0;
-	 * 
-	 * public void replay() throws FileNotFoundException{
-	 * SmartDashboard.putNumber("RT Presses", rtpresses); if(pad.getRT()){
-	 * rtpresses++;
-	 * 
-	 * } if(rtpresses >= 50 && replaycounter==0){ replaycounter++;
-	 * auton.replayInit(); } if(rtpresses >=70){ auton.replay(); }
-	 * 
-	 * }
-	 */
+	
 	public void drive() {
-		if (auton.isDriveActive()) {
-			// auton.replayDrive();
-		} else {
 			DriveTrain.getInstance().teleop(left.getY(), right.getY());
+	}
+	public void driveStraight(){
+		if(left.getRawButton(6)){
+			DriveStraight.lockout();
+		}
+		if(left.getRawButton(7)){
+			DriveStraight.go();
+		}
+		if(left.getRawButton(8)){
+			DriveStraight.release();
 		}
 	}
-
 	public void ball() {
 		SmartDashboard.putNumber("POV", pad.getPov());
 		boolean isBallMiddle = false;
@@ -97,7 +83,7 @@ public class Teleop {
 			Intake.getInstance().goUp();
 			Tunnel.getInstance().on();
 			isBallMiddle = true;
-		} else if (pad.getAButton() && isBallMiddle && (Tunnel.getInstance().getBallPos() != 2)) {
+		} else if ((pad.getAButton() && (Tunnel.getInstance().getBallPos() != 2)) && isBallMiddle) {
 			Intake.getInstance().goUp();
 			Intake.getInstance().off();
 			Tunnel.getInstance().on();
@@ -131,58 +117,72 @@ public class Teleop {
 	}
 
 	public void climber() {
-			if(right.getRawButton(3)){
-				Climber.getInstance().stop();
-			}
-			if(right.getRawButton(6)){ //Step 1
-				System.out.println("B6 is pressed");
-				Climber.getInstance().lockDriveTrain();
-				Climber.getInstance().stop();
-				Climber.getInstance().extendAll();
-			}
-			else if(right.getRawButton(7)){ //Step 2
-				Climber.getInstance().stop();
-				Climber.getInstance().moveBottomForward();
-			}
-			else if(right.getRawButton(8)){ //Step 3
-				Climber.getInstance().stop();
-				Climber.getInstance().retractFront();
-			}
-			else if(right.getRawButton(9)){ //step 4
-				Climber.getInstance().stop();
-				Climber.getInstance().moveForward();
-			}
-			else if(right.getRawButton(10)){ //Step 5
-				Climber.getInstance().stop();
-				Climber.getInstance().retractRear();
-			}
-			else if(right.getRawButton(11)){ //Step 6
-				Climber.getInstance().stop();
-				Climber.getInstance().unlockDriveTrain();
-			}
-			else{
-				Climber.getInstance().stop();
-			}
+		if (right.getRawButton(2)) {
+			Climber.getInstance().resetEncoders();
+		}
+		if (right.getRawButton(6) && right.getRawButton(7)) { // Step 1
+			Climber.getInstance().lockDriveTrain();
+			Climber.getInstance().extendAll();
+			Climber.getInstance().moveBottomForward();
+		}
+		else if(right.getRawButton(6)){
+			Climber.getInstance().extendAll();
+		}
+			else if (right.getRawButton(7)) { // Step 2
+			Climber.getInstance().moveBottomForward();
+		} 
+		else if (right.getRawButton(6) ) { // Step 1
+			Climber.getInstance().lockDriveTrain();
+			Climber.getInstance().extendAll(); 
+		}
+			else if (right.getRawButton(7)) { // Step 2
+			Climber.getInstance().moveBottomForward();
+		} 
+		else if (right.getRawButton(8)) { // Step 3
+			Climber.getInstance().retractFront();
+		} else if (right.getRawButton(9)) { // step 4
+			Climber.getInstance().moveForward();
+		} else if (right.getRawButton(10)) { // Step 5
+			Climber.getInstance().retractRear();
+		} else if (right.getRawButton(11)) { // Step 6
+			Climber.getInstance().unlockDriveTrain();
+		} else {
+			Climber.getInstance().stop();
+		}
+	}
+
+	public double getLeftJoy() {
+		return left.getY();
+	}
+
+	public double getRightJoy() {
+		return right.getY();
+	}
+
+	public void align() {
+		if (left.getRawButton(11)) {
+			Align.align();
+		} else {
+			DriveTrain.getInstance().setBlock(false);
 		}
 
-	
-
+	}
 	public void replaySystem() {
-			if(Config.REPLAY_MODE == "record"){
-				try {
-				record();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+		if(Config.REPLAY_MODE == "record"){
+			try {
+			record();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+		else if(Config.REPLAY_MODE == "replay"){
+			try{
+				replay();
+			}
+			catch(IOException e){
 				e.printStackTrace();
 			}
 		}
-			else if(Config.REPLAY_MODE == "replay"){
-				try{
-					replay();
-				}
-				catch(IOException e){
-					e.printStackTrace();
-				}
-			}
-		}
 	}
+}

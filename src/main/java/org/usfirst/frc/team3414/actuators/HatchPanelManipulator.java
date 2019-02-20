@@ -22,56 +22,51 @@ public class HatchPanelManipulator {
     Solenoid sliderIn = new Solenoid(Config.HORIZONTAL_MANIPULATOR_IN);
     Solenoid hatchUp = new Solenoid(Config.VERTICAL_MANIPULATOR_UP);
     Solenoid hatchDown = new Solenoid(Config.VERTICAL_MANIPULATOR_DOWN);
-    
 
     private static HatchPanelManipulator instance;
 
-    public static HatchPanelManipulator getInstance()
-    {
-        if(instance == null)
-        {
+    public static HatchPanelManipulator getInstance() {
+        if (instance == null) {
             instance = new HatchPanelManipulator();
         }
-        
+
         return instance;
-        
-}
-/*
-        public void outandup(){
-            hatchPanelBackAndForth.set(true);
-            hatchPanelUpAndDown.set(true);
-        }
-        public void outanddown(){
-            hatchPanelBackAndForth.set(true);
-            hatchPanelUpAndDown.set(false);
-        }
-        public void inanddown(){
-            hatchPanelBackAndForth.set(false);
-            hatchPanelUpAndDown.set(false);
-        }
-        */
-        public void setOut(){
-            sliderOut.set(true);
-            sliderIn.set(false);
-        }
-        public void setIn(){
-            sliderOut.set(false);
-            sliderIn.set(true);
-                }
-        public void setUp(){
-        hatchUp.set(true);
-        hatchDown.set(false);
-            
-                }
-        public void setDown(){
-            hatchUp.set(false);
-            hatchDown.set(true);
-        }
-        public void diagnostic(){
-      // SmartDashboard.putBoolean("Set Out , hatchPanelBackAndForth.get());
-       //SmartDashboard.putBoolean("Set Up?:", hatchPanelUpAndDown.get());
-        }
-        
 
     }
 
+    /*
+     * public void outandup(){ hatchPanelBackAndForth.set(true);
+     * hatchPanelUpAndDown.set(true); } public void outanddown(){
+     * hatchPanelBackAndForth.set(true); hatchPanelUpAndDown.set(false); } public
+     * void inanddown(){ hatchPanelBackAndForth.set(false);
+     * hatchPanelUpAndDown.set(false); }
+     */
+    public void setOut() {
+        sliderOut.set(true);
+        sliderIn.set(false);
+    }
+
+    public void setIn() {
+        sliderOut.set(false);
+        sliderIn.set(true);
+    }
+
+    public void setUp() {
+        hatchUp.set(true);
+        hatchDown.set(false);
+
+    }
+
+    public void setDown() {
+        hatchUp.set(false);
+        hatchDown.set(true);
+    }
+
+    public void diagnostic() {
+        SmartDashboard.putBoolean("Set out?", sliderOut.get());
+        SmartDashboard.putBoolean("Set in?", sliderIn.get());
+        SmartDashboard.putBoolean("Set up?", hatchUp.get());
+        SmartDashboard.putBoolean("Set down?", hatchDown.get());
+    }
+
+}

@@ -88,6 +88,18 @@ public void setBlock(boolean block){
 	public double getRight() {
 		return rightJoySpeed;
 	}
+	public MultiMotor getLeftMotor(){
+		return left;
+	}
+	public MultiMotor getRightMotor(){
+		return right;
+	}
+	public int getRightEncoder(){
+		return right.getEncoder();
+	}
+	public int getLeftEncoder(){
+		return left.getEncoder();
+	}
 	public void init(){
 		left.setInverted(true);
 	
@@ -111,5 +123,6 @@ public void setBlock(boolean block){
 			SmartDashboard.putNumber("Left Motor Rear %:", left.getRear());
 			SmartDashboard.putNumber("Right Motor Front %:", right.getFront());
 			SmartDashboard.putNumber("Right Motor Rear %:", right.getRear());
+			SmartDashboard.putBoolean("Teleop Blocked?", blocked);
 		}
 }

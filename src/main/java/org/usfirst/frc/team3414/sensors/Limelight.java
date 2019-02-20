@@ -16,11 +16,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  */
 public class Limelight {
     public static void init(){
-        if(Config.LIMELIGHT_MODE == 1){
+        if(Config.PIT_MODE = true){
         pitMode();
-        }
-        if(Config.LIMELIGHT_MODE == 0){
-            yieldAll();
         }
         else{
             yieldAll();
@@ -42,6 +39,9 @@ public class Limelight {
     }
     public static void driveMode(){
         pitMode();
+    }
+    public static void compMode(){
+        yieldAll();
     }
     public static void setMode(int mode){
         //0-Vision Mode 1- Driver Mode

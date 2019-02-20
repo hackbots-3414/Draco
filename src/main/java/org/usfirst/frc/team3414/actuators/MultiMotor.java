@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3414.actuators;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class MultiMotor {
@@ -19,6 +20,8 @@ public class MultiMotor {
 		front = new TalonSRX(front_channel);
 		middle = null;
 		rear = new TalonSRX(rear_channel);
+		front_id = front_channel;
+		front.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 	}
 	public void set(double speed) {
 		front.set(ControlMode.PercentOutput, speed);
@@ -42,10 +45,10 @@ public class MultiMotor {
 	}
 	//Encoder Specific Code Goes Here
 	public void resetEncoder() {
-		
-	}
-	public double getEncoder(){
-		return 0;
+		front.getSensorCollection().setQuadraturePosition(0, 10);
+		}
+	public int getEncoder(){
+        return front.getSensorCollection().getQuadraturePosition();
 		}
 	public double getFront(){
 		return front.getMotorOutputPercent();
