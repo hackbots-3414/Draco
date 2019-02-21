@@ -10,7 +10,7 @@ import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.Tunnel;
 import org.usfirst.frc.team3414.auton.Align;
 import org.usfirst.frc.team3414.auton.Auton;
-import org.usfirst.frc.team3414.auton.DriveStraight;
+import org.usfirst.frc.team3414.auton.MoveStraight;
 import org.usfirst.frc.team3414.config.Config;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -63,13 +63,13 @@ public class Teleop {
 	}
 	public void driveStraight(){
 		if(left.getRawButton(6)){
-			DriveStraight.lockout();
+			MoveStraight.lockout();
 		}
 		if(left.getRawButton(7)){
-			DriveStraight.go();
+			MoveStraight.go();
 		}
 		if(left.getRawButton(8)){
-			DriveStraight.release();
+			MoveStraight.release();
 		}
 	}
 	public void ball() {
@@ -115,8 +115,27 @@ public class Teleop {
 			HatchPanelManipulator.getInstance().setDown();
 		}
 	}
-
-	public void climber() {
+	public void climber(){
+		if(right.getRawButton(6)){
+			Climber.getInstance().resetEncoders();
+			Climber.getInstance().lockDriveTrain(); //Step 1
+			Climber.getInstance().extendAll(); //Eventually integrate the moveforward into this, 
+		}
+		else if(right.getRawButton(7)){
+			Climber.getInstance().extendAll();
+			Climber.getInstance().moveBottomForward();
+		}
+		else if(right.getRawButton(8)){
+			Climber.getInstance().retractFront();
+		}
+		else if(right.getRawButton(9)){
+			Climber.getInstance().retractRear();
+		}
+		else if(right.getRawButton(10)){
+			Climber.getInstance().retractAll();
+		}
+	}
+	public void legacyClimber() { //Old Climber Code
 		if (right.getRawButton(2)) {
 			Climber.getInstance().resetEncoders();
 		}

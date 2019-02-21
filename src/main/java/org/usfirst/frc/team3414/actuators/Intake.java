@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Add your docs here.
  */
 public class Intake {
+   
+    
 
     private static Intake instance;
 
@@ -32,13 +34,14 @@ public class Intake {
 
     }
 
-    TalonSRX intakeMotor;
+    public TalonSRX intakeMotor;
     Solenoid intakePiston0;
     Solenoid intakePiston1;
     public void init() {
          intakeMotor = new TalonSRX(Config.INTAKE_TALON);
          intakePiston0 = new Solenoid(Config.INTAKE_PISTON);
          intakePiston1 = new Solenoid(Config.INTAKE_PISTON_TWO);
+         
          intakeMotor.setInverted(true);
     }
 
@@ -48,23 +51,23 @@ public class Intake {
     }
 
     public void on() {
-        intakeMotor.set(ControlMode.PercentOutput, 1*Config.INTAKE_THROTTLE);
+        intakeMotor.set(ControlMode.PercentOutput, 1*Config.intake_throttle());
     }
 
     public void off() {
-        intakeMotor.set(ControlMode.PercentOutput, 0.0*Config.INTAKE_THROTTLE);
+        intakeMotor.set(ControlMode.PercentOutput, 0.0*Config.intake_throttle());
     }
 
     public void reverse() {
-        intakeMotor.set(ControlMode.PercentOutput, -1.0*Config.INTAKE_THROTTLE);
+        intakeMotor.set(ControlMode.PercentOutput, -1.0*Config.intake_throttle());
     }
 
     public void positive() {
-        intakeMotor.set(ControlMode.PercentOutput, 1.0*Config.INTAKE_THROTTLE);
+        intakeMotor.set(ControlMode.PercentOutput, 1.0*Config.intake_throttle());
     }
     public void goDown(){
         intakePiston0.set(false);
-        intakePiston1.set(true);
+       intakePiston1.set(true);
     }
     public void goUp(){
         intakePiston0.set(true);

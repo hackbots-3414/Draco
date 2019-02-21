@@ -12,25 +12,25 @@ import org.usfirst.frc.team3414.actuators.DriveTrain;
 /**
  * Add your docs here.
  */
-public class DriveStraight {
-    public static void lockout(){
-        DriveTrain.getInstance().setBlock(true);
-    }
+public class MoveStraight {
+    
     public static void go(){
-        int margin = 500;
-        DriveTrain.getInstance().set(.5, .5);
-        if(getDiff() >= margin ){
-            DriveTrain.getInstance().set(.5, 0);
-        }
-        if(getDiff() >= margin){
-            DriveTrain.getInstance().set(0, .5);
-        }
+       
     }
-    private static int getDiff(){
-        return DriveTrain.getInstance().getLeftEncoder() - DriveTrain.getInstance().getRightEncoder();
+    public static double getLeftSpeed(){
+        return 0;
+        }
+    public static double getRightSpeed(){
+        return 0;
+    }
+    private static int getDiff(int leftEncoder, int rightEncoder){
+        return leftEncoder-rightEncoder;
     }
     public static void release(){
         DriveTrain.getInstance().setBlock(false);
     }
-}
+    public static void lockout(){
+        DriveTrain.getInstance().setBlock(true);
+    }
+ }
 

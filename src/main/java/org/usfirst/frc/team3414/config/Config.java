@@ -4,9 +4,13 @@ import org.usfirst.frc.team3414.diagnostic.Diagnostic;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Config {
-	public static final double INTAKE_THROTTLE = .65;
+	//public static final double INTAKE_THROTTLE = .65;
+	public static double intake_throttle(){
+		return SmartDashboard.getNumber("Throttle %", .65);
+	}
 	public static final String REPLAY_MODE = "disabled";
 	public static boolean PIT_MODE = true; //0-Comp mode 1-Pit mode
 

@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Add your docs here.
  */
 public class Climber {
+    double masterthrottle = 1;
+    double frontThrottle = .7;
     private static Climber instance;
 
     public static Climber getInstance()
@@ -60,9 +62,7 @@ public class Climber {
     int encodermin = 10000;
     int maxdiff = 1000;
    public void extendAll(){
-    double masterthrottle = 1;
-    double frontThrottle = .7;
-    
+    //Begin Even Climb code
     frontMotor.set(ControlMode.PercentOutput, frontThrottle);
     rearMotor.set(ControlMode.PercentOutput, 1);
     if((getDiff() >= 0) && (Math.abs(getDiff()) >= encoderdiff)){
@@ -71,6 +71,7 @@ public class Climber {
     else if((getDiff() <= 0) && (Math.abs(getDiff()) >= encoderdiff)){
         rearMotor.set(ControlMode.PercentOutput, 0);
     }
+    //Begin Maintain Height Code
     else if(getMaxOffset() >= encodermax){
         frontMotor.set(ControlMode.PercentOutput, 0);
         rearMotor.set(ControlMode.PercentOutput, 0);
@@ -97,9 +98,24 @@ public class Climber {
    public void retractRear(){
        rearMotor.set(ControlMode.PercentOutput, -1);
    }
+   public void retractAll(){
+    
+    //Begin Even Climb code
+    frontMotor.set(ControlMode.PercentOutput, -frontThrottle);
+    rearMotor.set(ControlMode.PercentOutput, -1);
+    if((getDiff() >= 0) && (Math.abs(getDiff()) >= encoderdiff)){
+        frontMotor.set(ControlMode.PercentOutput, 0);
+    }
+    else if((getDiff() <= 0) && (Math.abs(getDiff()) >= encoderdiff)){
+        rearMotor.set(ControlMode.PercentOutput, 0);
+    }
+    if((frontMotor.getSensorCollection().getQuadraturePosition() <= 200) &&(rearMotor.getSensorCollection().getQuadraturePosition() <= 200)){
+        unlockDriveTrain();
+    }
+}
    public int getMaxOffset(){
     int average = ((frontMotor.getSensorCollection().getQuadraturePosition() + rearMotor.getSensorCollection().getQuadraturePosition())/2); 
-    return encodermax - average;
+    return encodermax - average - encodermin;
   
     }
    public void stop(){
@@ -109,9 +125,9 @@ public class Climber {
 
    }
    public void initEncoders(){
-       frontMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 9, 10);
-       rearMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 9, 10);
-       middleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 9, 10);    
+       frontMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
+       rearMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
+       middleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);    
    }
    public void resetEncoders(){
        frontMotor.getSensorCollection().setQuadraturePosition(0, 10);
