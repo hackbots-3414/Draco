@@ -93,6 +93,7 @@ public class Robot extends IterativeRobot {
 		//Teleop.getInstance().driveStraight();
 		//WORKING OFFICIALLY
 		Teleop.getInstance().drive();
+		Teleop.getInstance().freeDriveTrain();
 		Teleop.getInstance().ball();
 		Teleop.getInstance().manipulator();
 		//SHOULD WORK

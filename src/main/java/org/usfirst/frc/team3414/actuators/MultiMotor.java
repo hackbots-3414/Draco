@@ -35,7 +35,6 @@ public class MultiMotor {
 		//middle.set(ControlMode.PercentOutput, speed);
 	}
 	public void setRear(double speed) {
-		Pair <Integer, Integer> marcus = 1,2;
 		rear.set(ControlMode.PercentOutput, speed);
 	}
 	public void setInverted(boolean inverted){

@@ -36,7 +36,11 @@ public class Teleop {
 	int recordcounter = 0;
 	int replaycounter = 0;
 	int stopcounter = 0;
-
+	public void freeDriveTrain(){
+		if(left.getRawButton(1)){
+			DriveTrain.getInstance().setBlock(false); //Emergency release for drivetrain lockout in case somebody messes up calling it elsewhere.
+		}
+	}
 	public void record() throws IOException {
 
 		if (pad.getRSButton() && pad.getLSButton()) {
@@ -133,6 +137,9 @@ public class Teleop {
 		}
 		else if(right.getRawButton(10)){
 			Climber.getInstance().retractAll();
+		}
+		else{
+			Climber.getInstance().unlockDriveTrain();
 		}
 	}
 	public void legacyClimber() { //Old Climber Code
