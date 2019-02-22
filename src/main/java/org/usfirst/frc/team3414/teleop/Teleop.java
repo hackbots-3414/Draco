@@ -100,11 +100,12 @@ public class Teleop {
 			Intake.getInstance().off();
 			Tunnel.getInstance().on();
 		} else {
+			Intake.getInstance().goUp();
 			Intake.getInstance().off();
 			Tunnel.getInstance().off();
 		}
 		if (pad.getYButton()) {
-			Intake.getInstance().goUp();
+		//	Intake.getInstance().goUp(); //No longer works because it is part of the else for the A button
 		}
 	}
 
@@ -120,8 +121,18 @@ public class Teleop {
 		}
 	}
 	public void climber(){
-		if(right.getRawButton(6)){
+		if(right.getRawButton(6) || pad.getYButton()){
+			Climber.getInstance().motionmagicclimber();
+		}
+		else{
+			Climber.getInstance().stop();
+		}
+	}
+	public void legacyclimber(){
+		if(right.getRawButton(3)){
 			Climber.getInstance().resetEncoders();
+		}
+		if(right.getRawButton(6)){
 			Climber.getInstance().lockDriveTrain(); //Step 1
 			Climber.getInstance().extendAll(); //Eventually integrate the moveforward into this, 
 		}
@@ -139,10 +150,11 @@ public class Teleop {
 			Climber.getInstance().retractAll();
 		}
 		else{
+			Climber.getInstance().stop();
 			Climber.getInstance().unlockDriveTrain();
 		}
 	}
-	public void legacyClimber() { //Old Climber Code
+	public void legacylegacyClimber() { //Old Climber Code
 		if (right.getRawButton(2)) {
 			Climber.getInstance().resetEncoders();
 		}
@@ -192,6 +204,12 @@ public class Teleop {
 			DriveTrain.getInstance().setBlock(false);
 		}
 
+	}
+	public Joystick getLeftJoystick(){
+		return left;
+	}
+	public Joystick getRightJoystick(){
+		return right;
 	}
 	public void replaySystem() {
 		if(Config.REPLAY_MODE == "record"){
