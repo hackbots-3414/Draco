@@ -231,6 +231,7 @@ public class Teleop {
 		}
 	}
 	public void camera() {
+		Limelight.init();
 		if(pad.getXButton()){
 			Limelight.rearView();
 		}
