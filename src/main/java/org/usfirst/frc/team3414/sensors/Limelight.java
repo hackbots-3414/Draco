@@ -43,6 +43,17 @@ public class Limelight {
     public static void compMode(){
         yieldAll();
     }
+    public static void defaultView(){
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(0);
+
+    }
+    public static void rearView(){
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(2);
+    }
+    public static void frontView(){
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(1);
+
+    }
     public static void setMode(int mode){
         //0-Vision Mode 1- Driver Mode
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1);

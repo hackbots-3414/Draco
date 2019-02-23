@@ -12,6 +12,7 @@ import org.usfirst.frc.team3414.auton.Align;
 import org.usfirst.frc.team3414.auton.Auton;
 import org.usfirst.frc.team3414.auton.MoveStraight;
 import org.usfirst.frc.team3414.config.Config;
+import org.usfirst.frc.team3414.sensors.Limelight;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -121,7 +122,7 @@ public class Teleop {
 		}
 	}
 	public void climber(){
-		if(right.getRawButton(6) || pad.getYButton()){
+		if(right.getRawButton(6)){
 			Climber.getInstance().motionmagicclimber();
 		}
 		else{
@@ -227,6 +228,17 @@ public class Teleop {
 			catch(IOException e){
 				e.printStackTrace();
 			}
+		}
+	}
+	public void camera() {
+		if(pad.getXButton()){
+			Limelight.rearView();
+		}
+		else if(pad.getYButton()){
+			Limelight.frontView();
+		}
+		else{
+			Limelight.defaultView();
 		}
 	}
 }

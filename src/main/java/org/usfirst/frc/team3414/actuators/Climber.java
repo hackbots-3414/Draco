@@ -43,9 +43,6 @@ public class Climber {
         frontMotor = new TalonSRX(Config.CLIMBER_FRONT);
         rearMotor = new TalonSRX(Config.CLIMBER_REAR);
         middleMotor = new TalonSRX(Config.CLIMBER_MOTOR_THREE);
-        frontMotor.setNeutralMode(NeutralMode.Brake);
-        rearMotor.setNeutralMode(NeutralMode.Brake);
-        middleMotor.setNeutralMode(NeutralMode.Brake);
         initEncoders();
         resetEncoders();
 
