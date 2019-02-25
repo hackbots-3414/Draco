@@ -43,7 +43,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * be much more difficult under this system. Use TimedRobot or Command-Based
  * instead if you're new.
  */
-public class MotionMagicClimb {
+public class MotionMagicClimb extends Thread {
   public void test() {
     TalonSRX talon = new TalonSRX(21);
     talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
@@ -69,7 +69,7 @@ public class MotionMagicClimb {
     upDownFront.configMotionAcceleration(4784 / 2);
     upDownRear.set(ControlMode.MotionMagic, 12000, DemandType.ArbitraryFeedForward, 1196);
     long startTime = System.currentTimeMillis();
-    while (System.currentTimeMillis() - startTime < 20000) {
+    while (System.currentTimeMillis() - startTime < 10000) {
       // if(System.currentTimeMillis() % 100 ==0){
       // System.out.println("updownFront\t" +
       // upDownFront.getSensorCollection().getQuadraturePosition());

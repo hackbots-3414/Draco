@@ -53,7 +53,7 @@ public class Climber {
         frontMotor.configMotionAcceleration(4784 / 2);
         rearMotor.set(ControlMode.MotionMagic, 12000, DemandType.ArbitraryFeedForward, 1196);
         long startTime = System.currentTimeMillis();
-        while (System.currentTimeMillis() - startTime < 20000) {
+        while ((System.currentTimeMillis() - startTime < 20000) || (!Teleop.getInstance().getLeftJoystick().getRawButton(1))) {
           // if(System.currentTimeMillis() % 100 ==0){
           // System.out.println("frontMotor\t" +
           // frontMotor.getSensorCollection().getQuadraturePosition());
@@ -183,7 +183,11 @@ public class Climber {
     }
 
     public void moveBottomForward() {
+        long startTime = System.currentTimeMillis();
+        while ((System.currentTimeMillis() - startTime < 4000) || (!Teleop.getInstance().getLeftJoystick().getRawButton(1))) {
         middleMotor.set(ControlMode.PercentOutput, 1);
+        }
+        middleMotor.set(ControlMode.PercentOutput, 0);
     }
 
     public void moveForward() {

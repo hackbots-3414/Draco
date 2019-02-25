@@ -7,6 +7,7 @@ import org.usfirst.frc.team3414.actuators.Climber;
 import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.HatchPanelManipulator;
 import org.usfirst.frc.team3414.actuators.Intake;
+import org.usfirst.frc.team3414.actuators.MotionMagicClimb;
 import org.usfirst.frc.team3414.actuators.Tunnel;
 import org.usfirst.frc.team3414.auton.Align;
 import org.usfirst.frc.team3414.auton.Auton;
@@ -123,7 +124,8 @@ public class Teleop {
 	}
 	public void climber(){
 		if(right.getRawButton(6)){
-			Climber.getInstance().motionmagicclimber();
+			Climber.getInstance().motionmagicclimber(); //Brings the climber up to whatever height it needs to be  
+			Climber.getInstance().moveBottomForward(); //Brings the climber to whatever distance it needs to go
 		}
 		else{
 			Climber.getInstance().stop();
