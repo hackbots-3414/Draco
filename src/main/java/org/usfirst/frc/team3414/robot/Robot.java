@@ -90,7 +90,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		//Teleop.getInstance().replaySystem();
 		//Teleop.getInstance().align();
-		//Teleop.getInstance().driveStraight();
+		Teleop.getInstance().driveStraight();
 		//WORKING OFFICIALLY
 		Teleop.getInstance().drive();
 		Teleop.getInstance().freeDriveTrain();
@@ -98,9 +98,10 @@ public class Robot extends IterativeRobot {
 		Teleop.getInstance().manipulator();
 		Teleop.getInstance().camera();
 		//SHOULD WORK
-	//	Teleop.getInstance().climber();
+	    Teleop.getInstance().climber();
 		//BONUS
 		//DashboardOutput.diagnostic();
+		
 	}
 
 	public void teleopInit() {

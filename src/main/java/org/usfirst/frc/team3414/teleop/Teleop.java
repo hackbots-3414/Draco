@@ -69,13 +69,7 @@ public class Teleop {
 	}
 	public void driveStraight(){
 		if(left.getRawButton(6)){
-			MoveStraight.lockout();
-		}
-		if(left.getRawButton(7)){
-			MoveStraight.go();
-		}
-		if(left.getRawButton(8)){
-			MoveStraight.release();
+		MoveStraight.go(); //6 is pressed to trigger the loop which relies on 7 to be pressed.
 		}
 	}
 	public void ball() {
