@@ -22,7 +22,6 @@ public class Align {
   public static void align() {
       enabled = true;
     Limelight.yieldAll();
-      DriveTrain.getInstance().setBlock(true);
       double leftJoystickvalue = DriveTrain.getInstance().getLeft();
       double rightJoystickvalue = DriveTrain.getInstance().getRight();
       double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);

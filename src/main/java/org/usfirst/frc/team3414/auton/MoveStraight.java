@@ -41,8 +41,6 @@ public class MoveStraight {
     public static void release(){
         DriveTrain.getInstance().setBlock(false);
     }
-    public static void lockout(){
-        DriveTrain.getInstance().;
-    }
+   
  }
 

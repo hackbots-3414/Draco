@@ -11,8 +11,8 @@ public class Config {
 	public static double intake_throttle(){
 		return SmartDashboard.getNumber("Throttle %", .65);
 	}
-	public static final String REPLAY_MODE = "disabled";
-	public static boolean PIT_MODE = true; //0-Comp mode 1-Pit mode
+	public static final boolean REPLAY_MODE = false;
+	public static boolean PIT_MODE = true; 
 
 	public static final int LEFT_STICK = 0;
 	public static final int RIGHT_STICK = 1;
