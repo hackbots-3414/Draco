@@ -78,7 +78,6 @@ public class Teleop {
 		if (pad.getAButton() && (Tunnel.getInstance().getBallPos() == 0)) { // Turn on Intake, run tunnel
 			Intake.getInstance().on();
 			Intake.getInstance().goDown();
-			Tunnel.getInstance().on();
 		} else if (pad.getAButton() && Tunnel.getInstance().getBallPos() == 1) {
 			Intake.getInstance().goUp();
 			Tunnel.getInstance().on();
