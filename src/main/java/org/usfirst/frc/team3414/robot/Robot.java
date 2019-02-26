@@ -100,7 +100,7 @@ public class Robot extends IterativeRobot {
 		//SHOULD WORK
 	    Teleop.getInstance().climber();
 		//BONUS
-		DashboardOutput.diagnostic();
+		//DashboardOutput.diagnostic();
 		
 	}
 
