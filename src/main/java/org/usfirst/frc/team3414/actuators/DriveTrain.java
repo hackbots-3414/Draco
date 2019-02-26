@@ -52,10 +52,9 @@ public void setBlock(boolean block){
 	
 
 	public void teleop(double leftSpeed, double rightSpeed) {
-		if(!blocked){
 		left.set(leftSpeed);
 		right.set(rightSpeed);
-		
+		if(isrecording){
 			try {
 				Auton.getInstance().record(leftSpeed, rightSpeed);
 			} catch (IOException e) {
@@ -66,7 +65,8 @@ public void setBlock(boolean block){
 		leftJoySpeed = leftSpeed;
 		rightJoySpeed = rightSpeed;
 		}
-	}
+		}
+}
 	public void set(double leftSpeed, double rightSpeed){
 		left.set(leftSpeed);
 		right.set(rightSpeed);
@@ -123,6 +123,6 @@ public void setBlock(boolean block){
 			SmartDashboard.putNumber("Left Motor Rear %:", left.getRear());
 			SmartDashboard.putNumber("Right Motor Front %:", right.getFront());
 			SmartDashboard.putNumber("Right Motor Rear %:", right.getRear());
-			SmartDashboard.putBoolean("Teleop Blocked?", blocked);
+			SmartDashboard.putBoolean("Teleop Blocked?", blocked); //Blocking is being temporily disabled in favor of while looping
 		}
 }

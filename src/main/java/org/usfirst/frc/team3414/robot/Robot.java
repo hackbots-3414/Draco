@@ -105,7 +105,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-		if (Config.REPLAY_MODE == "replay") {
+		if (Config.REPLAY_MODE) {
 			try {
 				Auton.getInstance().replayInit();
 			} catch (FileNotFoundException e) {
@@ -114,7 +114,7 @@ public class Robot extends IterativeRobot {
 			}
 		}
 
-		else if (Config.REPLAY_MODE == "record") {
+		else if (!Config.REPLAY_MODE) {
 			try {
 				Auton.getInstance().recordInit();
 			} catch (IOException e) {

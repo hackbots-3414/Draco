@@ -119,7 +119,6 @@ public class Teleop {
 	public void climber(){
 		if(right.getRawButton(6)){
 			Climber.getInstance().motionmagicclimber(); //Brings the climber up to whatever height it needs to be  
-			Climber.getInstance().moveBottomForward(); //Brings the climber to whatever distance it needs to go
 		}
 		else{
 			Climber.getInstance().stop();
@@ -209,7 +208,7 @@ public class Teleop {
 		return right;
 	}
 	public void replaySystem() {
-		if(Config.REPLAY_MODE == "record"){
+		if(!Config.REPLAY_MODE){
 			try {
 			record();
 		} catch (IOException e) {
@@ -217,7 +216,7 @@ public class Teleop {
 			e.printStackTrace();
 		}
 	}
-		else if(Config.REPLAY_MODE == "replay"){
+		else if(Config.REPLAY_MODE){
 			try{
 				replay();
 			}

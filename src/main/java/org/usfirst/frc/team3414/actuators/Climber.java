@@ -47,20 +47,31 @@ public class Climber {
         resetEncoders();
 
     }
+    public void climbSequence(){
+        motionmagicclimber();
+        moveBottomForward();
+    }
+    
     public void motionmagicclimber() {
         talonConfig(rearMotor);
         front(frontMotor);
         frontMotor.configMotionAcceleration(4784 / 2);
         rearMotor.set(ControlMode.MotionMagic, 12000, DemandType.ArbitraryFeedForward, 1196);
         long startTime = System.currentTimeMillis();
-        while ((System.currentTimeMillis() - startTime < 20000) || (!Teleop.getInstance().getLeftJoystick().getRawButton(1))) {
+        int offset = Config.FRONT_CLIMBER_OFFSET;
+        while ((System.currentTimeMillis() - startTime < 20000) || (!Teleop.getInstance().getRightJoystick().getRawButton(1))) {
           // if(System.currentTimeMillis() % 100 ==0){
           // System.out.println("frontMotor\t" +
           // frontMotor.getSensorCollection().getQuadraturePosition());
           // }
-          frontMotor.set(ControlMode.Position, rearMotor.getSensorCollection().getQuadraturePosition(),
-              DemandType.ArbitraryFeedForward, 0);
+          frontMotor.set(ControlMode.Position, getRearEncoder() + offset,
+              DemandType.ArbitraryFeedForward, 0) ;
     
+        if(getFrontEncoder() > 11000){
+            middleMotor.set(ControlMode.PercentOutput, 1);
+        }
+        if(Teleop.getInstance().getRightJoystick().getRawButton(7)){
+            break;
         }
         // target 8000 ended on
         // frontMotor.set(ControlMode.Position, 12000, DemandType.ArbitraryFeedForward,
@@ -68,11 +79,12 @@ public class Climber {
         // System.out.println("frontMotor\t" +
         // frontMotor.getSensorCollection().getQuadraturePosition());
         // Timer.delay(20);
-        System.out.println("frontMotor\t" + frontMotor.getSensorCollection().getQuadraturePosition());
-        rearMotor.set(ControlMode.PercentOutput, 0);
-        frontMotor.set(ControlMode.PercentOutput, 0);
+        System.out.println("frontMotor\t" + getFrontEncoder());
+       
     
       }
+      stop();
+    }
     
       public void talonConfig(TalonSRX climber) {
         climber.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
@@ -98,7 +110,7 @@ public class Climber {
         climber.configMotionCruiseVelocity(1196);
         climber.configPeakOutputForward(1.0);
         climber.configPeakOutputReverse(-1.0);
-        climber.config_kP(0, 1);
+        climber.config_kP(0, 3); //Originally 1
         climber.config_kI(0, 0);
         climber.config_kD(0, 0);
         climber.config_kF(0, 0);
