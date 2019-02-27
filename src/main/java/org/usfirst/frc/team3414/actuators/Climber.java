@@ -16,6 +16,7 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -55,6 +56,7 @@ public class Climber {
     }
 
     public void motionmagicclimber() {
+        triggered = false;
         talonConfig(rearMotor);
         front(frontMotor);
         frontMotor.configMotionAcceleration(4784 / 2);
@@ -62,17 +64,21 @@ public class Climber {
         long startTime = System.currentTimeMillis();
         int offset = Config.FRONT_CLIMBER_OFFSET;
         while ((!Teleop.getInstance().getRightJoystick().getRawButton(1))) {
+            SmartDashboard.putNumber("Middle Encoder", getMiddleEncoder());
             // if(System.currentTimeMillis() % 100 ==0){
             // System.out.println("frontMotor\t" +
             // frontMotor.getSensorCollection().getQuadraturePosition());
             // }
 
-            if (getFrontEncoder() > 11000) {
+            if (getRearEncoder() > 14000) {
                 moveBottomForward();
+                retractFront();
+                moveForward(2.5);
+                retractRear();
+                moveForward(2);
+                break;
+
             } //Once the front gets so high, turn on the middle (bottom, stationary motor)
-            if(getMiddleEncoder() > 4096 && (getMiddleEncoder() < 8192)){
-                retractFront(); //Once we go a full revolution, bring the front up
-            }
             else{
                 frontMotor.set(ControlMode.Position, getRearEncoder() + offset, DemandType.ArbitraryFeedForward, 0);
             }
@@ -170,13 +176,20 @@ public class Climber {
     int encodermax = 12500;
     int encodermin = 15000;
     int maxdiff = 1000;
-
+    boolean triggered = false;
     public void moveBottomForward() {
-        middleMotor.set(ControlMode.PercentOutput, 1);
+        if(!triggered){
+        middleMotor.set(ControlMode.PercentOutput, .5);
+        Timer.delay(1);
+        middleMotor.set(ControlMode.PercentOutput, 0);
+        triggered = true;
+        }
     }
 
-    public void moveForward() {
-        DriveTrain.getInstance().set(.5, .5);
+    public void moveForward(double time) {
+        DriveTrain.getInstance().set(-.2, - .2);
+        Timer.delay(time);
+        DriveTrain.getInstance().set(0, 0);
     }
 
     public void unlockDriveTrain() {
@@ -184,11 +197,14 @@ public class Climber {
     }
 
     public void retractFront() {
-        frontMotor.set(ControlMode.MotionMagic, 0, DemandType.ArbitraryFeedForward, 0);
+
+        frontMotor.set(ControlMode.MotionMagic, 500, DemandType.ArbitraryFeedForward, 0);
         }
 
     public void retractRear() {
-        rearMotor.set(ControlMode.MotionMagic, 0, DemandType.ArbitraryFeedForward, 0);
+        rearMotor.set(ControlMode.MotionMagic, 500, DemandType.ArbitraryFeedForward, 0);
+        Timer.delay(2);
+        
     }
 
     public int getMaxOffset() {
