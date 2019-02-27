@@ -118,10 +118,10 @@ public class Teleop {
 	}
 	public void climber(){
 		if(right.getRawButton(6)){
-			Climber.getInstance().motionmagicclimber(); //Brings the climber up to whatever height it needs to be  
+			Climber.getInstance().motionmagicclimber(); //Brings the climber up to whatever height it needs to be 
 		}
 		else{
-			Climber.getInstance().stop();
+			Climber.getInstance().eStop();
 		}
 	}
 	public void legacyclimber(){
@@ -146,7 +146,7 @@ public class Teleop {
 			Climber.getInstance().retractAll();
 		}
 		else{
-			Climber.getInstance().stop();
+			Climber.getInstance().eStop();
 			Climber.getInstance().unlockDriveTrain();
 		}
 	}
@@ -181,7 +181,7 @@ public class Teleop {
 		} else if (right.getRawButton(11)) { // Step 6
 			Climber.getInstance().unlockDriveTrain();
 		} else {
-			Climber.getInstance().stop();
+			Climber.getInstance().eStop();
 		}
 	}
 

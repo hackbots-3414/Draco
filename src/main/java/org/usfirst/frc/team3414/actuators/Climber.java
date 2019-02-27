@@ -47,11 +47,13 @@ public class Climber {
         resetEncoders();
 
     }
-    public void climbSequence(){
+
+    public void climbSequence() {
         motionmagicclimber();
         moveBottomForward();
+
     }
-    
+
     public void motionmagicclimber() {
         talonConfig(rearMotor);
         front(frontMotor);
@@ -59,34 +61,46 @@ public class Climber {
         rearMotor.set(ControlMode.MotionMagic, 12000, DemandType.ArbitraryFeedForward, 1196);
         long startTime = System.currentTimeMillis();
         int offset = Config.FRONT_CLIMBER_OFFSET;
-        while ((System.currentTimeMillis() - startTime < 20000) || (!Teleop.getInstance().getRightJoystick().getRawButton(1))) {
-          // if(System.currentTimeMillis() % 100 ==0){
-          // System.out.println("frontMotor\t" +
-          // frontMotor.getSensorCollection().getQuadraturePosition());
-          // }
-          frontMotor.set(ControlMode.Position, getRearEncoder() + offset,
-              DemandType.ArbitraryFeedForward, 0) ;
-    
-        if(getFrontEncoder() > 11000){
-            middleMotor.set(ControlMode.PercentOutput, 1);
+        while ((!Teleop.getInstance().getRightJoystick().getRawButton(1))) {
+            // if(System.currentTimeMillis() % 100 ==0){
+            // System.out.println("frontMotor\t" +
+            // frontMotor.getSensorCollection().getQuadraturePosition());
+            // }
+
+            if (getFrontEncoder() > 11000) {
+                moveBottomForward();
+            } //Once the front gets so high, turn on the middle (bottom, stationary motor)
+            if(getMiddleEncoder() > 4096 && (getMiddleEncoder() < 8192)){
+                retractFront(); //Once we go a full revolution, bring the front up
+            }
+            else{
+                frontMotor.set(ControlMode.Position, getRearEncoder() + offset, DemandType.ArbitraryFeedForward, 0);
+            }
+
+            if (Teleop.getInstance().getRightJoystick().getRawButton(7)) {
+                break;
+            }
+            if(getMiddleEncoder() > 8192){
+                retractRear();
+            }
+            else{
+
+            
+            // target 8000 ended on
+             rearMotor.set(ControlMode.Position, 12000, DemandType.ArbitraryFeedForward, 0);
+            }
+
+            // System.out.println("frontMotor\t" +
+            // frontMotor.getSensorCollection().getQuadraturePosition());
+            // Timer.delay(20);
+            System.out.println("frontMotor\t" + getFrontEncoder());
+
         }
-        if(Teleop.getInstance().getRightJoystick().getRawButton(7)){
-            break;
-        }
-        // target 8000 ended on
-        // frontMotor.set(ControlMode.Position, 12000, DemandType.ArbitraryFeedForward,
-        // 0);
-        // System.out.println("frontMotor\t" +
-        // frontMotor.getSensorCollection().getQuadraturePosition());
-        // Timer.delay(20);
-        System.out.println("frontMotor\t" + getFrontEncoder());
-       
-    
-      }
-      stop();
+        eStop(); //TODO, how do we want to have drivetrain work, sensors or manual control?
     }
-    
-      public void talonConfig(TalonSRX climber) {
+
+
+    public void talonConfig(TalonSRX climber) {
         climber.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
         climber.getSensorCollection().setQuadraturePosition(0, 10);
         climber.configMotionAcceleration(4784);
@@ -100,50 +114,51 @@ public class Climber {
         climber.config_IntegralZone(0, 0);
         climber.configClosedLoopPeakOutput(0, 1.0);
         climber.selectProfileSlot(0, 0);
-    
-      }
-    
-      public void front(TalonSRX climber) {
+
+    }
+
+    public void front(TalonSRX climber) {
         climber.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
         climber.getSensorCollection().setQuadraturePosition(0, 10);
         climber.configMotionAcceleration(4784);
         climber.configMotionCruiseVelocity(1196);
         climber.configPeakOutputForward(1.0);
         climber.configPeakOutputReverse(-1.0);
-        climber.config_kP(0, 3); //Originally 1
+        climber.config_kP(0, 3); // Originally 1
         climber.config_kI(0, 0);
         climber.config_kD(0, 0);
         climber.config_kF(0, 0);
         climber.config_IntegralZone(0, 0);
         climber.configClosedLoopPeakOutput(0, 1.0);
         climber.selectProfileSlot(0, 0);
-    
-      }
-      double frontrate = 1;
-      double rearrate = 1;
+
+    }
+
+    double frontrate = 1;
+    double rearrate = 1;
+
     public void extendAll() {
-        
+
         // Begin Even Climb code
         frontMotor.set(ControlMode.PercentOutput, 1);
         rearMotor.set(ControlMode.PercentOutput, 1);
-        
+
         if ((getDiff() >= 0) && (Math.abs(getDiff()) >= encoderdiff)) {
-            //frontMotor.set(ControlMode.PercentOutput, 0);
-            frontrate += getDiff()/100;
+            // frontMotor.set(ControlMode.PercentOutput, 0);
+            frontrate += getDiff() / 100;
         } else if ((getDiff() <= 0) && (Math.abs(getDiff()) >= encoderdiff)) {
-           // rearMotor.set(ControlMode.PercentOutput, 0);
-           rearrate -= getDiff()/100;
-        } 
-        
-       
-      //  Begin Maintain Height Code*/
- /*  else if (getMaxOffset() >= encodermax) {
-            frontMotor.set(ControlMode.PercentOutput, 0);
-            rearMotor.set(ControlMode.PercentOutput, 0);
-        } else if (getMaxOffset() <= encoderdiff) {
-            frontMotor.set(ControlMode.PercentOutput, 0);
-            rearMotor.set(ControlMode.PercentOutput, 0);
-        } */
+            // rearMotor.set(ControlMode.PercentOutput, 0);
+            rearrate -= getDiff() / 100;
+        }
+
+        // Begin Maintain Height Code*/
+        /*
+         * else if (getMaxOffset() >= encodermax) {
+         * frontMotor.set(ControlMode.PercentOutput, 0);
+         * rearMotor.set(ControlMode.PercentOutput, 0); } else if (getMaxOffset() <=
+         * encoderdiff) { frontMotor.set(ControlMode.PercentOutput, 0);
+         * rearMotor.set(ControlMode.PercentOutput, 0); }
+         */
     }
 
     public void lockDriveTrain() {
@@ -155,6 +170,84 @@ public class Climber {
     int encodermax = 12500;
     int encodermin = 15000;
     int maxdiff = 1000;
+
+    public void moveBottomForward() {
+        middleMotor.set(ControlMode.PercentOutput, 1);
+    }
+
+    public void moveForward() {
+        DriveTrain.getInstance().set(.5, .5);
+    }
+
+    public void unlockDriveTrain() {
+        DriveTrain.getInstance().setBlock(false); // Release drivetrain block
+    }
+
+    public void retractFront() {
+        frontMotor.set(ControlMode.MotionMagic, 0, DemandType.ArbitraryFeedForward, 0);
+        }
+
+    public void retractRear() {
+        rearMotor.set(ControlMode.MotionMagic, 0, DemandType.ArbitraryFeedForward, 0);
+    }
+
+    public int getMaxOffset() {
+        int average = ((frontMotor.getSensorCollection().getQuadraturePosition()
+                + rearMotor.getSensorCollection().getQuadraturePosition()) / 2);
+        return encodermax - average - encodermin;
+
+    }
+
+    public void eStop() {
+        frontMotor.set(ControlMode.PercentOutput, 0);
+        rearMotor.set(ControlMode.PercentOutput, 0);
+        middleMotor.set(ControlMode.PercentOutput, 0);
+
+    }
+
+    public void initEncoders() {
+        frontMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
+        rearMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
+        middleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
+    }
+
+    public void resetEncoders() {
+        frontrate = 1;
+        rearrate = 1;
+        frontMotor.getSensorCollection().setQuadraturePosition(0, 10);
+        rearMotor.getSensorCollection().setQuadraturePosition(0, 10);
+        rearMotor.getSensorCollection().setQuadraturePosition(0, 10);
+    }
+
+    public double getFrontEncoder() {
+        return frontMotor.getSensorCollection().getQuadraturePosition();
+    }
+
+    public double getRearEncoder() {
+        return rearMotor.getSensorCollection().getQuadraturePosition();
+    }
+
+    public double getMiddleEncoder() {
+        return middleMotor.getSensorCollection().getQuadraturePosition();
+    }
+
+    public double getDiff() {
+        return frontMotor.getSensorCollection().getQuadraturePosition()
+                - rearMotor.getSensorCollection().getQuadraturePosition();
+        // If this is positive, it means the front is ahead by x ticks. Negative rear is
+        // ahead by x ticks
+    }
+
+    public void diagnostic() {
+        SmartDashboard.putNumber("Climber Front %:", frontMotor.getMotorOutputPercent());
+        SmartDashboard.putNumber("Climber Middle %:", middleMotor.getMotorOutputPercent());
+        SmartDashboard.putNumber("Climber Rear %:", rearMotor.getMotorOutputPercent());
+        SmartDashboard.putNumber("Climber Front Encoder", getFrontEncoder());
+        SmartDashboard.putNumber("Climber Rear Encoder", getRearEncoder());
+        SmartDashboard.putNumber("Climber Middle Encoder", getMiddleEncoder());
+        SmartDashboard.putNumber("Climber Encoder Difference", getDiff());
+        SmartDashboard.putNumber("Difference between Max and current", getMaxOffset());
+    }
 
     public void newExtendAll() {
         // Begin Even Climb code
@@ -194,30 +287,6 @@ public class Climber {
         // }
     }
 
-    public void moveBottomForward() {
-        long startTime = System.currentTimeMillis();
-        while ((System.currentTimeMillis() - startTime < 4000) || (!Teleop.getInstance().getLeftJoystick().getRawButton(1))) {
-        middleMotor.set(ControlMode.PercentOutput, 1);
-        }
-        middleMotor.set(ControlMode.PercentOutput, 0);
-    }
-
-    public void moveForward() {
-        DriveTrain.getInstance().set(.5, .5);
-    }
-
-    public void unlockDriveTrain() {
-        DriveTrain.getInstance().setBlock(false); // Release drivetrain block
-    }
-
-    public void retractFront() {
-        frontMotor.set(ControlMode.PercentOutput, -1);
-    }
-
-    public void retractRear() {
-        rearMotor.set(ControlMode.PercentOutput, -1);
-    }
-
     public void retractAll() {
 
         // Begin Even Climb code
@@ -232,63 +301,5 @@ public class Climber {
                 && (rearMotor.getSensorCollection().getQuadraturePosition() <= 200)) {
             unlockDriveTrain();
         }
-    }
-
-    public int getMaxOffset() {
-        int average = ((frontMotor.getSensorCollection().getQuadraturePosition()
-                + rearMotor.getSensorCollection().getQuadraturePosition()) / 2);
-        return encodermax - average - encodermin;
-
-    }
-
-    public void stop() {
-        frontMotor.set(ControlMode.PercentOutput, 0);
-        rearMotor.set(ControlMode.PercentOutput, 0);
-        middleMotor.set(ControlMode.PercentOutput, 0);
-
-    }
-
-    public void initEncoders() {
-        frontMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
-        rearMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
-        middleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
-    }
-
-    public void resetEncoders() {
-        frontrate =1;
-        rearrate =1;
-        frontMotor.getSensorCollection().setQuadraturePosition(0, 10);
-        rearMotor.getSensorCollection().setQuadraturePosition(0, 10);
-        rearMotor.getSensorCollection().setQuadraturePosition(0, 10);
-    }
-
-    public double getFrontEncoder() {
-        return frontMotor.getSensorCollection().getQuadraturePosition();
-    }
-
-    public double getRearEncoder() {
-        return rearMotor.getSensorCollection().getQuadraturePosition();
-    }
-
-    public double getMiddleEncoder() {
-        return middleMotor.getSensorCollection().getQuadraturePosition();
-    }
-
-    public double getDiff() {
-        return frontMotor.getSensorCollection().getQuadraturePosition()
-                - rearMotor.getSensorCollection().getQuadraturePosition();
-        // If this is positive, it means the front is ahead by x ticks. Negative rear is
-        // ahead by x ticks
-    }
-
-    public void diagnostic() {
-        SmartDashboard.putNumber("Climber Front %:", frontMotor.getMotorOutputPercent());
-        SmartDashboard.putNumber("Climber Middle %:", middleMotor.getMotorOutputPercent());
-        SmartDashboard.putNumber("Climber Rear %:", rearMotor.getMotorOutputPercent());
-        SmartDashboard.putNumber("Climber Front Encoder", getFrontEncoder());
-        SmartDashboard.putNumber("Climber Rear Encoder", getRearEncoder());
-        SmartDashboard.putNumber("Climber Middle Encoder", getMiddleEncoder());
-        SmartDashboard.putNumber("Climber Encoder Difference", getDiff());
-        SmartDashboard.putNumber("Difference between Max and current", getMaxOffset());
     }
 }
