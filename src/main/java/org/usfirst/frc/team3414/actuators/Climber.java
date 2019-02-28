@@ -59,23 +59,24 @@ public class Climber {
         triggered = false;
         talonConfig(rearMotor);
         front(frontMotor);
-        frontMotor.configMotionAcceleration(4784 / 2);
-        rearMotor.set(ControlMode.MotionMagic, 12000, DemandType.ArbitraryFeedForward, 1196);
+       // frontMotor.configMotionAcceleration(4784 / 2);
+        rearMotor.set(ControlMode.MotionMagic, 13000, DemandType.ArbitraryFeedForward, 1196);
         long startTime = System.currentTimeMillis();
         int offset = Config.FRONT_CLIMBER_OFFSET;
         while ((!Teleop.getInstance().getRightJoystick().getRawButton(1))) {
-            SmartDashboard.putNumber("Middle Encoder", getMiddleEncoder());
+            diagnostic();
+            SmartDashboard.putNumber(" BIG Middle Encoder", getMiddleEncoder());
             // if(System.currentTimeMillis() % 100 ==0){
             // System.out.println("frontMotor\t" +
             // frontMotor.getSensorCollection().getQuadraturePosition());
             // }
 
-            if (getRearEncoder() > 14000) {
+            if (getRearEncoder() > 13500) {
                 moveBottomForward();
                 retractFront();
                 moveForward(2.5, .2 );
-                retractRear();
-                moveForward(2, .2);
+                retractRear(2,0);
+                moveForward(.5, .5);
                 break;
 
             } //Once the front gets so high, turn on the middle (bottom, stationary motor)
@@ -97,6 +98,49 @@ public class Climber {
         eStop(); //TODO, how do we want to have drivetrain work, sensors or manual control?
     }
 
+        public void motionmagicclimberMidplatform() {
+        triggered = false;
+        talonConfig(rearMotor);
+        front(frontMotor);
+        rearMotor.set(ControlMode.MotionMagic, 4400, DemandType.ArbitraryFeedForward, 1196);
+        long startTime = System.currentTimeMillis();
+        int offset = 2500;
+        while ((!Teleop.getInstance().getRightJoystick().getRawButton(1))) {
+            SmartDashboard.putNumber("Middle Encoder", getMiddleEncoder());
+            // if(System.currentTimeMillis() % 100 ==0){
+            // System.out.println("frontMotor\t" +
+            // frontMotor.getSensorCollection().getQuadraturePosition());
+            // }
+
+            if (getRearEncoder() > 4800) {
+                moveBottomForward();
+                retractFront();
+                //moveForward(2, .15 );
+                
+                moveForward(1.8, .15 );
+                // retractRear(.4,0);
+                retractRear(.45,-400);
+                moveForward(.5, .5);
+                break;
+
+            } //Once the front gets so high, turn on the middle (bottom, stationary motor)
+            else{
+                frontMotor.set(ControlMode.Position, getRearEncoder() + offset, DemandType.ArbitraryFeedForward, 0);
+            }
+
+            if (Teleop.getInstance().getRightJoystick().getRawButton(7)) {
+                break;
+            }
+            
+
+            // System.out.println("frontMotor\t" +
+            // frontMotor.getSensorCollection().getQuadraturePosition());
+            // Timer.delay(20);
+            System.out.println("frontMotor\t" + getFrontEncoder());
+
+        }
+        eStop(); //TODO, how do we want to have drivetrain work, sensors or manual control?
+    }
 
     public void talonConfig(TalonSRX climber) {
         climber.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
@@ -195,9 +239,9 @@ public class Climber {
      //   rearMotor.set(ControlMode.MotionMagic, 12000, DemandType.ArbitraryFeedForward, 0);
     }
 
-    public void retractRear() {
-        rearMotor.set(ControlMode.MotionMagic, 250, DemandType.ArbitraryFeedForward, 0);
-        Timer.delay(2);
+    public void retractRear(double time, int offset) {
+        rearMotor.set(ControlMode.MotionMagic, 250, DemandType.ArbitraryFeedForward, offset);
+        Timer.delay(time);
         
     }
 

@@ -90,6 +90,7 @@ public class MotionMagicClimb extends Thread {
 
   }
 
+  
   public void talonConfig(TalonSRX climber) {
     climber.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
     climber.getSensorCollection().setQuadraturePosition(0, 10);
