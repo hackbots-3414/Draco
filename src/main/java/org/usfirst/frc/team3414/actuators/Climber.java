@@ -60,7 +60,7 @@ public class Climber {
         talonConfig(rearMotor);
         front(frontMotor);
        // frontMotor.configMotionAcceleration(4784 / 2);
-        rearMotor.set(ControlMode.MotionMagic, 13000, DemandType.ArbitraryFeedForward, 1196);
+        rearMotor.set(ControlMode.MotionMagic, 15000, DemandType.ArbitraryFeedForward, 1196);
         long startTime = System.currentTimeMillis();
         int offset = Config.FRONT_CLIMBER_OFFSET;
         while ((!Teleop.getInstance().getRightJoystick().getRawButton(1))) {
@@ -71,10 +71,11 @@ public class Climber {
             // frontMotor.getSensorCollection().getQuadraturePosition());
             // }
 
-            if (getRearEncoder() > 13500) {
+            if (getRearEncoder() > 15500) {
                 moveBottomForward();
                 retractFront();
-                moveForward(2.5, .2 );
+                // moveForward(2.5, .2 );
+                moveForward(2.3, .15);
                 retractRear(2,0);
                 moveForward(.5, .5);
                 break;
