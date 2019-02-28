@@ -127,64 +127,7 @@ public class Teleop {
 			Climber.getInstance().eStop();
 		}
 	}
-	public void legacyclimber(){
-		if(right.getRawButton(3)){
-			Climber.getInstance().resetEncoders();
-		}
-		if(right.getRawButton(6)){
-			Climber.getInstance().lockDriveTrain(); //Step 1
-			Climber.getInstance().extendAll(); //Eventually integrate the moveforward into this, 
-		}
-		else if(right.getRawButton(7)){
-			Climber.getInstance().extendAll();
-			Climber.getInstance().moveBottomForward();
-		}
-		else if(right.getRawButton(8)){
-			Climber.getInstance().retractFront();
-		}
-		else if(right.getRawButton(9)){
-		}
-		else if(right.getRawButton(10)){
-			Climber.getInstance().retractAll();
-		}
-		else{
-			Climber.getInstance().eStop();
-			Climber.getInstance().unlockDriveTrain();
-		}
-	}
-	public void legacylegacyClimber() { //Old Climber Code
-		if (right.getRawButton(2)) {
-			Climber.getInstance().resetEncoders();
-		}
-		if (right.getRawButton(6) && right.getRawButton(7)) { // Step 1
-			Climber.getInstance().lockDriveTrain();
-			Climber.getInstance().extendAll();
-			Climber.getInstance().moveBottomForward();
-		}
-		else if(right.getRawButton(6)){
-			Climber.getInstance().extendAll();
-		}
-			else if (right.getRawButton(7)) { // Step 2
-			Climber.getInstance().moveBottomForward();
-		} 
-		else if (right.getRawButton(6) ) { // Step 1
-			Climber.getInstance().lockDriveTrain();
-			Climber.getInstance().extendAll(); 
-		}
-			else if (right.getRawButton(7)) { // Step 2
-			Climber.getInstance().moveBottomForward();
-		} 
-		else if (right.getRawButton(8)) { // Step 3
-			Climber.getInstance().retractFront();
-		} else if (right.getRawButton(9)) { // step 4
-			Climber.getInstance().moveForward(2, 0);
-		} else if (right.getRawButton(10)) { // Step 5
-		} else if (right.getRawButton(11)) { // Step 6
-			Climber.getInstance().unlockDriveTrain();
-		} else {
-			Climber.getInstance().eStop();
-		}
-	}
+	
 
 	public double getLeftJoy() {
 		return left.getY();

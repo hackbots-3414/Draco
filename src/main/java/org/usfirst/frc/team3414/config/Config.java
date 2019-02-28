@@ -42,7 +42,8 @@ public class Config {
 	public static final int CARGO_MOTOR_ONE = 51;
 	public static final int CARGO_MOTOR_TWO = 45;
 
-	public static final int FRONT_CLIMBER_OFFSET = 1500;
+	public static final int TOP_FRONT_CLIMBER_OFFSET = 1500;
+	public static final int MID_FRONT_CLIMBER_OFFSET = 2500;
 	public static final int CLIMBER_FRONT = 21;
 	public static final int CLIMBER_REAR = 31;
 	public static final int CLIMBER_MOTOR_THREE = 11;

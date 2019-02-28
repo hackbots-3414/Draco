@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.DemandType;
 
 import org.usfirst.frc.team3414.config.Config;
+import org.usfirst.frc.team3414.diagnostic.LED;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -56,13 +57,16 @@ public class Climber {
     }
 
     public void motionmagicclimber() {
+
+        LED.setRed();
+
         triggered = false;
         talonConfig(rearMotor);
         front(frontMotor);
-       // frontMotor.configMotionAcceleration(4784 / 2);
+        // frontMotor.configMotionAcceleration(4784 / 2);
         rearMotor.set(ControlMode.MotionMagic, 15000, DemandType.ArbitraryFeedForward, 1196);
         long startTime = System.currentTimeMillis();
-        int offset = Config.FRONT_CLIMBER_OFFSET;
+        int offset = Config.TOP_FRONT_CLIMBER_OFFSET;
         while ((!Teleop.getInstance().getRightJoystick().getRawButton(1))) {
             diagnostic();
             SmartDashboard.putNumber(" BIG Middle Encoder", getMiddleEncoder());
@@ -72,23 +76,24 @@ public class Climber {
             // }
 
             if (getRearEncoder() > 15500) {
+                LED.setYellow();
                 moveBottomForward();
                 retractFront();
                 // moveForward(2.5, .2 );
                 moveForward(2.3, .15);
-                retractRear(2,0);
+                retractRear(2, 0);
                 moveForward(.5, .5);
+                LED.setGreen();
                 break;
 
-            } //Once the front gets so high, turn on the middle (bottom, stationary motor)
-            else{
+            } // Once the front gets so high, turn on the middle (bottom, stationary motor)
+            else {
                 frontMotor.set(ControlMode.Position, getRearEncoder() + offset, DemandType.ArbitraryFeedForward, 0);
             }
 
             if (Teleop.getInstance().getRightJoystick().getRawButton(7)) {
                 break;
             }
-            
 
             // System.out.println("frontMotor\t" +
             // frontMotor.getSensorCollection().getQuadraturePosition());
@@ -96,16 +101,17 @@ public class Climber {
             System.out.println("frontMotor\t" + getFrontEncoder());
 
         }
-        eStop(); //TODO, how do we want to have drivetrain work, sensors or manual control?
+        eStop(); // TODO, how do we want to have drivetrain work, sensors or manual control?
     }
 
-        public void motionmagicclimberMidplatform() {
+    public void motionmagicclimberMidplatform() {
+        LED.setRed();
         triggered = false;
         talonConfig(rearMotor);
         front(frontMotor);
         rearMotor.set(ControlMode.MotionMagic, 4400, DemandType.ArbitraryFeedForward, 1196);
         long startTime = System.currentTimeMillis();
-        int offset = 2500;
+        int offset = Config.MID_FRONT_CLIMBER_OFFSET;
         while ((!Teleop.getInstance().getRightJoystick().getRawButton(1))) {
             SmartDashboard.putNumber("Middle Encoder", getMiddleEncoder());
             // if(System.currentTimeMillis() % 100 ==0){
@@ -114,25 +120,26 @@ public class Climber {
             // }
 
             if (getRearEncoder() > 4800) {
+                LED.setYellow();
                 moveBottomForward();
                 retractFront();
-                //moveForward(2, .15 );
-                
-                moveForward(1.8, .15 );
+                // moveForward(2, .15 );
+
+                moveForward(1.8, .15);
                 // retractRear(.4,0);
-                retractRear(.45,-400);
+                retractRear(.45, -400);
                 moveForward(.5, .5);
+                LED.setGreen();
                 break;
 
-            } //Once the front gets so high, turn on the middle (bottom, stationary motor)
-            else{
+            } // Once the front gets so high, turn on the middle (bottom, stationary motor)
+            else {
                 frontMotor.set(ControlMode.Position, getRearEncoder() + offset, DemandType.ArbitraryFeedForward, 0);
             }
 
             if (Teleop.getInstance().getRightJoystick().getRawButton(7)) {
                 break;
             }
-            
 
             // System.out.println("frontMotor\t" +
             // frontMotor.getSensorCollection().getQuadraturePosition());
@@ -140,7 +147,7 @@ public class Climber {
             System.out.println("frontMotor\t" + getFrontEncoder());
 
         }
-        eStop(); //TODO, how do we want to have drivetrain work, sensors or manual control?
+        eStop(); // TODO, how do we want to have drivetrain work, sensors or manual control?
     }
 
     public void talonConfig(TalonSRX climber) {
@@ -177,53 +184,18 @@ public class Climber {
 
     }
 
-    double frontrate = 1;
-    double rearrate = 1;
-
-    public void extendAll() {
-
-        // Begin Even Climb code
-        frontMotor.set(ControlMode.PercentOutput, 1);
-        rearMotor.set(ControlMode.PercentOutput, 1);
-
-        if ((getDiff() >= 0) && (Math.abs(getDiff()) >= encoderdiff)) {
-            // frontMotor.set(ControlMode.PercentOutput, 0);
-            frontrate += getDiff() / 100;
-        } else if ((getDiff() <= 0) && (Math.abs(getDiff()) >= encoderdiff)) {
-            // rearMotor.set(ControlMode.PercentOutput, 0);
-            rearrate -= getDiff() / 100;
-        }
-
-        // Begin Maintain Height Code*/
-        /*
-         * else if (getMaxOffset() >= encodermax) {
-         * frontMotor.set(ControlMode.PercentOutput, 0);
-         * rearMotor.set(ControlMode.PercentOutput, 0); } else if (getMaxOffset() <=
-         * encoderdiff) { frontMotor.set(ControlMode.PercentOutput, 0);
-         * rearMotor.set(ControlMode.PercentOutput, 0); }
-         */
-    }
-
-    public void lockDriveTrain() {
-        DriveTrain.getInstance().setBlock(true); // Put a block on the drivetain so Teleop Control doesn't mess with
-                                                 // this
-    }
-
-    int encoderdiff = 1000;
-    int encodermax = 12500;
-    int encodermin = 15000;
-    int maxdiff = 1000;
     boolean triggered = false;
+
     public void moveBottomForward() {
-        if(!triggered){
-        middleMotor.set(ControlMode.PercentOutput, .5);
-        Timer.delay(1);
-        middleMotor.set(ControlMode.PercentOutput, 0);
-        triggered = true;
+        if (!triggered) {
+            middleMotor.set(ControlMode.PercentOutput, .5);
+            Timer.delay(1);
+            middleMotor.set(ControlMode.PercentOutput, 0);
+            triggered = true;
         }
     }
 
-    public void moveForward(double time,double speed) {
+    public void moveForward(double time, double speed) {
         DriveTrain.getInstance().set(-speed, -speed);
         Timer.delay(time);
         DriveTrain.getInstance().set(0, 0);
@@ -236,20 +208,14 @@ public class Climber {
     public void retractFront() {
 
         frontMotor.set(ControlMode.MotionMagic, 500, DemandType.ArbitraryFeedForward, 0);
-        
-     //   rearMotor.set(ControlMode.MotionMagic, 12000, DemandType.ArbitraryFeedForward, 0);
+
+        // rearMotor.set(ControlMode.MotionMagic, 12000,
+        // DemandType.ArbitraryFeedForward, 0);
     }
 
     public void retractRear(double time, int offset) {
         rearMotor.set(ControlMode.MotionMagic, 250, DemandType.ArbitraryFeedForward, offset);
         Timer.delay(time);
-        
-    }
-
-    public int getMaxOffset() {
-        int average = ((frontMotor.getSensorCollection().getQuadraturePosition()
-                + rearMotor.getSensorCollection().getQuadraturePosition()) / 2);
-        return encodermax - average - encodermin;
 
     }
 
@@ -267,8 +233,7 @@ public class Climber {
     }
 
     public void resetEncoders() {
-        frontrate = 1;
-        rearrate = 1;
+
         frontMotor.getSensorCollection().setQuadraturePosition(0, 10);
         rearMotor.getSensorCollection().setQuadraturePosition(0, 10);
         rearMotor.getSensorCollection().setQuadraturePosition(0, 10);
@@ -301,60 +266,6 @@ public class Climber {
         SmartDashboard.putNumber("Climber Rear Encoder", getRearEncoder());
         SmartDashboard.putNumber("Climber Middle Encoder", getMiddleEncoder());
         SmartDashboard.putNumber("Climber Encoder Difference", getDiff());
-        SmartDashboard.putNumber("Difference between Max and current", getMaxOffset());
     }
 
-    public void newExtendAll() {
-        // Begin Even Climb code
-        frontMotor.set(ControlMode.PercentOutput, .7);
-        rearMotor.set(ControlMode.PercentOutput, frontThrottle);
-
-        while (rearMotor.getSensorCollection().getQuadraturePosition() < encodermin
-                && !Teleop.getInstance().getRightJoystick().getRawButton(3)) {
-            diagnostic();
-            if (getDiff() >= encoderdiff) {
-                frontThrottle -= .001;
-                frontMotor.set(ControlMode.PercentOutput, frontThrottle);
-            } else if (getDiff() <= 0) {
-                frontThrottle += .001;
-                frontMotor.set(ControlMode.PercentOutput, frontThrottle);
-            }
-        }
-        frontMotor.set(ControlMode.PercentOutput, 0);
-        rearMotor.set(ControlMode.PercentOutput, 0);
-        diagnostic();
-        // frontMotor.set(ControlMode.PercentOutput, frontThrottle);
-        // rearMotor.set(ControlMode.PercentOutput, 1);
-        // if((getDiff() >= 0) && (Math.abs(getDiff()) >= encoderdiff)){
-        // frontMotor.set(ControlMode.PercentOutput, 0);
-        // }
-        // else if((getDiff() <= 0) && (Math.abs(getDiff()) >= encoderdiff)){
-        // rearMotor.set(ControlMode.PercentOutput, 0);
-        // }
-        // //Begin Maintain Height Code
-        // else if(getMaxOffset() >= encodermax){
-        // frontMotor.set(ControlMode.PercentOutput, 0);
-        // rearMotor.set(ControlMode.PercentOutput, 0);
-        // }
-        // else if(getMaxOffset() <= encoderdiff ){
-        // frontMotor.set(ControlMode.PercentOutput, 0);
-        // rearMotor.set(ControlMode.PercentOutput, 0);
-        // }
-    }
-
-    public void retractAll() {
-
-        // Begin Even Climb code
-        frontMotor.set(ControlMode.PercentOutput, -frontThrottle);
-        rearMotor.set(ControlMode.PercentOutput, -1);
-        if ((getDiff() >= 0) && (Math.abs(getDiff()) >= encoderdiff)) {
-            frontMotor.set(ControlMode.PercentOutput, 0);
-        } else if ((getDiff() <= 0) && (Math.abs(getDiff()) >= encoderdiff)) {
-            rearMotor.set(ControlMode.PercentOutput, 0);
-        }
-        if ((frontMotor.getSensorCollection().getQuadraturePosition() <= 200)
-                && (rearMotor.getSensorCollection().getQuadraturePosition() <= 200)) {
-            unlockDriveTrain();
-        }
-    }
 }
