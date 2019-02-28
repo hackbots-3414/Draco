@@ -73,9 +73,9 @@ public class Climber {
             if (getRearEncoder() > 14000) {
                 moveBottomForward();
                 retractFront();
-                moveForward(2.5);
+                moveForward(2.5, .2 );
                 retractRear();
-                moveForward(2);
+                moveForward(2, .2);
                 break;
 
             } //Once the front gets so high, turn on the middle (bottom, stationary motor)
@@ -86,15 +86,7 @@ public class Climber {
             if (Teleop.getInstance().getRightJoystick().getRawButton(7)) {
                 break;
             }
-            if(getMiddleEncoder() > 8192){
-                retractRear();
-            }
-            else{
-
             
-            // target 8000 ended on
-             rearMotor.set(ControlMode.Position, 12000, DemandType.ArbitraryFeedForward, 0);
-            }
 
             // System.out.println("frontMotor\t" +
             // frontMotor.getSensorCollection().getQuadraturePosition());
@@ -186,8 +178,8 @@ public class Climber {
         }
     }
 
-    public void moveForward(double time) {
-        DriveTrain.getInstance().set(-.2, - .2);
+    public void moveForward(double time,double speed) {
+        DriveTrain.getInstance().set(-speed, -speed);
         Timer.delay(time);
         DriveTrain.getInstance().set(0, 0);
     }
@@ -199,10 +191,12 @@ public class Climber {
     public void retractFront() {
 
         frontMotor.set(ControlMode.MotionMagic, 500, DemandType.ArbitraryFeedForward, 0);
-        }
+        
+     //   rearMotor.set(ControlMode.MotionMagic, 12000, DemandType.ArbitraryFeedForward, 0);
+    }
 
     public void retractRear() {
-        rearMotor.set(ControlMode.MotionMagic, 500, DemandType.ArbitraryFeedForward, 0);
+        rearMotor.set(ControlMode.MotionMagic, 250, DemandType.ArbitraryFeedForward, 0);
         Timer.delay(2);
         
     }

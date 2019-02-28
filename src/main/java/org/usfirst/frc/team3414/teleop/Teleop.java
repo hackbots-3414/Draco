@@ -175,7 +175,7 @@ public class Teleop {
 		else if (right.getRawButton(8)) { // Step 3
 			Climber.getInstance().retractFront();
 		} else if (right.getRawButton(9)) { // step 4
-			Climber.getInstance().moveForward(2);
+			Climber.getInstance().moveForward(2, 0);
 		} else if (right.getRawButton(10)) { // Step 5
 			Climber.getInstance().retractRear();
 		} else if (right.getRawButton(11)) { // Step 6
