@@ -87,7 +87,7 @@ public class Climber {
                 moveForward(0, .25);
                 moveBottomForward(1,16000);
                 DriveTrain.getInstance().set(-.2, -.2);
-                retractRear(2, 0);
+                retractRear(1.8, 0);
                 moveForward(.5, .25);
                 LED.setGreen();
                 break;
