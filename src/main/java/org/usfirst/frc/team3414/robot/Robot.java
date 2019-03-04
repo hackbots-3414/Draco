@@ -18,6 +18,7 @@ import org.usfirst.frc.team3414.auton.Auton;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.DashboardOutput;
 import org.usfirst.frc.team3414.diagnostic.LED;
+import org.usfirst.frc.team3414.sensors.Lifecam;
 import org.usfirst.frc.team3414.sensors.Limelight;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
@@ -58,6 +59,10 @@ public class Robot extends IterativeRobot {
 		Tunnel.getInstance().init();
 		Climber.getInstance().init();
 		Limelight.init();
+		Lifecam.startFront();
+	}
+	@Override
+	public void robotPeriodic() {
 	}
 
 	/**

@@ -129,8 +129,14 @@ public class Teleop {
 			Climber.getInstance().motionmagicclimber(); // Brings the climber up to whatever height it needs to be
 		} else if (left.getRawButton(7) && right.getRawButton(7)) {
 			Climber.getInstance().motionmagicclimberMidplatform();
-		} else {
-			Climber.getInstance().eStop();
+		}
+		
+		else if(left.getRawButton(8)){
+			Climber.getInstance().manualRetract();
+		}
+		else{
+			System.out.println("ELSE");
+			Climber.getInstance().stop();
 		}
 	}
 
