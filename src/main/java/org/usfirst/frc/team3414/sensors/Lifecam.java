@@ -5,25 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package org.usfirst.frc.team3414.diagnostic;
+package org.usfirst.frc.team3414.sensors;
 
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 
 /**
  * Add your docs here.
  */
-public class LED {
-    public static Spark light = new Spark(0);
-    public static void setPurple(){
-        light.set(.91);
-    }
-    public static void setGreen(){
-        light.set(.77);
-    }
-    public static void setYellow(){
-        light.set(.69);
-    }
-    public static void setRed(){
-        light.set(.61);
-    }
+public class Lifecam {
+    public static void startFront(){
+            UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+            camera.setFPS(15);
+            camera.setResolution(360, 240);
+        }
+        
+    
 }

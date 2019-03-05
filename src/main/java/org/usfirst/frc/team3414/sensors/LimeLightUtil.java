@@ -19,6 +19,7 @@ import edu.wpi.first.networktables.*;
 import com.ctre.phoenix.motorcontrol.can.*;
 
 import org.usfirst.frc.team3414.actuators.MultiMotor;
+import org.usfirst.frc.team3414.config.Config;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -48,7 +49,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class LimeLightUtil {
     private static final double MAX_SPEED = 0.57;
     private static final double MIN_SPEED = 0.40;
-
+    private static int escape = Config.ESCAPE_BUTTON;
     public static void shiftRobotLeft(double sensorDiff, MultiMotor leftMotor, MultiMotor rightMotor) {
         // shift left
         // start by moving backwards
@@ -136,11 +137,11 @@ public class LimeLightUtil {
         }
       }
 
-    public static void findTheLine (MultiMotor leftMotor, MultiMotor rightMotor, AnalogInput longRangeIRleft, AnalogInput longRangeIRright, Joystick rightJoy, AnalogInput lineSensor) {
+    public static void findTheLine (MultiMotor leftMotor, MultiMotor rightMotor, AnalogInput longRangeIRleft, AnalogInput longRangeIRright, Joystick rightJoy, DigitalInput lineSensor) {
         if (longRangeIRleft.getAverageVoltage() - longRangeIRright.getAverageVoltage() > 0.005) {
             // shift Robot Right until line is found
             straightenRobotToTarget(leftMotor, rightMotor, longRangeIRleft, longRangeIRright, rightJoy);
-            while (lineSensor.getAverageVoltage() < 1 && !rightJoy.getRawButton(11)) {
+            while (lineSensor.get() && !rightJoy.getRawButton(escape)) {
                 LimeLightUtil.shiftRobotRight(
                         longRangeIRright.getAverageVoltage() - longRangeIRleft.getAverageVoltage(), leftMotor,
                         rightMotor);
@@ -149,7 +150,7 @@ public class LimeLightUtil {
           } else if (longRangeIRright.getAverageVoltage() - longRangeIRleft.getAverageVoltage() > 0.005) {
             // shift Robot left until line is found
             straightenRobotToTarget(leftMotor, rightMotor, longRangeIRleft, longRangeIRright, rightJoy);
-            while (lineSensor.getAverageVoltage() < 1 && !rightJoy.getRawButton(11)) {
+            while (lineSensor.get() && !rightJoy.getRawButton(escape)) {
               LimeLightUtil.shiftRobotLeft(longRangeIRleft.getAverageVoltage() - longRangeIRright.getAverageVoltage(), leftMotor, rightMotor);
               
             }
@@ -157,7 +158,7 @@ public class LimeLightUtil {
           }
     }
 
-    public static void driveToTarget(MultiMotor leftMotor, MultiMotor rightMotor, AnalogInput longRangeIRleft, AnalogInput longRangeIRright, Joystick rightJoy, AnalogInput lineSensor) {
+    public static void driveToTarget(MultiMotor leftMotor, MultiMotor rightMotor, AnalogInput longRangeIRleft, AnalogInput longRangeIRright, Joystick rightJoy, DigitalInput lineSensor) {
         NetworkTable nTable = NetworkTableInstance.getDefault().getTable("limelight");
         double tx = 0.0;
         nTable.getEntry("ledMode").setNumber(3);
@@ -185,17 +186,20 @@ public class LimeLightUtil {
     rightMotor.set(0);
     // Rotate robot to left until straight towards target
     while ((longRangeIRleft.getAverageVoltage() - longRangeIRright.getAverageVoltage()) > 0.002
-        && !rightJoy.getRawButton(11)) {
+        && !rightJoy.getRawButton(escape)) {
       leftMotor.set(0.2);
       rightMotor.set(-0.2);
     }
     // Rotate robot to right until straight towards target
     while ((longRangeIRright.getAverageVoltage() - longRangeIRleft.getAverageVoltage()) > 0.002
-        && !rightJoy.getRawButton(11)) {
+        && !rightJoy.getRawButton(escape)) {
 
       leftMotor.set(-0.2);
       rightMotor.set(0.2);
     }
     // Timer.delay(1);
+    }
+    public void diagnostic(){
+      
     }
 }

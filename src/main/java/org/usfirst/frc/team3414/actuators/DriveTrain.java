@@ -15,11 +15,14 @@ public class DriveTrain {
 	private static DriveTrain instance;
 	public MultiMotor left = new MultiMotor(Config.LEFT_FRONT, Config.LEFT_REAR);
 	public MultiMotor right = new MultiMotor(Config.RIGHT_FRONT, Config.RIGHT_REAR);
-
+   /*
 	AnalogInput longRangeIRLeft = new AnalogInput(0);
 	AnalogInput longRangeIRRight = new AnalogInput(1);
 	AnalogInput lineSensor = new AnalogInput(2);
-
+*/
+AnalogInput longRangeIRLeft;
+AnalogInput longRangeIRRight;
+AnalogInput lineSensor;
 	public void autocorrect() {
 		left.set(0);
 		right.set(0);

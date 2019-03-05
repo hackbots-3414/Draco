@@ -1,3 +1,4 @@
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -26,6 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Climber {
     double masterthrottle = 1;
     double frontThrottle = 1;
+    private int escape = Config.ESCAPE_BUTTON;
     private static Climber instance;
 
     public static Climber getInstance() {
@@ -50,50 +52,55 @@ public class Climber {
 
     }
 
-    public void climbSequence() {
-        motionmagicclimber();
-        moveBottomForward();
-
-    }
 
     public void motionmagicclimber() {
-
+        int target = 17000;
+        int lowtarget = 15000;
         LED.setRed();
 
         triggered = false;
         talonConfig(rearMotor);
         front(frontMotor);
         // frontMotor.configMotionAcceleration(4784 / 2);
-        rearMotor.set(ControlMode.MotionMagic, 15000, DemandType.ArbitraryFeedForward, 1196);
+        frontMotor.set(ControlMode.MotionMagic, target, DemandType.ArbitraryFeedForward, 1196);
         long startTime = System.currentTimeMillis();
-        int offset = Config.TOP_FRONT_CLIMBER_OFFSET;
-        while ((!Teleop.getInstance().getRightJoystick().getRawButton(1))) {
+        int offset = Config.TOP_REAR_CLIMBER_OFFSET;
+        
+        while ((!Teleop.getInstance().getRightJoystick().getRawButton(escape))) {
             diagnostic();
             SmartDashboard.putNumber(" BIG Middle Encoder", getMiddleEncoder());
             // if(System.currentTimeMillis() % 100 ==0){
             // System.out.println("frontMotor\t" +
             // frontMotor.getSensorCollection().getQuadraturePosition());
             // }
-
-            if (getRearEncoder() > 15500) {
+            DriveTrain.getInstance().set(-.1, -.1);
+            System.out.println(getFrontEncoder());
+            if (getFrontEncoder() > lowtarget) {
+                middleMotor.setNeutralMode(NeutralMode.Coast);
+                System.out.println("HEY LOOK AT ME "+getFrontEncoder());
+                
                 LED.setYellow();
-                moveBottomForward();
-                retractFront();
-                // moveForward(2.5, .2 );
-                moveForward(2.3, .15);
-                retractRear(2, 0);
-                moveForward(.5, .5);
+                
+                moveBottomForward(1.5,target,.25);
+                middleMotor.setNeutralMode(NeutralMode.Brake);
+                //Hold the rear to current position
+                // rearMotor.set(ControlMode.MotionMagic, 16000, DemandType.ArbitraryFeedForward, 0);
+                retractFront(target);             
+                //moveForward(2.5, .2 );
+                moveForward(0, .1);
+                moveBottomForward(2,target,.2);
+                DriveTrain.getInstance().set(-.2, -.2);
+                retractRear(1.8, 0);
+                moveForward(.5, .25);
                 LED.setGreen();
                 break;
-
+            
             } // Once the front gets so high, turn on the middle (bottom, stationary motor)
             else {
-                frontMotor.set(ControlMode.Position, getRearEncoder() + offset, DemandType.ArbitraryFeedForward, 0);
+                rearMotor.set(ControlMode.Position, getFrontEncoder() + offset, DemandType.ArbitraryFeedForward, 0);
             }
 
-            if (Teleop.getInstance().getRightJoystick().getRawButton(7)) {
-                break;
-            }
+            
 
             // System.out.println("frontMotor\t" +
             // frontMotor.getSensorCollection().getQuadraturePosition());
@@ -101,31 +108,86 @@ public class Climber {
             System.out.println("frontMotor\t" + getFrontEncoder());
 
         }
-        eStop(); // TODO, how do we want to have drivetrain work, sensors or manual control?
+        stop(); // TODO, how do we want to have drivetrain work, sensors or manual control?
     }
+    public void magicClimbMid() {
 
-    public void motionmagicclimberMidplatform() {
         LED.setRed();
+
         triggered = false;
         talonConfig(rearMotor);
         front(frontMotor);
-        rearMotor.set(ControlMode.MotionMagic, 4400, DemandType.ArbitraryFeedForward, 1196);
+        // frontMotor.configMotionAcceleration(4784 / 2);
+        int target = 8500;
+        frontMotor.set(ControlMode.MotionMagic, target, DemandType.ArbitraryFeedForward, 1196);
         long startTime = System.currentTimeMillis();
-        int offset = Config.MID_FRONT_CLIMBER_OFFSET;
-        while ((!Teleop.getInstance().getRightJoystick().getRawButton(1))) {
-            SmartDashboard.putNumber("Middle Encoder", getMiddleEncoder());
+        int offset = Config.TOP_REAR_CLIMBER_OFFSET;
+        int margin = 4500;
+        while ((!Teleop.getInstance().getRightJoystick().getRawButton(escape))) {
+            diagnostic();
+            SmartDashboard.putNumber(" BIG Middle Encoder", getMiddleEncoder());
             // if(System.currentTimeMillis() % 100 ==0){
             // System.out.println("frontMotor\t" +
             // frontMotor.getSensorCollection().getQuadraturePosition());
             // }
+            System.out.println(getFrontEncoder());
 
-            if (getRearEncoder() > 4800) {
+            if (getFrontEncoder() > margin) {
+                System.out.println("HEY LOOK AT ME "+getFrontEncoder());
+                
                 LED.setYellow();
-                moveBottomForward();
-                retractFront();
+                
+                moveBottomForward(2,margin,.25);
+                //Hold the rear to current position
+                // rearMotor.set(ControlMode.MotionMagic, 16000, DemandType.ArbitraryFeedForward, 0);
+                retractFront(margin);             
+                //moveForward(2.5, .2 );
+                moveForward(0, .25);
+                moveBottomForward(1.2,margin,.25);
+                DriveTrain.getInstance().set(0, 0);
+                retractRear(2, 0);
+                moveForward(.5, .25);
+                LED.setGreen();
+                break;
+            
+            } // Once the front gets so high, turn on the middle (bottom, stationary motor)
+            else {
+                rearMotor.set(ControlMode.Position, getFrontEncoder() + offset, DemandType.ArbitraryFeedForward, 0);
+            }
+
+            
+
+            // System.out.println("frontMotor\t" +
+            // frontMotor.getSensorCollection().getQuadraturePosition());
+            // Timer.delay(20);
+            System.out.println("frontMotor\t" + getFrontEncoder());
+
+        }
+        stop(); // TODO, how do we want to have drivetrain work, sensors or manual control?
+    }
+    public void motionmagicclimberMidplatform() {
+        System.out.println("MID PLATFORM");
+        LED.setRed();
+        triggered = false;
+        talonConfig(rearMotor);
+        front(frontMotor);
+        frontMotor.set(ControlMode.MotionMagic, 6000, DemandType.ArbitraryFeedForward, 1196);
+        long startTime = System.currentTimeMillis();
+        int offset = Config.MID_FRONT_CLIMBER_OFFSET;
+        while ((!Teleop.getInstance().getRightJoystick().getRawButton(escape))) {
+            System.out.println("REAR "+getRearEncoder());
+            System.out.println("FRONT "+getFrontEncoder());      // if(System.currentTimeMillis() % 100 ==0){
+            // System.out.println("frontMotor\t" +
+            // frontMotor.getSensorCollection().getQuadraturePosition());
+            // }
+
+            if (getFrontEncoder() > 5200) {
+                LED.setYellow();
+                moveBottomForward(1.5,5800,.25);
+                retractFront(5800);
                 // moveForward(2, .15 );
 
-                moveForward(1.8, .15);
+                moveForward(.9, .20);
                 // retractRear(.4,0);
                 retractRear(.45, -400);
                 moveForward(.5, .5);
@@ -134,12 +196,8 @@ public class Climber {
 
             } // Once the front gets so high, turn on the middle (bottom, stationary motor)
             else {
-                frontMotor.set(ControlMode.Position, getRearEncoder() + offset, DemandType.ArbitraryFeedForward, 0);
-            }
-
-            if (Teleop.getInstance().getRightJoystick().getRawButton(7)) {
-                break;
-            }
+                rearMotor.set(ControlMode.Position, getFrontEncoder() + offset, DemandType.ArbitraryFeedForward, 0);
+            }   
 
             // System.out.println("frontMotor\t" +
             // frontMotor.getSensorCollection().getQuadraturePosition());
@@ -147,7 +205,7 @@ public class Climber {
             System.out.println("frontMotor\t" + getFrontEncoder());
 
         }
-        eStop(); // TODO, how do we want to have drivetrain work, sensors or manual control?
+        stop(); // TODO, how do we want to have drivetrain work, sensors or manual control?
     }
 
     public void talonConfig(TalonSRX climber) {
@@ -157,8 +215,8 @@ public class Climber {
         climber.configMotionCruiseVelocity(1196);
         climber.configPeakOutputForward(1.0);
         climber.configPeakOutputReverse(-1.0);
-        climber.config_kP(0, 0.175);
-        climber.config_kI(0, 0);
+        climber.config_kP(0,7);//(0, 0.175);
+        climber.config_kI(0,0); //(0,0)
         climber.config_kD(0, 1.75);
         climber.config_kF(0, 0.427799073);
         climber.config_IntegralZone(0, 0);
@@ -166,7 +224,11 @@ public class Climber {
         climber.selectProfileSlot(0, 0);
 
     }
-
+    public void manualRetract(){
+        while(getRearEncoder() >= 250){
+        rearMotor.set(ControlMode.PercentOutput, -.7);
+        }
+    }
     public void front(TalonSRX climber) {
         climber.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
         climber.getSensorCollection().setQuadraturePosition(0, 10);
@@ -185,41 +247,57 @@ public class Climber {
     }
 
     boolean triggered = false;
-
-    public void moveBottomForward() {
-        if (!triggered) {
-            middleMotor.set(ControlMode.PercentOutput, .5);
-            Timer.delay(1);
-            middleMotor.set(ControlMode.PercentOutput, 0);
-            triggered = true;
+    public void moveBottomForward(double seconds,int reartarget, double speed) {
+        long starttime = System.currentTimeMillis();
+        seconds *= 1000;
+        while ((System.currentTimeMillis() < starttime + seconds)&&(!Teleop.getInstance().getRightJoystick().getRawButton(escape))) {
+            // Timer.delay(time);
+                middleMotor.set(ControlMode.PercentOutput, speed); //.25 ddefault
+                rearMotor.set(ControlMode.Position, reartarget); //,16000
         }
+        middleMotor.set(ControlMode.PercentOutput, 0);
     }
+    
 
     public void moveForward(double time, double speed) {
+        System.out.println("Moving drivetain for: "+time+"at "+ speed);
         DriveTrain.getInstance().set(-speed, -speed);
         Timer.delay(time);
-        DriveTrain.getInstance().set(0, 0);
     }
 
     public void unlockDriveTrain() {
         DriveTrain.getInstance().setBlock(false); // Release drivetrain block
     }
 
-    public void retractFront() {
-
-        frontMotor.set(ControlMode.MotionMagic, 500, DemandType.ArbitraryFeedForward, 0);
-
+    public void retractFront(int target) {
+        System.out.println("Retracting Front");
+//frontMotor.set(ControlMode.Position, 10, DemandType.ArbitraryFeedForward, 0);
+frontMotor.set(ControlMode.PercentOutput, -1);
+        while (getFrontEncoder() > 200 && !Teleop.getInstance().getRightJoystick().getRawButton(escape)) {
+            rearMotor.set(ControlMode.Position, target);
+        }
+        frontMotor.set(ControlMode.PercentOutput, 0);
         // rearMotor.set(ControlMode.MotionMagic, 12000,
         // DemandType.ArbitraryFeedForward, 0);
     }
+    /*
+    public void retractFront() {
 
+        frontMotor.set(ControlMode.MotionMagic, 10, DemandType.ArbitraryFeedForward, 0);
+
+        // rearMotor.set(ControlMode.MotionMagic, 12000,
+        // DemandType.ArbitraryFeedForward, 0);
+    }*/
     public void retractRear(double time, int offset) {
-        rearMotor.set(ControlMode.MotionMagic, 250, DemandType.ArbitraryFeedForward, offset);
-        Timer.delay(time);
-
+        System.out.println("RIGHT BEFORE REAR "+getRearEncoder());
+        while (getRearEncoder() > 500 && !Teleop.getInstance().getRightJoystick().getRawButton(escape)) {
+            System.out.println("DURING REAR RETRACT: "+ getRearEncoder());
+            rearMotor.set(ControlMode.PercentOutput, -1);
+        }
+        rearMotor.set(ControlMode.PercentOutput,0);
     }
 
-    public void eStop() {
+    public void stop() {
         frontMotor.set(ControlMode.PercentOutput, 0);
         rearMotor.set(ControlMode.PercentOutput, 0);
         middleMotor.set(ControlMode.PercentOutput, 0);

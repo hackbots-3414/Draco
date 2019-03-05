@@ -18,6 +18,7 @@ import org.usfirst.frc.team3414.auton.Auton;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.DashboardOutput;
 import org.usfirst.frc.team3414.diagnostic.LED;
+import org.usfirst.frc.team3414.sensors.Lifecam;
 import org.usfirst.frc.team3414.sensors.Limelight;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
@@ -58,6 +59,10 @@ public class Robot extends IterativeRobot {
 		Tunnel.getInstance().init();
 		Climber.getInstance().init();
 		Limelight.init();
+		Lifecam.startFront();
+	}
+	@Override
+	public void robotPeriodic() {
 	}
 
 	/**
@@ -74,11 +79,15 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-
+		teleopInit();
 		m_autoSelected = m_chooser.getSelected();
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
 		System.out.println("Auto selected " + m_autoSelected);
+	}
+	public void autonomousPeriodic() {
+		teleopPeriodic();
+		
 	}
 
 	/**
@@ -90,8 +99,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		//Teleop.getInstance().replaySystem();
-		//Teleop.getInstance().align();
-		Teleop.getInstance().driveStraight();
+		Teleop.getInstance().align();
+		//Teleop.getInstance().driveStraight();
 		//WORKING OFFICIALLY
 		Teleop.getInstance().drive();
 		Teleop.getInstance().freeDriveTrain();
@@ -106,26 +115,26 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-		if (Config.REPLAY_MODE) {
-			try {
-				Auton.getInstance().replayInit();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		// if (Config.REPLAY_MODE) {
+		// 	try {
+		// 		Auton.getInstance().replayInit();
+		// 	} catch (FileNotFoundException e) {
+		// 		// TODO Auto-generated catch block
+		// 		e.printStackTrace();
+		// 	}
+		// }
 
-		else if (!Config.REPLAY_MODE) {
-			try {
-				Auton.getInstance().recordInit();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		// else if (!Config.REPLAY_MODE) {
+		// 	try {
+		// 		Auton.getInstance().recordInit();
+		// 	} catch (IOException e) {
+		// 		// TODO Auto-generated catch block
+		// 		e.printStackTrace();
+		// 	}
 
-		}
+		// }
 		Limelight.init();
-		LED.setPurple();
+		LED.setPurple(); 
 	}
 
 	/**

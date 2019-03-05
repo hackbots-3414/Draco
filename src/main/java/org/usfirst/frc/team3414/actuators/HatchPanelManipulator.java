@@ -10,6 +10,7 @@ package org.usfirst.frc.team3414.actuators;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import org.usfirst.frc.team3414.config.Config;
+import org.usfirst.frc.team3414.diagnostic.LED;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -51,15 +52,16 @@ public class HatchPanelManipulator {
         sliderIn.set(true);
     }
 
-    public void setUp() {
+    public void setClosed() {
         hatchUp.set(true);
         hatchDown.set(false);
-
+        LED.setRed();
     }
 
-    public void setDown() {
+    public void setOpen() {
         hatchUp.set(false);
         hatchDown.set(true);
+        LED.setGreen();
     }
 
     public void diagnostic() {

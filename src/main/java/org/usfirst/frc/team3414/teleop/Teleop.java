@@ -13,8 +13,11 @@ import org.usfirst.frc.team3414.auton.Align;
 import org.usfirst.frc.team3414.auton.Auton;
 import org.usfirst.frc.team3414.auton.MoveStraight;
 import org.usfirst.frc.team3414.config.Config;
+import org.usfirst.frc.team3414.sensors.LimeLightUtil;
 import org.usfirst.frc.team3414.sensors.Limelight;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -34,15 +37,22 @@ public class Teleop {
 	Joystick left = new Joystick(Config.LEFT_STICK);
 	Joystick right = new Joystick(Config.RIGHT_STICK);
 	Controller pad = new Controller(Config.CONTROLLER_CHANNEL);
+
+	AnalogInput irLeft = new AnalogInput(Config.LEFT_IR);
+	AnalogInput irRight = new AnalogInput(Config.RIGHT_IR);
+	DigitalInput lineSensor = new DigitalInput(Config.LINE_SENSOR);
+
 	int rbpresses = 0;
 	int recordcounter = 0;
 	int replaycounter = 0;
 	int stopcounter = 0;
-	public void freeDriveTrain(){
-		if(left.getRawButton(1)){
-			DriveTrain.getInstance().setBlock(false); //Emergency release for drivetrain lockout in case somebody messes up calling it elsewhere.
+	public void freeDriveTrain() {
+		if (left.getRawButton(1)) {
+			DriveTrain.getInstance().setBlock(false); // Emergency release for drivetrain lockout in case somebody
+														// messes up calling it elsewhere.
 		}
 	}
+
 	public void record() throws IOException {
 
 		if (pad.getRSButton() && pad.getLSButton()) {
@@ -63,15 +73,11 @@ public class Teleop {
 			auton.endReplay();
 		}
 	}
-	
+
 	public void drive() {
-			DriveTrain.getInstance().teleop(left.getY(), right.getY());
+		DriveTrain.getInstance().teleop(left.getY(), right.getY());
 	}
-	public void driveStraight(){
-		if(left.getRawButton(6)){
-		MoveStraight.go(); //6 is pressed to trigger the loop which relies on 7 to be pressed.
-		}
-	}
+
 	public void ball() {
 		SmartDashboard.putNumber("POV", pad.getPov());
 		boolean isBallMiddle = false;
@@ -101,7 +107,8 @@ public class Teleop {
 			Tunnel.getInstance().off();
 		}
 		if (pad.getYButton()) {
-		//	Intake.getInstance().goUp(); //No longer works because it is part of the else for the A button
+			// Intake.getInstance().goUp(); //No longer works because it is part of the else
+			// for the A button
 		}
 	}
 
@@ -111,23 +118,27 @@ public class Teleop {
 		} else if (pad.getPov() == 180) {
 			HatchPanelManipulator.getInstance().setIn();
 		} else if (pad.getLBButton()) {
-			HatchPanelManipulator.getInstance().setUp();
+			HatchPanelManipulator.getInstance().setClosed();
 		} else if (pad.getLT()) {
-			HatchPanelManipulator.getInstance().setDown();
+			HatchPanelManipulator.getInstance().setOpen();
 		}
 	}
-	public void climber(){
-		if(right.getRawButton(6)){
-			Climber.getInstance().motionmagicclimber(); //Brings the climber up to whatever height it needs to be 
-		}
-		else if(left.getRawButton(6)){
+
+	public void climber() {
+		if (right.getRawButton(6) && left.getRawButton(6)) {
+			Climber.getInstance().motionmagicclimber(); // Brings the climber up to whatever height it needs to be
+		} else if (left.getRawButton(7) && right.getRawButton(7)) {
 			Climber.getInstance().motionmagicclimberMidplatform();
 		}
+		
+		else if(left.getRawButton(8)){
+			Climber.getInstance().manualRetract();
+		}
 		else{
-			Climber.getInstance().eStop();
+			System.out.println("ELSE");
+			Climber.getInstance().stop();
 		}
 	}
-	
 
 	public double getLeftJoy() {
 		return left.getY();
@@ -138,46 +149,50 @@ public class Teleop {
 	}
 
 	public void align() {
-		if (left.getRawButton(11)) {
-			Align.align();
+		if (right.getRawButton(3)) {
+			Limelight.compMode();
+			LimeLightUtil.driveToTarget(DriveTrain.getInstance().getLeftMotor(),
+					DriveTrain.getInstance().getRightMotor(), irLeft, irRight, Teleop.getInstance().getRightJoystick(),
+					lineSensor);
 		} else {
 			DriveTrain.getInstance().setBlock(false);
+			Limelight.pitMode();
 		}
 
 	}
-	public Joystick getLeftJoystick(){
+
+	public Joystick getLeftJoystick() {
 		return left;
 	}
-	public Joystick getRightJoystick(){
+
+	public Joystick getRightJoystick() {
 		return right;
 	}
+
 	public void replaySystem() {
-		if(!Config.REPLAY_MODE){
+		if (!Config.REPLAY_MODE) {
 			try {
-			record();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-		else if(Config.REPLAY_MODE){
-			try{
-				replay();
+				record();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			catch(IOException e){
+		} else if (Config.REPLAY_MODE) {
+			try {
+				replay();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
+
 	public void camera() {
 		Limelight.init();
-		if(pad.getXButton()){
+		if (pad.getXButton()) {
 			Limelight.rearView();
-		}
-		else if(pad.getYButton()){
+		} else if (pad.getYButton()) {
 			Limelight.frontView();
-		}
-		else{
+		} else {
 			Limelight.defaultView();
 		}
 	}
