@@ -40,7 +40,7 @@ public class Teleop {
 
 	AnalogInput irLeft = new AnalogInput(Config.LEFT_IR);
 	AnalogInput irRight = new AnalogInput(Config.RIGHT_IR);
-	DigitalInput lineSensor = new DigitalInput(Config.LINE_SENSOR);
+	DigitalInput lineSensor; 		 // = new DigitalInput(Config.LINE_SENSOR);
 
 	int rbpresses = 0;
 	int recordcounter = 0;
@@ -125,18 +125,14 @@ public class Teleop {
 	}
 
 	public void climber() {
+
 		if (right.getRawButton(6) && left.getRawButton(6)) {
-			Climber.getInstance().motionmagicclimber(); // Brings the climber up to whatever height it needs to be
+			//Climber.getInstance().motionmagicclimber(); // Brings the climber up to whatever height it needs to be
+			Climber.getInstance().newTopClimb();
 		} else if (left.getRawButton(7) && right.getRawButton(7)) {
 			Climber.getInstance().motionmagicclimberMidplatform();
-		}
-		
-		else if(left.getRawButton(8)){
-			Climber.getInstance().manualRetract();
-		}
-		else{
-			System.out.println("ELSE");
-			Climber.getInstance().stop();
+		} else if (left.getRawButton(8) && right.getRawButton(8)) {
+			Climber.getInstance().percentOutputClimber();
 		}
 	}
 
