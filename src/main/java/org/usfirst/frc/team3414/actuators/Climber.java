@@ -54,29 +54,84 @@ public class Climber {
         resetEncoders();
 
     }
-    public void newTopClimb(){
+
+    public void newTopClimb() {
+        /*
+         * Stage 1 - Climb Evenly Stage 2 - Move Forward Stage 3 - Raise Front Stage 4 -
+         * Move Whole Bot Forward Stage 5 - Raise Rear Stage 6 - Drive Forward on
+         * platform
+         */
         int target = 16000;
         int offset = Config.TOP_REAR_CLIMBER_OFFSET;
+        int margin = 15000;
+        int stage = 0;
+        long start = 0;
         talonConfig(rearMotor);
         front(frontMotor);
         setFront(target);
+        stage = 1;
         while ((!Teleop.getInstance().getRightJoystick().getRawButton(escape))) {
-            if(atheight()){
-                moveBottomForward(0, getRearEncoder());
-            }
-            else{
+            if (stage == 1) {
+                System.out.println("Not at target height (IR)");
                 setFront(target);
-                setRear(getFrontEncoder()+offset);
+                setRear(getFrontEncoder() + offset);
+            
+            if (getFrontEncoder() >= margin && stage == 1) {
+                stage = 2;
+             } }
+            if (stage == 2) {
+                setBottomSpeed(.5);
+                setFront(target);
+                setRear(getFrontEncoder() + offset);
+                if (atFrontDistance()) {
+                    setBottomSpeed(0);
+                    stage = 2;
+
+                }
+
+            }
+            if (stage == 3) {
+                newRetractFront();
+                setRear(target);
+                if (getFrontEncoder() <= 100) {
+                    stage = 4;
+                }
+            }
+            if (stage == 4) {
+                setDriveTrain(.5);
+                if (atRearDistance()) {
+                    stage = 5;
+                    setDriveTrain(0);
+                }
+            }
+            if (stage == 5) {
+                newRetractRear();
+                if (getRearEncoder() >= 200) {
+                    stage = 6;
+                }
+            }
+            if (stage == 6) {
+                setDriveTrain(.4);
+                Timer.delay(2);
+            } else {
+
             }
         }
 
     }
-    public void setRear(int target){
+
+    public void setDriveTrain(double speed) {
+        DriveTrain.getInstance().set(-speed, -speed);
+    }
+
+    public void setRear(int target) {
         rearMotor.set(ControlMode.Position, target, DemandType.ArbitraryFeedForward, 0);
     }
-    public void setFront(int target){
+
+    public void setFront(int target) {
         frontMotor.set(ControlMode.MotionMagic, target, DemandType.ArbitraryFeedForward, 1196);
     }
+
     public void percentOutputClimber() {
         frontMotor.set(ControlMode.PercentOutput, .5);
         rearMotor.set(ControlMode.PercentOutput, .5);
@@ -97,7 +152,6 @@ public class Climber {
             rearMotor.set(ControlMode.Position, 13000);
         }
     }
-
 
     public void motionmagicclimber() {
         talonConfig(rearMotor);
@@ -308,6 +362,13 @@ public class Climber {
         DriveTrain.getInstance().setBlock(false); // Release drivetrain block
     }
 
+    public void newRetractFront() {
+
+        frontMotor.set(ControlMode.Position, 10, DemandType.ArbitraryFeedForward, 0);
+        // rearMotor.set(ControlMode.MotionMagic, 12000,
+        // DemandType.ArbitraryFeedForward, 0);
+    }
+
     public void retractFront(int target) {
 
         frontMotor.set(ControlMode.Position, 10, DemandType.ArbitraryFeedForward, 0);
@@ -336,6 +397,10 @@ public class Climber {
         rearMotor.set(ControlMode.PercentOutput, 0);
     }
 
+    public void newRetractRear() {
+        rearMotor.set(ControlMode.Position, 0);
+    }
+
     public void eStop() {
         frontMotor.set(ControlMode.PercentOutput, 0);
         rearMotor.set(ControlMode.PercentOutput, 0);
@@ -354,6 +419,10 @@ public class Climber {
         frontMotor.getSensorCollection().setQuadraturePosition(0, 10);
         rearMotor.getSensorCollection().setQuadraturePosition(0, 10);
         rearMotor.getSensorCollection().setQuadraturePosition(0, 10);
+    }
+
+    public void setBottomSpeed(double demand) {
+        middleMotor.set(ControlMode.PercentOutput, demand);
     }
 
     public int getFrontEncoder() {
@@ -384,10 +453,12 @@ public class Climber {
         SmartDashboard.putNumber("Climber Middle Encoder", getMiddleEncoder());
         SmartDashboard.putNumber("Climber Encoder Difference", getDiff());
     }
-    public boolean atheight(){
+
+    public boolean atFrontDistance() {
         return !frontsensor.get();
     }
-    public boolean atDistance(){
+
+    public boolean atRearDistance() {
         return !rearsensor.get();
     }
 }
