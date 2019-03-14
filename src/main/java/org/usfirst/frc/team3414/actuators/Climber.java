@@ -62,11 +62,10 @@ public class Climber {
         // target = 16000 for top
         int offset = 0;
         // margin = 13500 for top
-        int stage = 0;
+        int stage = 1;
         rear(rearMotor);
         front(frontMotor);
         setFront(target);
-        stage = 1;
         while (getEscapeButton()) {
             if (stage == 1) {
                 System.out.println("Not at target height (IR)");
@@ -117,11 +116,10 @@ public class Climber {
                 setDriveTrain(.1);
                 Timer.delay(2);
                 stage = 7;
-            } else {
+            } if(stage >= 7 || stage <=1) {
                 eStop();
                 System.out.println("Climb Finished :)");
 
-                break;
             }
         }
 
