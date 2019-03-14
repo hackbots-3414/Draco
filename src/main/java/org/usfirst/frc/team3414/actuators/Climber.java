@@ -17,11 +17,11 @@ import org.usfirst.frc.team3414.teleop.Teleop;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Climber {
     private int escape = Config.ESCAPE_BUTTON;
-    DigitalInput frontsensor = new DigitalInput(3);
-    DigitalInput rearsensor = new DigitalInput(2);
+
     private static Climber instance;
 
     public static Climber getInstance() {
@@ -36,11 +36,15 @@ public class Climber {
     TalonSRX frontMotor;
     TalonSRX rearMotor;
     TalonSRX middleMotor;
+    DigitalInput frontsensor;
+    DigitalInput rearsensor;
 
     public void init() {
         frontMotor = new TalonSRX(Config.CLIMBER_FRONT);
         rearMotor = new TalonSRX(Config.CLIMBER_REAR);
         middleMotor = new TalonSRX(Config.CLIMBER_MOTOR_THREE);
+        frontsensor = new DigitalInput(Config.CLIMBER_FRONT_SENSOR); // 3
+        rearsensor = new DigitalInput(Config.CLIMBER_REAR_SENSOR); // 4
         initEncoders();
         resetEncoders();
 
@@ -245,6 +249,21 @@ public class Climber {
         rearMotor.getSensorCollection().setQuadraturePosition(0, 10);
     }
 
+    public void safetyLimit(int encoder, int limit, TalonSRX talon) {
+        if (encoder > limit) {
+            talon.set(ControlMode.PercentOutput, 0);
+        }
+    }
+
+    public void diagnostic() {
+                SmartDashboard.putNumber("Climber Front %:", frontMotor.getMotorOutputPercent());
+                SmartDashboard.putNumber("Climber Middle %:", middleMotor.getMotorOutputPercent());
+                SmartDashboard.putNumber("Climber Rear %:", rearMotor.getMotorOutputPercent());
+                SmartDashboard.putNumber("Climber Front Encoder", getFrontEncoder());
+                SmartDashboard.putNumber("Climber Rear Encoder", getRearEncoder());
+              
+    }
+    // ESCAPE TRIGGER
     public boolean getEscapeButton() {
         return !Teleop.getInstance().getLeftJoystick().getRawButton(escape)
                 || !Teleop.getInstance().getRightJoystick().getRawButton(escape);
