@@ -131,7 +131,7 @@ public class Teleop {
 			Climber.getInstance().newTopClimb();
 		} else if (left.getRawButton(7) && right.getRawButton(7)) {
 			Climber.getInstance().motionmagicclimberMidplatform();
-		} else if (left.getRawButton(8) && right.getRawButton(8)) {
+		}  if (left.getRawButton(8) && right.getRawButton(8)) {
 			Climber.getInstance().percentOutputClimber();
 		}
 	}
