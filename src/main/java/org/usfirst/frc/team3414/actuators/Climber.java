@@ -62,11 +62,10 @@ public class Climber {
         // target = 16000 for top
         int offset = 0;
         // margin = 13500 for top
-        int stage = 0;
+        int stage = 1;
         rear(rearMotor);
         front(frontMotor);
         setFront(target);
-        stage = 1;
         while (getEscapeButton()) {
             if (stage == 1) {
                 System.out.println("Not at target height (IR)");
@@ -117,7 +116,7 @@ public class Climber {
                 setDriveTrain(.1);
                 Timer.delay(2);
                 stage = 7;
-            } else {
+            } if(stage >= 7 || stage <=0) {
                 eStop();
                 System.out.println("Climb Finished :)");
 
@@ -135,10 +134,11 @@ public class Climber {
         climber.configMotionCruiseVelocity(1196);// 1196
         climber.configPeakOutputForward(1.0);
         climber.configPeakOutputReverse(-1.0);
-        climber.config_kP(0, 12);// (0, 0.175); or 7
+        climber.config_kP(0, 20);// (0, 0.175); or 7
         climber.config_kI(0, 0); // (0,0)
         climber.config_kD(0, 0); // 1.75
-        climber.config_kF(0, 0.427799073);
+        // climber.config_kF(0, 0.427799073);
+        climber.config_kF(0, 0);
         climber.config_IntegralZone(0, 0);
         climber.configClosedLoopPeakOutput(0, 1.0);
         climber.selectProfileSlot(0, 0);
@@ -149,13 +149,13 @@ public class Climber {
         climber.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
         climber.getSensorCollection().setQuadraturePosition(0, 10);
         climber.configMotionAcceleration(4784);
-        climber.configMotionCruiseVelocity(1196); // 1196
+        climber.configMotionCruiseVelocity(720); // 1196
         climber.configPeakOutputForward(1.0);
         climber.configPeakOutputReverse(-1.0);
         climber.config_kP(0, 3); // Originally 1
         climber.config_kI(0, 0);
         climber.config_kD(0, 0);
-        climber.config_kF(0, 0);
+        climber.config_kF(0, 0.427799073);
         climber.config_IntegralZone(0, 0);
         climber.configClosedLoopPeakOutput(0, 1.0);
         climber.selectProfileSlot(0, 0);
