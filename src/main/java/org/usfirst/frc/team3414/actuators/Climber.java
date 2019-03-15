@@ -120,7 +120,6 @@ public class Climber {
                 eStop();
                 System.out.println("Climb Finished :)");
 
-                break;
             }
         }
 
