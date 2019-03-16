@@ -11,6 +11,10 @@ public class MatchTimer {
     private static Double getMatchTime() {
         return Timer.getMatchTime();
     }
+    public static Double getRemaining(){
+        return 150-Timer.getMatchTime();
+    }
+
 
     public static boolean enoughTimeForLevel2() {
         if (getMatchTime() > level2Time) {
@@ -31,7 +35,7 @@ public class MatchTimer {
 
     public static void outputTime() {
       
-        SmartDashboard.putString("Remaining Time:", getMatchTime().toString());
+        SmartDashboard.putString("Remaining Time:", getRemaining().toString());
 
     }
 
