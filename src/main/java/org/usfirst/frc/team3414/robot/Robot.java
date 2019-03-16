@@ -98,6 +98,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		Teleop.getInstance().driverInfo();
 		//Teleop.getInstance().replaySystem();
 		Teleop.getInstance().align();
 		//Teleop.getInstance().driveStraight();

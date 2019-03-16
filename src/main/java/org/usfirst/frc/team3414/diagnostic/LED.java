@@ -55,5 +55,33 @@ public class LED {
     public static void setLightChase(){
         light.set(.21);
     }
+    //In match time sets
+	public static void checkTime() { //This should do ifs or whatever to make sure the bot changes color at the appropriate times
+    }
+    public static void climberRise(){
+
+    }
+    public static void climberMoveBottom(){
+
+    }
+    public static void climberRaiseFront(){
+
+    }
+    public static void climberMoveForward(){
+
+    }
+    public static void climberRaiseRear(){
+
+    }
+    public static void climberFinished(){
+        
+    }
+    public static void openArm(){
+
+    }
+    public static void closeArm(){
+
+    }
+    //put more in, you get the idea
     
 }

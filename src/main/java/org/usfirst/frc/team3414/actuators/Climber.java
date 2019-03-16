@@ -119,6 +119,7 @@ public class Climber {
             } if(stage >= 7 || stage <=0) {
                 eStop();
                 System.out.println("Climb Finished :)");
+                break;
 
             }
         }
@@ -144,7 +145,7 @@ public class Climber {
 
     }
 
-    public void front(TalonSRX climber) {
+    public void front(TalonSRX climber) { //PERFECT TUNING ON BETA AS OF 3/15/2019
         climber.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
         climber.getSensorCollection().setQuadraturePosition(0, 10);
         climber.configMotionAcceleration(4784);

@@ -13,6 +13,8 @@ import org.usfirst.frc.team3414.auton.Align;
 import org.usfirst.frc.team3414.auton.Auton;
 import org.usfirst.frc.team3414.auton.MoveStraight;
 import org.usfirst.frc.team3414.config.Config;
+import org.usfirst.frc.team3414.diagnostic.LED;
+import org.usfirst.frc.team3414.diagnostic.MatchTimer;
 import org.usfirst.frc.team3414.sensors.LimeLightUtil;
 import org.usfirst.frc.team3414.sensors.Limelight;
 
@@ -51,6 +53,10 @@ public class Teleop {
 			DriveTrain.getInstance().setBlock(false); // Emergency release for drivetrain lockout in case somebody
 														// messes up calling it elsewhere.
 		}
+	}
+	public void driverInfo(){
+		MatchTimer.outputTime();
+		LED.checkTime();
 	}
 
 	public void record() throws IOException {
