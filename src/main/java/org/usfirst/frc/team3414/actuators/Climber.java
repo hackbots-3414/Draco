@@ -117,12 +117,13 @@ public class Climber {
                 Timer.delay(2);
                 stage = 7;
             } if(stage >= 7 || stage <=0) {
-                eStop();
+                stop();
                 System.out.println("Climb Finished :)");
                 break;
 
             }
         }
+        stop();
 
     }
 
@@ -229,7 +230,7 @@ public class Climber {
         return !rearsensor.get();
     }
 
-    public void eStop() {
+    public void stop() {
         frontMotor.set(ControlMode.PercentOutput, 0);
         rearMotor.set(ControlMode.PercentOutput, 0);
         middleMotor.set(ControlMode.PercentOutput, 0);
