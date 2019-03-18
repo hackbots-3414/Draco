@@ -53,8 +53,8 @@ public class Config {
 	public static final int CLIMBER_REAR = 31;
 	
 	public static final int CLIMBER_MOTOR_THREE = 11;
-	public static final int CLIMBER_FRONT_SENSOR = 0;
-	public static final int CLIMBER_REAR_SENSOR = 0;
+	public static final int CLIMBER_FRONT_SENSOR = 3;
+	public static final int CLIMBER_REAR_SENSOR = 2;
 //TODO change 30 to 11
 	public static final int BALL_SENSOR_TOP = 1;
 	public static final int BALL_SENSOR_BOTTOM = 0;
