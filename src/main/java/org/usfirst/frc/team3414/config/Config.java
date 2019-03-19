@@ -33,8 +33,7 @@ public class Config {
 	public static final int INTAKE_TALON = 41;
 	public static final int INTAKE_PISTON = 0;
 	public static final int INTAKE_PISTON_TWO = 1;
-	// TODO implement bottom tunnel is 51
-	// TODO SHould be 41
+
 	public static final int HORIZONTAL_MANIPULATOR_IN = 2;
 	public static final int HORIZONTAL_MANIPULATOR_OUT = 3;
 	public static final int VERTICAL_MANIPULATOR_DOWN = 5;
@@ -55,7 +54,6 @@ public class Config {
 	public static final int CLIMBER_MOTOR_THREE = 11;
 	public static final int CLIMBER_FRONT_SENSOR = 3;
 	public static final int CLIMBER_REAR_SENSOR = 2;
-//TODO change 30 to 11
 	public static final int BALL_SENSOR_TOP = 1;
 	public static final int BALL_SENSOR_BOTTOM = 0;
 

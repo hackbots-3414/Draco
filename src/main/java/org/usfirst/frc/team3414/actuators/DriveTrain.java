@@ -2,7 +2,7 @@ package org.usfirst.frc.team3414.actuators;
 
 import java.io.IOException;
 
-import org.usfirst.frc.team3414.auton.Auton;
+import org.usfirst.frc.team3414.auton.AutonReplayRecord;
 import org.usfirst.frc.team3414.config.Config;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -59,9 +59,8 @@ AnalogInput lineSensor;
 		right.set(rightSpeed);
 		if (isrecording) {
 			try {
-				Auton.getInstance().record(leftSpeed, rightSpeed);
+				AutonReplayRecord.getInstance().record(leftSpeed, rightSpeed);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 

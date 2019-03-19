@@ -126,6 +126,82 @@ public class Climber {
         stop();
 
     }
+    public void flippedClimb(int target, int margin) { //Need some beta time for this, maybe when we tested we swapped follows and leads. In flipped, they're swapped
+        /*-
+         * Stage 1 - Climb Evenly 
+         * Stage 2 - Move Forward 
+         * Stage 3 - Raise Front 
+         * Stage 4 - Move Whole Bot Forward 
+         * Stage 5 - Raise Rear
+         * Stage 6 - Drive Forward on platform
+         */
+        // target = 16000 for top
+        int offset = 0;
+        // margin = 13500 for top
+        int stage = 1;
+        rear(rearMotor);
+        front(frontMotor);
+        setFront(target);
+        while (getEscapeButton()) {
+            if (stage == 1) {
+                System.out.println("Not at target height (IR)");
+                setRear(target);
+                setFront(getFrontEncoder() + offset);
+
+                if (getFrontEncoder() >= margin) {
+                    stage = 2;
+                } //Only flipped up to here.
+            }
+            if (stage == 2) {
+                setBottom(.3414);
+                setFront(target);
+                // setRear(getFrontEncoder() + offset);
+                setRear(target + offset);
+                if (atFrontDistance()) {
+                    setBottom(0);
+                    stage = 3;
+
+                }
+
+            }
+            if (stage == 3) {
+                retractFront();
+                setRear(target);
+                if (getFrontEncoder() <= 100) {
+                    stage = 4;
+
+                }
+            }
+            if (stage == 4) {
+                setBottom(.3414);
+                setDriveTrain(.10);
+                setRear(target);
+                if (atRearDistance()) {
+                    stage = 5;
+                    setDriveTrain(0);
+                    setBottom(0);
+                }
+            }
+            if (stage == 5) {
+                setBottom(0);
+                retractRear();
+                if (getRearEncoder() >= 200) {
+                    stage = 6;
+                }
+            }
+            if (stage == 6) {
+                setDriveTrain(.3414);
+                stage = 7;
+            } if(stage >= 7 || stage <=0) {
+                stop();
+                System.out.println("Climb Finished :)");
+                break;
+
+            }
+        }
+        stop();
+
+    }
 
     // TALON CONFIG
     public void rear(TalonSRX climber) {

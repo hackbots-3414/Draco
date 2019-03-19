@@ -14,11 +14,17 @@ import edu.wpi.first.cameraserver.CameraServer;
  * Add your docs here.
  */
 public class Lifecam {
-    public static void startFront(){
-            UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+    static UsbCamera camera;
+    public static void init(){
+        camera = CameraServer.getInstance().startAutomaticCapture();
+    }
+    public static void startRear(){
             camera.setFPS(15);
             camera.setResolution(360, 240);
         }
+    public static void stopRear(){ //TODO test this, possibly a BAD IDEA
+        camera.free();
+    }
         
     
 }

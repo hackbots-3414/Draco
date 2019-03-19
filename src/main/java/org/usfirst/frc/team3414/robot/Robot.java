@@ -14,8 +14,6 @@ import org.usfirst.frc.team3414.actuators.Climber;
 import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.Tunnel;
-import org.usfirst.frc.team3414.auton.Auton;
-import org.usfirst.frc.team3414.auton.Autonomous;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.DashboardOutput;
 import org.usfirst.frc.team3414.diagnostic.LED;
@@ -60,7 +58,9 @@ public class Robot extends IterativeRobot {
 		Tunnel.getInstance().init();
 		Climber.getInstance().init();
 		Limelight.init();
-		Lifecam.startFront();
+		
+		Lifecam.init();
+		Lifecam.startRear();
 	}
 	@Override
 	public void robotPeriodic() {
@@ -103,9 +103,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		Teleop.getInstance().driverInfo();
+		Teleop.getInstance().driverInfo(); //Please don't delete this. Just displays game time. 
 		//Teleop.getInstance().replaySystem();
-		Teleop.getInstance().align();
+		Teleop.getInstance().align(); 
 		//Teleop.getInstance().driveStraight();
 		//WORKING OFFICIALLY
 		Teleop.getInstance().drive();

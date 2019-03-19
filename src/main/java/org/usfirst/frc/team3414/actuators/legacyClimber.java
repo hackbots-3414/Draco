@@ -211,7 +211,7 @@
 //             System.out.println("frontMotor\t" + getFrontEncoder());
 
 //         }
-//         eStop(); // TODO, how do we want to have drivetrain work, sensors or manual control?
+//         eStop(); 
 //     }
 
 //     public void magicClimbMid() {
@@ -266,7 +266,7 @@
 //             System.out.println("frontMotor\t" + getFrontEncoder());
 
 //         }
-//         eStop(); // TODO, how do we want to have drivetrain work, sensors or manual control?
+//         eStop(); 
 //     }
 
 //     public void motionmagicclimberMidplatform() {

@@ -10,7 +10,7 @@ import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.MotionMagicClimb;
 import org.usfirst.frc.team3414.actuators.Tunnel;
 import org.usfirst.frc.team3414.auton.Align;
-import org.usfirst.frc.team3414.auton.Auton;
+import org.usfirst.frc.team3414.auton.AutonReplayRecord;
 import org.usfirst.frc.team3414.auton.MoveStraight;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.LED;
@@ -35,7 +35,7 @@ public class Teleop {
 
 	}
 
-	Auton auton = new Auton();
+	AutonReplayRecord auton = new AutonReplayRecord();
 	Joystick left = new Joystick(Config.LEFT_STICK);
 	Joystick right = new Joystick(Config.RIGHT_STICK);
 	Controller pad = new Controller(Config.CONTROLLER_CHANNEL);
@@ -195,7 +195,7 @@ public class Teleop {
 	}
 
 	public void align() {
-		if (right.getRawButton(3)) {
+		if (right.getRawButton(3) && left.getRawButton(3)) {
 			// while(!left.getRawButton(Config.ESCAPE_BUTTON)){
 			Limelight.compMode();
 			LimeLightUtil.driveToTarget(DriveTrain.getInstance().getLeftMotor(),
@@ -206,15 +206,15 @@ public class Teleop {
 			DriveTrain.getInstance().setBlock(false);
 			Limelight.pitMode();
 		}
-		if (right.getRawButton(4)) {
+		if (right.getRawButton(4) && left.getRawButton(4)) {
 			LimeLightUtil.shiftRobotLeft(DriveTrain.getInstance().getLeftMotor(),
 					DriveTrain.getInstance().getRightMotor());
 		}
-		if (right.getRawButton(5)) {
+		if (right.getRawButton(5) && right.getRawButton(5)) {
 			LimeLightUtil.shiftRobotRight(DriveTrain.getInstance().getLeftMotor(),
 					DriveTrain.getInstance().getRightMotor());
 		}
-		if (right.getRawButton(2)) {
+		if (right.getRawButton(2) && left.getRawButton(2)) {
 			LimeLightUtil.straightenRobotToTarget(DriveTrain.getInstance().getLeftMotor(),
 					DriveTrain.getInstance().getRightMotor(), irLeft, irRight, Teleop.getInstance().getRightJoystick());
 		}
@@ -234,7 +234,6 @@ public class Teleop {
 			try {
 				record();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else if (Config.REPLAY_MODE) {
