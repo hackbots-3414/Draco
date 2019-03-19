@@ -253,4 +253,11 @@ public class Teleop {
 			Limelight.defaultView();
 		}
 	}
+
+	public void stopAll() {
+		DriveTrain.getInstance().set(0, 0);
+		Intake.getInstance().stop();
+		Tunnel.getInstance().stop();
+		Climber.getInstance().stop();
+	}
 }

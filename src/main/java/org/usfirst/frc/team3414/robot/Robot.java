@@ -63,6 +63,10 @@ public class Robot extends IterativeRobot {
 	}
 	@Override
 	public void robotPeriodic() {
+		//Make sure this is for both auton and teleop
+		if(!isOperatorControl()&&!isAutonomous()){
+			Teleop.getInstance().stopAll();
+		}
 	}
 
 	/**
