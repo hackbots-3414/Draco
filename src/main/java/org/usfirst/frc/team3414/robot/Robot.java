@@ -15,6 +15,7 @@ import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.Tunnel;
 import org.usfirst.frc.team3414.auton.Auton;
+import org.usfirst.frc.team3414.auton.Autonomous;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.DashboardOutput;
 import org.usfirst.frc.team3414.diagnostic.LED;

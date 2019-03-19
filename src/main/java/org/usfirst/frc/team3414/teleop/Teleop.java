@@ -190,6 +190,9 @@ public class Teleop {
 	public AnalogInput getRightIR() {
 		return irRight;
 	}
+	public AnalogInput getLineSensor(){
+		return lineSensor;
+	}
 
 	public void align() {
 		if (right.getRawButton(3)) {
