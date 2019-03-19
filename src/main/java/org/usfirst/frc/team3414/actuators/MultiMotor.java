@@ -2,6 +2,7 @@ package org.usfirst.frc.team3414.actuators;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class MultiMotor {
@@ -55,5 +56,10 @@ public class MultiMotor {
 	}
 	public double getRear(){
 		return front.getMotorOutputPercent();
+	}
+	public void setNeutralMode(NeutralMode mode){
+	
+		front.setNeutralMode(mode);
+		rear.setNeutralMode(mode);
 	}
 }

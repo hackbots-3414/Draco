@@ -59,8 +59,8 @@ public class Config {
 	public static final int BALL_SENSOR_TOP = 1;
 	public static final int BALL_SENSOR_BOTTOM = 0;
 
-	public static final int LEFT_IR = 0;
-	public static final int RIGHT_IR = 1;
+	public static final int LEFT_IR = 1;
+	public static final int RIGHT_IR = 0;
 	public static final int LINE_SENSOR = 2;
 	public static final int ESCAPE_BUTTON = 1;
 	public static final double LEVEL_2_TIME = 0;

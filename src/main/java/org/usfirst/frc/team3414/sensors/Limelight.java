@@ -32,8 +32,10 @@ public class Limelight {
     public static void yieldAll(){
         setLED(0);
         setMode(0);
+        System.out.println("Yield all");
     }
     public static void pitMode(){
+        System.out.print("Pit Mode is being called");
         setLED(1);
         setMode(1);
     }
@@ -56,7 +58,7 @@ public class Limelight {
     }
     public static void setMode(int mode){
         //0-Vision Mode 1- Driver Mode
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1);
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(mode);
 
     }
 }

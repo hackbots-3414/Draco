@@ -20,8 +20,10 @@ import com.ctre.phoenix.motorcontrol.can.*;
 
 import org.usfirst.frc.team3414.actuators.MultiMotor;
 import org.usfirst.frc.team3414.config.Config;
+import org.usfirst.frc.team3414.teleop.Teleop;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -47,10 +49,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
  */
 
 public class LimeLightUtil {
-    private static final double MAX_SPEED = 0.57;
-    private static final double MIN_SPEED = 0.40;
+    private static final double MAX_SPEED = 0.37;
+    private static final double MIN_SPEED = 0.20;
     private static int escape = Config.ESCAPE_BUTTON;
-    public static void shiftRobotLeft(double sensorDiff, MultiMotor leftMotor, MultiMotor rightMotor) {
+    public static void shiftRobotLeft(MultiMotor leftMotor, MultiMotor rightMotor) {
         // shift left
         // start by moving backwards
         leftMotor.set(0.1);
@@ -69,7 +71,7 @@ public class LimeLightUtil {
         Timer.delay(0.35);
     }
 
-    public static void shiftRobotRight(double sensorDiff, MultiMotor leftMotor, MultiMotor rightMotor) {
+    public static void shiftRobotRight(MultiMotor leftMotor, MultiMotor rightMotor) {
         // shift right
         // start by moving backwards
         leftMotor.set(0.4);
@@ -137,47 +139,52 @@ public class LimeLightUtil {
         }
       }
 
-    public static void findTheLine (MultiMotor leftMotor, MultiMotor rightMotor, AnalogInput longRangeIRleft, AnalogInput longRangeIRright, Joystick rightJoy, DigitalInput lineSensor) {
+    public static void findTheLine (MultiMotor leftMotor, MultiMotor rightMotor, AnalogInput longRangeIRleft, AnalogInput longRangeIRright, Joystick rightJoy, AnalogInput lineSensor) {
         if (longRangeIRleft.getAverageVoltage() - longRangeIRright.getAverageVoltage() > 0.005) {
             // shift Robot Right until line is found
             straightenRobotToTarget(leftMotor, rightMotor, longRangeIRleft, longRangeIRright, rightJoy);
-            while (lineSensor.get() && !rightJoy.getRawButton(escape)) {
-                LimeLightUtil.shiftRobotRight(
-                        longRangeIRright.getAverageVoltage() - longRangeIRleft.getAverageVoltage(), leftMotor,
-                        rightMotor);
+            while (lineSensor.getAverageVoltage() < 1 && !rightJoy.getRawButton(escape)) {
+                LimeLightUtil.shiftRobotRight(leftMotor, rightMotor);
             }
             straightenRobotToTarget(leftMotor, rightMotor, longRangeIRleft, longRangeIRright, rightJoy);
           } else if (longRangeIRright.getAverageVoltage() - longRangeIRleft.getAverageVoltage() > 0.005) {
             // shift Robot left until line is found
             straightenRobotToTarget(leftMotor, rightMotor, longRangeIRleft, longRangeIRright, rightJoy);
-            while (lineSensor.get() && !rightJoy.getRawButton(escape)) {
-              LimeLightUtil.shiftRobotLeft(longRangeIRleft.getAverageVoltage() - longRangeIRright.getAverageVoltage(), leftMotor, rightMotor);
+            while (lineSensor.getAverageVoltage() < 1 && !rightJoy.getRawButton(escape)) {
+              LimeLightUtil.shiftRobotLeft(leftMotor, rightMotor);
               
             }
             straightenRobotToTarget(leftMotor, rightMotor, longRangeIRleft, longRangeIRright, rightJoy);
           }
     }
 
-    public static void driveToTarget(MultiMotor leftMotor, MultiMotor rightMotor, AnalogInput longRangeIRleft, AnalogInput longRangeIRright, Joystick rightJoy, DigitalInput lineSensor) {
+    public static void driveToTarget(MultiMotor leftMotor, MultiMotor rightMotor, AnalogInput longRangeIRleft, AnalogInput longRangeIRright, Joystick rightJoy, AnalogInput lineSensor) {
         NetworkTable nTable = NetworkTableInstance.getDefault().getTable("limelight");
         double tx = 0.0;
         nTable.getEntry("ledMode").setNumber(3);
         // FInd target
-        if (nTable.getEntry("tv").getDouble(0) > 0) {
+        while ((nTable.getEntry("tv").getDouble(0) > 0) && !Teleop.getInstance().getLeftJoystick().getRawButton(Config.ESCAPE_BUTTON)) {
+          nTable = NetworkTableInstance.getDefault().getTable("limelight");
           double ta = nTable.getEntry("ta").getDouble(0);
           tx = nTable.getEntry("tx").getDouble(0);
-          if (ta < 33) {
+          if (ta < 18) {
             LimeLightUtil.alignToTarget(tx, leftMotor, rightMotor);
-          } else{
+          }
+        }
+        leftMotor.setNeutralMode(NeutralMode.Brake);
+        rightMotor.setNeutralMode(NeutralMode.Brake);
+          // else{
             // We are very close to target. Turn limelight off and stop moving
             leftMotor.set(0.0);
             rightMotor.set(0.0);
-            Timer.delay(0.03);
+            Timer.delay(0.5);
+            leftMotor.setNeutralMode(NeutralMode.Coast);
+            rightMotor.setNeutralMode(NeutralMode.Coast);
             nTable.getEntry("ledMode").setNumber(1);
-            findTheLine(leftMotor, rightMotor, longRangeIRleft, longRangeIRright, rightJoy, lineSensor);
-            } 
+            // findTheLine(leftMotor, rightMotor, longRangeIRleft, longRangeIRright, rightJoy, lineSensor);
+            //} 
             
-        }
+        
     }
 
     public static void straightenRobotToTarget(MultiMotor leftMotor, MultiMotor rightMotor, AnalogInput longRangeIRleft, AnalogInput longRangeIRright, Joystick rightJoy){
@@ -187,19 +194,21 @@ public class LimeLightUtil {
     // Rotate robot to left until straight towards target
     while ((longRangeIRleft.getAverageVoltage() - longRangeIRright.getAverageVoltage()) > 0.002
         && !rightJoy.getRawButton(escape)) {
-      leftMotor.set(0.2);
-      rightMotor.set(-0.2);
+      leftMotor.set(0.15);
+      rightMotor.set(-0.15);
     }
     // Rotate robot to right until straight towards target
     while ((longRangeIRright.getAverageVoltage() - longRangeIRleft.getAverageVoltage()) > 0.002
         && !rightJoy.getRawButton(escape)) {
 
-      leftMotor.set(-0.2);
-      rightMotor.set(0.2);
+      leftMotor.set(-0.15);
+      rightMotor.set(0.15);
     }
     // Timer.delay(1);
     }
-    public void diagnostic(){
-      
+    public static void diagnostic(){
+      SmartDashboard.putNumber("leftIR: ", Teleop.getInstance().getLeftIR().getAverageVoltage());
+      SmartDashboard.putNumber("rightIR: ", Teleop.getInstance().getRightIR().getAverageVoltage());
+
     }
 }

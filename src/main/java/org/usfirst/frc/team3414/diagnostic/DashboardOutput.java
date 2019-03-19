@@ -12,6 +12,7 @@ import org.usfirst.frc.team3414.actuators.HatchPanelManipulator;
 import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.Tunnel;
 import org.usfirst.frc.team3414.auton.Align;
+import org.usfirst.frc.team3414.sensors.LimeLightUtil;
 import org.usfirst.frc.team3414.actuators.Climber;
 
 
@@ -40,6 +41,9 @@ public class DashboardOutput {
     public static void outputAlign(){
         Align.diagnostic();
     }
+    public static void outputLimelightUtil(){
+        LimeLightUtil.diagnostic();
+    }
     public static void diagnostic(){
         outputIntake();
         outputDriveTrain();
@@ -47,6 +51,8 @@ public class DashboardOutput {
         outputClimber();
         outputHatchPanels();
         outputAlign();
+        outputLimelightUtil();
+
     }
     
 }

@@ -107,14 +107,14 @@ public class Climber {
                 }
             }
             if (stage == 5) {
+                setBottom(0);
                 retractRear();
                 if (getRearEncoder() >= 200) {
                     stage = 6;
                 }
             }
             if (stage == 6) {
-                setDriveTrain(.1);
-                Timer.delay(2);
+                setDriveTrain(.3414);
                 stage = 7;
             } if(stage >= 7 || stage <=0) {
                 stop();
