@@ -155,6 +155,9 @@ public class Teleop {
 		} else if (pad.getLT()) {
 			HatchPanelManipulator.getInstance().setOpen();
 		}
+		else if (pad.getRT()){
+			HatchPanelManipulator.getInstance().setOpenAssisted();
+		}
 	}
 
 	public void climber() {

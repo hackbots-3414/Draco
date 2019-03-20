@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.LED;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,6 +24,8 @@ public class HatchPanelManipulator {
     Solenoid sliderIn = new Solenoid(Config.HORIZONTAL_MANIPULATOR_IN);
     Solenoid hatchUp = new Solenoid(Config.VERTICAL_MANIPULATOR_UP);
     Solenoid hatchDown = new Solenoid(Config.VERTICAL_MANIPULATOR_DOWN);
+
+    DigitalInput button  = new  DigitalInput(0);
 
     private static HatchPanelManipulator instance;
 
@@ -51,7 +54,14 @@ public class HatchPanelManipulator {
         sliderOut.set(false);
         sliderIn.set(true);
     }
-
+    public void setOpenAssisted(){
+        if(button.get()){
+            setOpen();
+        }
+    }
+    public boolean isTouchingPanel(){
+        return button.get();
+    }
     public void setClosed() {
         hatchUp.set(true);
         hatchDown.set(false);
