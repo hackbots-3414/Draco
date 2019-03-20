@@ -25,7 +25,7 @@ public class HatchPanelManipulator {
     Solenoid hatchUp = new Solenoid(Config.VERTICAL_MANIPULATOR_UP);
     Solenoid hatchDown = new Solenoid(Config.VERTICAL_MANIPULATOR_DOWN);
 
-    DigitalInput button  = new  DigitalInput(0);
+    DigitalInput button  = new  DigitalInput(4);
 
     private static HatchPanelManipulator instance;
 

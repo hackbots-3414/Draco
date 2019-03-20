@@ -45,6 +45,7 @@ public class Climber {
         middleMotor = new TalonSRX(Config.CLIMBER_MOTOR_THREE);
         frontsensor = new DigitalInput(Config.CLIMBER_FRONT_SENSOR); // 3
         rearsensor = new DigitalInput(Config.CLIMBER_REAR_SENSOR); // 4
+        middleMotor.setInverted(true);
         initEncoders();
         resetEncoders();
 
