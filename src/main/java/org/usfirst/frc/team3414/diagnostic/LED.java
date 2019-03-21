@@ -120,15 +120,6 @@ public class LED {
     }  
 
     public static void climberFinished() {
-        setRainbow(); // "Berserko"
-    }
-
-    public static void tunnel() {
-        setFire(); // Pick a better color bucko
-    }
-
-    public static void ballInside() {
-        setGreen();
     }
 
     public static void alignActivated() {
@@ -136,6 +127,7 @@ public class LED {
     }
 
     public static void hatchAbleToBePickedUp() {
+        setGreen();
 
     }
 
@@ -144,7 +136,10 @@ public class LED {
     }
 
     public static void hatchClosed() {
-        setGreen();
+        setWhite();
+    }
+    public static void setStatic(){
+        setPurple();
     }
     // put more in, you get the idea
 

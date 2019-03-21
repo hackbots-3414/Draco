@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import org.usfirst.frc.team3414.config.Config;
+import org.usfirst.frc.team3414.diagnostic.LED;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -67,12 +68,13 @@ public class Climber {
         rear(rearMotor);
         front(frontMotor);
         setFront(target);
+        
         while (getEscapeButton()) {
             if (stage == 1) {
-                System.out.println("Not at target height (IR)");
+                LED.climberRise(); //Sets the LEDs
                 setFront(target);
                 setRear(getFrontEncoder() + offset);
-                if(Math.abs(getFrontEncoder() - getRearEncoder()) > 9000){ //experimental
+                if(Math.abs(getFrontEncoder() - getRearEncoder()) > 10000){ //experimental
                     break;
 
                 }
@@ -125,7 +127,7 @@ public class Climber {
                 stop();
                 System.out.println("Climb Finished :)");
                 break;
-
+                LED.climberFinished();
             }
         }
         stop();

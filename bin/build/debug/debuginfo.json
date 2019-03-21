@@ -1,0 +1,16 @@
+[
+  {
+    "artifact": "frcJava (in project 2019BuildSeason)",
+    "target": "roborio",
+    "debugfile": "frcJava_roborio.debugconfig",
+    "project": "2019BuildSeason",
+    "language": "java"
+  },
+  {
+    "artifact": "frcJava (in project Draco)",
+    "target": "roborio",
+    "debugfile": "frcJava_roborio.debugconfig",
+    "project": "Draco",
+    "language": "java"
+  }
+]
