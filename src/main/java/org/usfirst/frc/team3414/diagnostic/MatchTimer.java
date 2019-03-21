@@ -15,23 +15,7 @@ public class MatchTimer {
         return 150-Timer.getMatchTime();
     }
 
-
-    public static boolean enoughTimeForLevel2() {
-        if (getMatchTime() > level2Time) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static boolean enoughTimeForLevel3() {
-        if (getMatchTime() > level3Time) {
-            return true;
-        } else {
-            return false;
-
-        }
-    }
+    
 
     public static void outputTime() {
       

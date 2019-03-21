@@ -162,14 +162,14 @@ public class Teleop {
 
 	public void climber() {
 
-		if (right.getRawButton(6) && left.getRawButton(6)) {
+		if (right.getRawButton(6) && left.getRawButton(6)) { //Top Climb
 			// Climber.getInstance().motionmagicclimber();
 			Climber.getInstance().climb(16000, 14500);
-		} else if (left.getRawButton(7) && right.getRawButton(7)) {
+		} else if (left.getRawButton(7) && right.getRawButton(7)) { //Lower Climb
 			// Climber.getInstance().motionmagicclimberMidplatform();
 			Climber.getInstance().climb(7000, 5500);
 		}
-		if (left.getRawButton(8) && right.getRawButton(8)) {
+		if (left.getRawButton(8) && right.getRawButton(8)) { //Encoder Climb Don't worry about this one for LEDs
 			Climber.getInstance().percentOutputClimber();
 		}
 	}
