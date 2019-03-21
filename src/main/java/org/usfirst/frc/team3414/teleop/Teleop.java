@@ -84,6 +84,9 @@ public class Teleop {
 
 	public void drive() {
 		DriveTrain.getInstance().teleop(left.getY(), right.getY());
+		if(left.getY() > .7){
+			LED.setPurple();
+		}
 	}
 
 	public void ball() {

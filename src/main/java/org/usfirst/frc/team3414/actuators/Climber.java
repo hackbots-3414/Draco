@@ -79,6 +79,7 @@ public class Climber {
 
                 }
                 if (getRearEncoder() >= margin) {
+                    LED.setGreen();
                     stage = 2;
                 }
             }
@@ -126,8 +127,8 @@ public class Climber {
             } if(stage >= 7 || stage <=0) {
                 stop();
                 System.out.println("Climb Finished :)");
-                break;
                 LED.climberFinished();
+                break;
             }
         }
         stop();

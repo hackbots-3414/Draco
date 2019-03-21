@@ -60,18 +60,21 @@ public class HatchPanelManipulator {
         }
     }
     public boolean isTouchingPanel(){
+        if(button.get()){
+            LED.hatchAbleToBePickedUp();
+        }
         return button.get();
     }
     public void setClosed() {
         hatchUp.set(true);
         hatchDown.set(false);
-        LED.setRed();
+        LED.setYellow();
     }
 
     public void setOpen() {
         hatchUp.set(false);
         hatchDown.set(true);
-        LED.setGreen();
+        LED.setRed();
     }
 
     public void diagnostic() {
