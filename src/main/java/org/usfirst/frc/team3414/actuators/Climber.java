@@ -72,7 +72,7 @@ public class Climber {
                 System.out.println("Not at target height (IR)");
                 setFront(target);
                 setRear(getFrontEncoder() + offset);
-                if(Math.abs(getFrontEncoder() - getRearEncoder()) > 9000){ //EXPIRAMENTAL
+                if(Math.abs(getFrontEncoder() - getRearEncoder()) > 9000){ //experimental
                     break;
 
                 }
