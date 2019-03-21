@@ -167,7 +167,7 @@ public class Teleop {
 			Climber.getInstance().climb(16000, 14500);
 		} else if (left.getRawButton(7) && right.getRawButton(7)) {
 			// Climber.getInstance().motionmagicclimberMidplatform();
-			Climber.getInstance().climb(7000, 5500);
+			Climber.getInstance().climb(6000, 4500);
 		}
 		if (left.getRawButton(8) && right.getRawButton(8)) {
 			Climber.getInstance().percentOutputClimber();
@@ -210,12 +210,12 @@ public class Teleop {
 			Limelight.pitMode();
 		}
 		if (right.getRawButton(4) && left.getRawButton(4)) {
-			LimeLightUtil.shiftRobotLeft(DriveTrain.getInstance().getLeftMotor(),
-					DriveTrain.getInstance().getRightMotor());
+			LimeLightUtil.findTheLineLeft(DriveTrain.getInstance().getLeftMotor(),
+					DriveTrain.getInstance().getRightMotor(), irLeft, irRight, Teleop.getInstance().getRightJoystick(),lineSensor);
 		}
 		if (right.getRawButton(5) && right.getRawButton(5)) {
-			LimeLightUtil.shiftRobotRight(DriveTrain.getInstance().getLeftMotor(),
-					DriveTrain.getInstance().getRightMotor());
+			LimeLightUtil.findTheLineRight(DriveTrain.getInstance().getLeftMotor(),
+					DriveTrain.getInstance().getRightMotor(),irLeft, irRight, Teleop.getInstance().getRightJoystick(),lineSensor);
 		}
 		if (right.getRawButton(2) && left.getRawButton(2)) {
 			LimeLightUtil.straightenRobotToTarget(DriveTrain.getInstance().getLeftMotor(),

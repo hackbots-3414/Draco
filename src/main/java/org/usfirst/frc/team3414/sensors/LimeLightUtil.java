@@ -157,6 +157,24 @@ public class LimeLightUtil {
             straightenRobotToTarget(leftMotor, rightMotor, longRangeIRleft, longRangeIRright, rightJoy);
           }
     }
+  public static void findTheLineRight (MultiMotor leftMotor, MultiMotor rightMotor, AnalogInput longRangeIRleft, AnalogInput longRangeIRright, Joystick rightJoy, AnalogInput lineSensor) {
+          // shift Robot Right until line is found
+          straightenRobotToTarget(leftMotor, rightMotor, longRangeIRleft, longRangeIRright, rightJoy);
+          while (lineSensor.getAverageVoltage() < 1 && !rightJoy.getRawButton(escape)) {
+              LimeLightUtil.shiftRobotRight(leftMotor, rightMotor);
+          }
+          straightenRobotToTarget(leftMotor, rightMotor, longRangeIRleft, longRangeIRright, rightJoy);
+        
+  }
+  public static void findTheLineLeft (MultiMotor leftMotor, MultiMotor rightMotor, AnalogInput longRangeIRleft, AnalogInput longRangeIRright, Joystick rightJoy, AnalogInput lineSensor) {
+        // shift Robot left until line is found
+        straightenRobotToTarget(leftMotor, rightMotor, longRangeIRleft, longRangeIRright, rightJoy);
+        while (lineSensor.getAverageVoltage() < 1 && !rightJoy.getRawButton(escape)) {
+          LimeLightUtil.shiftRobotLeft(leftMotor, rightMotor);
+          
+        }
+        straightenRobotToTarget(leftMotor, rightMotor, longRangeIRleft, longRangeIRright, rightJoy);
+  }
 
     public static void driveToTarget(MultiMotor leftMotor, MultiMotor rightMotor, AnalogInput longRangeIRleft, AnalogInput longRangeIRright, Joystick rightJoy, AnalogInput lineSensor) {
         NetworkTable nTable = NetworkTableInstance.getDefault().getTable("limelight");

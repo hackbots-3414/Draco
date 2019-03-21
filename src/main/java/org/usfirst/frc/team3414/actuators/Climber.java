@@ -72,7 +72,10 @@ public class Climber {
                 System.out.println("Not at target height (IR)");
                 setFront(target);
                 setRear(getFrontEncoder() + offset);
+                if(Math.abs(getFrontEncoder() - getRearEncoder()) > 9000){ //EXPIRAMENTAL
+                    break;
 
+                }
                 if (getRearEncoder() >= margin) {
                     stage = 2;
                 }
@@ -110,12 +113,13 @@ public class Climber {
             if (stage == 5) {
                 setBottom(0);
                 retractRear();
-                if (getRearEncoder() >= 200) {
+                if (getRearEncoder() <= 100) {
                     stage = 6;
                 }
             }
             if (stage == 6) {
                 setDriveTrain(.3414);
+                Timer.delay(.7);
                 stage = 7;
             } if(stage >= 7 || stage <=0) {
                 stop();
