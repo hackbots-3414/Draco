@@ -14,7 +14,8 @@ import edu.wpi.first.wpilibj.Timer;
  * Add your docs here.
  */
 public class LED {
-    public static Spark light = new Spark(0);
+   public static Spark light = new Spark(0);
+   //static  Spark light = new Spark(10);
 
     public static void setPurple() { // Passive color
         light.set(.91);

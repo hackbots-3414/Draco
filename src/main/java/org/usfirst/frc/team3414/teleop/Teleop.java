@@ -84,9 +84,6 @@ public class Teleop {
 
 	public void drive() {
 		DriveTrain.getInstance().teleop(left.getY(), right.getY());
-		if(left.getY() > .7){
-			LED.setPurple();
-		}
 	}
 
 	public void ball() {
@@ -103,6 +100,7 @@ public class Teleop {
 		} else if (pad.getBButton()) {
 			Intake.getInstance().off();
 			Tunnel.getInstance().on();
+			HatchPanelManipulator.getInstance().setIn();
 		} else {
 			Intake.getInstance().goUp();
 			Intake.getInstance().off();
@@ -154,14 +152,15 @@ public class Teleop {
 		} else if (pad.getPov() == 180) {
 			HatchPanelManipulator.getInstance().setIn();
 		} else if (pad.getLBButton()) {
-			HatchPanelManipulator.getInstance().setClosed();
+			HatchPanelManipulator.getInstance().setClosed(); //Traditional
 			HatchPanelManipulator.getInstance().setOverride(true);
 		} else if (pad.getLT()) {
-			HatchPanelManipulator.getInstance().setOpen();
+			HatchPanelManipulator.getInstance().setOpen(); //Traditional
+			HatchPanelManipulator.getInstance().setOverride(true);
 		}
-		else{
+		else if (pad.getRT()){
+			HatchPanelManipulator.getInstance().setOverride(false); //Pettengil button controls
 			HatchPanelManipulator.getInstance().setOpenAssisted();
-			HatchPanelManipulator.getInstance().setOverride(false);
 		}
 
 		

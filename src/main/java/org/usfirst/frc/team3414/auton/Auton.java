@@ -35,8 +35,9 @@ public class Auton {
     AnalogInput irLeft = Teleop.getInstance().getLeftIR();
     AnalogInput irRight = Teleop.getInstance().getRightIR();
     AnalogInput lineSensor = Teleop.getInstance().getLineSensor();
-    public void align() {
-		if (right.getRawButton(3)) {
+	
+	public void align() {
+		if (right.getRawButton(3) || left.getRawButton(3)) {
 			// while(!left.getRawButton(Config.ESCAPE_BUTTON)){
 			Limelight.compMode();
 			LimeLightUtil.driveToTarget(DriveTrain.getInstance().getLeftMotor(),
@@ -47,15 +48,15 @@ public class Auton {
 			DriveTrain.getInstance().setBlock(false);
 			Limelight.pitMode();
 		}
-		if (right.getRawButton(4)) {
-			LimeLightUtil.shiftRobotLeft(DriveTrain.getInstance().getLeftMotor(),
-					DriveTrain.getInstance().getRightMotor());
+		if (right.getRawButton(4) || left.getRawButton(4)) {
+			LimeLightUtil.findTheLineLeft(DriveTrain.getInstance().getLeftMotor(),
+					DriveTrain.getInstance().getRightMotor(), irLeft, irRight, Teleop.getInstance().getRightJoystick(),lineSensor);
 		}
-		if (right.getRawButton(5)) {
-			LimeLightUtil.shiftRobotRight(DriveTrain.getInstance().getLeftMotor(),
-					DriveTrain.getInstance().getRightMotor());
+		if (right.getRawButton(5) || right.getRawButton(5)) {
+			LimeLightUtil.findTheLineRight(DriveTrain.getInstance().getLeftMotor(),
+					DriveTrain.getInstance().getRightMotor(),irLeft, irRight, Teleop.getInstance().getRightJoystick(),lineSensor);
 		}
-		if (right.getRawButton(2)) {
+		if (right.getRawButton(2) || left.getRawButton(2)) {
 			LimeLightUtil.straightenRobotToTarget(DriveTrain.getInstance().getLeftMotor(),
 					DriveTrain.getInstance().getRightMotor(), irLeft, irRight, Teleop.getInstance().getRightJoystick());
 		}
