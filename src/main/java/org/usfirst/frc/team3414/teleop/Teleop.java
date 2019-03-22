@@ -155,15 +155,15 @@ public class Teleop {
 			HatchPanelManipulator.getInstance().setIn();
 		} else if (pad.getLBButton()) {
 			HatchPanelManipulator.getInstance().setClosed();
+			HatchPanelManipulator.getInstance().setOverride(true);
 		} else if (pad.getLT()) {
 			HatchPanelManipulator.getInstance().setOpen();
 		}
-		else if (pad.getRT()){
-			HatchPanelManipulator.getInstance().setOpenAssisted();
-		}
 		else{
-			HatchPanelManipulator.getInstance().setIn();
+			HatchPanelManipulator.getInstance().setOpenAssisted();
+			HatchPanelManipulator.getInstance().setOverride(false);
 		}
+
 		
 	}
 

@@ -55,22 +55,30 @@ public class HatchPanelManipulator {
         sliderIn.set(true);
     }
     public void setOpenAssisted(){
-        if(button.get()){
+        if(isTouchingPanel()){
             setOpen();
         }
     }
+    public void setOpenAutomatic(){
+        if(isTouchingPanel() && !override){
+
+        }
+    }
+    private boolean override;
     public boolean isTouchingPanel(){
-        if(button.get()){
+        if(!button.get()){
             LED.hatchAbleToBePickedUp();
         }
-        return button.get();
+        return !button.get();
     }
     public void setClosed() {
         hatchUp.set(true);
         hatchDown.set(false);
         LED.setYellow();
     }
-
+    public void setOverride(boolean set){
+        override = set;
+    }
     public void setOpen() {
         hatchUp.set(false);
         hatchDown.set(true);
@@ -82,6 +90,7 @@ public class HatchPanelManipulator {
         SmartDashboard.putBoolean("Set in?", sliderIn.get());
         SmartDashboard.putBoolean("Set up?", hatchUp.get());
         SmartDashboard.putBoolean("Set down?", hatchDown.get());
+        SmartDashboard.putBoolean("Pettengil Button", isTouchingPanel());
     }
 
 }
