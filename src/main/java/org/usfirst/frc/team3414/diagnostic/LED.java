@@ -83,8 +83,17 @@ public class LED {
     }
 
     // In match time sets
-    public static void checkTime() { // This should do ifs or whatever to make sure the bot changes color at the
-                                     // appropriate times
+    public static void checkClimberTime() {
+        climberFirstWarning();
+        climberSecondWarning();
+        climberLastWarning();
+                                     
+    }
+
+    private static void climberFirstWarning() {
+    }
+//6 second warning
+    private static void climberSecondWarning() {
     }
 
     static long lastTime = 0;
@@ -95,10 +104,13 @@ public class LED {
 
     public static void climberLastWarning() {
         lastTime = System.currentTimeMillis();
+        if(Timer.getMatchTime()>= 115){
+
         if(System.currentTimeMillis() - lastTime > 500){
         setWhite();
         lastTime = System.currentTimeMillis();
         }
+    }
         else{
         setRed();
         }

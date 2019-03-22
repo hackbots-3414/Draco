@@ -66,10 +66,13 @@ public class HatchPanelManipulator {
     }
     private boolean override;
     public boolean isTouchingPanel(){
-        if(!button.get()){
+        
+        return !button.get();
+    }
+    public void updateLED(){
+        if(isTouchingPanel()){
             LED.hatchAbleToBePickedUp();
         }
-        return !button.get();
     }
     public void setClosed() {
         hatchUp.set(true);
