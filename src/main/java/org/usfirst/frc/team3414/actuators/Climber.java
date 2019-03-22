@@ -68,7 +68,7 @@ public class Climber {
         rear(rearMotor);
         front(frontMotor);
         setFront(target);
-        
+        long start = System.currentTimeMillis();
         while (getEscapeButton()) {
             if (stage == 1) {
                 LED.climberRise(); //Sets the LEDs
@@ -219,7 +219,7 @@ public class Climber {
         climber.configMotionCruiseVelocity(1196);// 1196
         climber.configPeakOutputForward(1.0);
         climber.configPeakOutputReverse(-1.0);
-        climber.config_kP(0, 20);// (0, 0.175); or 7
+        climber.config_kP(0,8);// (0, 0.175); or 7, 20 on beta
         climber.config_kI(0, 0); // (0,0)
         climber.config_kD(0, 0); // 1.75
         // climber.config_kF(0, 0.427799073);
@@ -234,9 +234,9 @@ public class Climber {
         climber.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
         climber.getSensorCollection().setQuadraturePosition(0, 10);
         climber.configMotionAcceleration(4784);
-        climber.configMotionCruiseVelocity(720); // 1196
+        climber.configMotionCruiseVelocity(650); // 1196, 720 on beta
         climber.configPeakOutputForward(1.0);
-        climber.configPeakOutputReverse(-1.0);
+        climber.configPeakOutputReverse(-1.0)   ;
         climber.config_kP(0, 3); // Originally 1
         climber.config_kI(0, 0);
         climber.config_kD(0, 0);

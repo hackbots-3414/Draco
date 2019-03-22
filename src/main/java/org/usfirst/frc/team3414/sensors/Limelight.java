@@ -35,7 +35,6 @@ public class Limelight {
         System.out.println("Yield all");
     }
     public static void pitMode(){
-        System.out.print("Pit Mode is being called");
         setLED(1);
         setMode(1);
     }

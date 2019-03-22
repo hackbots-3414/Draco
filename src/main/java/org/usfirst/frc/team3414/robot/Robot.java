@@ -59,8 +59,8 @@ public class Robot extends IterativeRobot {
 		Climber.getInstance().init();
 		Limelight.init();
 		
-		Lifecam.init();
-		Lifecam.startRear();
+		//Lifecam.init();
+		//Lifecam.startRear();
 	}
 	@Override
 	public void robotPeriodic() {
