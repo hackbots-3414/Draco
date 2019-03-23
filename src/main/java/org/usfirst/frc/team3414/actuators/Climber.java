@@ -17,6 +17,7 @@ import org.usfirst.frc.team3414.diagnostic.LED;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -39,6 +40,8 @@ public class Climber {
     TalonSRX middleMotor;
     DigitalInput frontsensor;
     DigitalInput rearsensor;
+    Joystick left = Teleop.getInstance().getLeftJoystick();
+    Joystick right = Teleop.getInstance().getRightJoystick();
 
     public void init() {
         frontMotor = new TalonSRX(Config.CLIMBER_FRONT);
@@ -78,7 +81,8 @@ public class Climber {
                     break;
 
                 }
-                if (getRearEncoder() >= margin) {
+                //if (getRearEncoder() >= margin || checkOverride()) {
+                if (getRearEncoder() >= margin) { 
                     LED.setGreen();
                     stage = 2;
                 }
@@ -352,6 +356,17 @@ public class Climber {
     public boolean getEscapeButton() {
         return !Teleop.getInstance().getLeftJoystick().getRawButton(escape)
                 || !Teleop.getInstance().getRightJoystick().getRawButton(escape);
+    }
+    public boolean checkOverride(){
+        if(left.getRawButton(8) && left.getRawButton(9)){
+            return true;
+        }
+        else if(right.getRawButton(8) && right.getRawButton(9)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 }
