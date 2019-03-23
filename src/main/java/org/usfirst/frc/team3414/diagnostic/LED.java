@@ -103,6 +103,7 @@ public class LED {
     }
 
     public static void climberLastWarning() {
+        /*
         lastTime = System.currentTimeMillis();
         if(Timer.getMatchTime()>= 115){
 
@@ -114,6 +115,7 @@ public class LED {
         else{
         setRed();
         }
+        */  
     }
 
     public static void climberMoveBottom() {
@@ -138,9 +140,8 @@ public class LED {
     public static void alignActivated() {
         setStrobeGold();
     }
-
     public static void hatchAbleToBePickedUp() {
-        setGreen();
+        //setGreen();
 
     }
 

@@ -48,11 +48,15 @@ public class HatchPanelManipulator {
     public void setOut() {
         sliderOut.set(true);
         sliderIn.set(false);
+        //LED.setGreen();
+      //  LED.setRed();
+      LED.setGreen();
     }
 
     public void setIn() {
         sliderOut.set(false);
         sliderIn.set(true);
+       LED.setPurple();
     }
     public void setOpenAssisted(){
         if(isTouchingPanel()){
@@ -71,13 +75,12 @@ public class HatchPanelManipulator {
     }
     public void updateLED(){
         if(isTouchingPanel()){
-            LED.hatchAbleToBePickedUp();
+            //LED.hatchAbleToBePickedUp();
         }
     }
     public void setClosed() {
         hatchUp.set(true);
         hatchDown.set(false);
-        LED.setYellow();
     }
     public void setOverride(boolean set){
         override = set;
@@ -85,7 +88,6 @@ public class HatchPanelManipulator {
     public void setOpen() {
         hatchUp.set(false);
         hatchDown.set(true);
-        LED.setRed();
     }
 
     public void diagnostic() {

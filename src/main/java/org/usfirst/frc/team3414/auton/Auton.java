@@ -36,6 +36,7 @@ public class Auton {
     AnalogInput irRight = Teleop.getInstance().getRightIR();
     AnalogInput lineSensor = Teleop.getInstance().getLineSensor();
 	
+	/*
 	public void align() {
 		if (right.getRawButton(3) || left.getRawButton(3)) {
 			// while(!left.getRawButton(Config.ESCAPE_BUTTON)){
@@ -62,4 +63,5 @@ public class Auton {
 		}
 
 	}
+	*/
 }

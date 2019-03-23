@@ -58,7 +58,7 @@ public class Teleop {
 
 	public void driverInfo() {
 		MatchTimer.outputTime();
-		LED.checkTime();
+		LED.checkClimberTime();
 	}
 
 	public void record() throws IOException {
@@ -159,8 +159,10 @@ public class Teleop {
 			HatchPanelManipulator.getInstance().setOverride(true);
 		}
 		else if (pad.getRT()){
+			/*
 			HatchPanelManipulator.getInstance().setOverride(false); //Pettengil button controls
 			HatchPanelManipulator.getInstance().setOpenAssisted();
+			*/
 		}
 
 		

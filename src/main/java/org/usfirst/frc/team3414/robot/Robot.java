@@ -110,7 +110,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Teleop.getInstance().driverInfo(); //Please don't delete this. Just displays game time. 
 		//Teleop.getInstance().replaySystem();
-		Teleop.getInstance().align(); 
+	//	Teleop.getInstance().align(); 
 		//Teleop.getInstance().driveStraight();
 		//WORKING OFFICIALLY
 		Teleop.getInstance().drive();
