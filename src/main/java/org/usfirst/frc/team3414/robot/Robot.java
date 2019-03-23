@@ -21,8 +21,10 @@ import org.usfirst.frc.team3414.sensors.Lifecam;
 import org.usfirst.frc.team3414.sensors.Limelight;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -59,6 +61,7 @@ public class Robot extends IterativeRobot {
 		Tunnel.getInstance().init();
 		Climber.getInstance().init();
 		Limelight.init();
+		teleopInit();
 		
 		//Lifecam.init();
 		//Lifecam.startRear();
@@ -72,8 +75,23 @@ public class Robot extends IterativeRobot {
 		} */
 		if(isDisabled()){
 			Teleop.getInstance().stopAll();
+			if((Math.abs(Teleop.getInstance().getLeftJoystick().getY())>.1)|| (Math.abs(Teleop.getInstance().getRightJoystick().getY())>.1) ){
+				System.out.println("SOMETHING ISN'T ZEROED");	
+			}
+			else{
+				System.out.println("Ready");
+			}
 		}
-	}
+		if(Timer.getMatchTime() <= 30 && Timer.getMatchTime()> 10){
+			//LED.setYellow();
+		}
+		else if(Timer.getMatchTime()<10){
+			//LED.setRed(); //On Alpha, red and green are swapped
+				//WE WANT GREEN
+		}
+
+		}
+	
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
@@ -108,7 +126,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		LED.setYellow();
 		Teleop.getInstance().driverInfo(); //Please don't delete this. Just displays game time. 
 		//Teleop.getInstance().replaySystem();
 	//	Teleop.getInstance().align(); 
@@ -146,7 +163,7 @@ public class Robot extends IterativeRobot {
 
 		// }
 		Limelight.init();
-		LED.setPurple(); 
+	LED.setPurple(); 
 	}
 
 	/**

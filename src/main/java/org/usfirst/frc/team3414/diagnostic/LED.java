@@ -39,7 +39,7 @@ public class LED {
 
     public static void setYellow() { // 20 to 15 seconds left
         //light.set(.69); given
-        light.set(.67); //Corrected value, given goes to lawn green
+        light.set(.67); //Corrected value, given goes to lawn green. All of them go to lawn green :(
     }
 
     public static void setRed() { // 15 to 10 seconds left
@@ -107,11 +107,13 @@ public class LED {
     }
 
     public static void climberLastWarning() {
+       // LED.setRed();
         /*
         lastTime = System.currentTimeMillis();
         if(Timer.getMatchTime()>= 115){
 
-        if(System.currentTimeMillis() - lastTime > 500){
+        if(System.currentTimeMillis() - la
+        stTime > 500){
         setWhite();
         lastTime = System.currentTimeMillis();
         }
