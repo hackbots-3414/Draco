@@ -108,6 +108,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		LED.setYellow();
 		Teleop.getInstance().driverInfo(); //Please don't delete this. Just displays game time. 
 		//Teleop.getInstance().replaySystem();
 	//	Teleop.getInstance().align(); 

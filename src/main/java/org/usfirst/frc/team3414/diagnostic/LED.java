@@ -16,9 +16,12 @@ import edu.wpi.first.wpilibj.Timer;
 public class LED {
    public static Spark light = new Spark(0);
    //static  Spark light = new Spark(10);
-
+   public static void setSpark(double value){
+       light.set(value);
+   }
     public static void setPurple() { // Passive color
-        light.set(.91);
+        light.set(.01); //Manual calls for .91
+        //THIS IS NOT WHAT PURPLE SHOULD BE @Mr. Peterson
     }
 
     public static void setWhite() { // Passive color 2
@@ -31,11 +34,12 @@ public class LED {
 
     public static void setGreen() { // 25 to 20 seconds left; See if we can make these match ending colors light
                                     // chase (slowly depleting until the next color)
-        light.set(.77);
+        light.set(.77); //THIS IS ACTUALLY RED
     }
 
     public static void setYellow() { // 20 to 15 seconds left
-        light.set(.69);
+        //light.set(.69); given
+        light.set(.67); //Corrected value, given goes to lawn green
     }
 
     public static void setRed() { // 15 to 10 seconds left

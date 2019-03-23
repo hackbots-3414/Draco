@@ -100,7 +100,7 @@ public class Teleop {
 		} else if (pad.getBButton()) {
 			Intake.getInstance().off();
 			Tunnel.getInstance().on();
-			HatchPanelManipulator.getInstance().setIn();
+			//HatchPanelManipulator.getInstance().setIn();
 		} else {
 			Intake.getInstance().goUp();
 			Intake.getInstance().off();
