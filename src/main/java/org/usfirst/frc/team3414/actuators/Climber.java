@@ -195,7 +195,7 @@ public class Climber {
 
     }
 
-    public void front(TalonSRX climber) { // PERFECT TUNING ON BETA AS OF 3/15/2019
+    public void front(TalonSRX climber) { // P̶E̶R̶F̶E̶C̶T̶ ̶T̶U̶N̶I̶N̶G̶ ̶O̶N̶ ̶B̶E̶T̶A̶ ̶A̶S̶ ̶O̶F̶ ̶3̶/̶1̶5̶/̶2̶0̶1̶9 pretty good tuning on beta as of 3/25/19 and perfect tuning on alpha as of 3/23/19
         climber.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
         climber.getSensorCollection().setQuadraturePosition(0, 10);
         climber.configMotionAcceleration(4784);
@@ -240,27 +240,7 @@ public class Climber {
         rearMotor.set(ControlMode.Position, 0);
     }
 
-    public void percentOutputClimber() {
-        int target = 15000;
-        frontMotor.set(ControlMode.PercentOutput, .5);
-        rearMotor.set(ControlMode.PercentOutput, .5);
-
-        while ((getFrontEncoder() < target) && (!Teleop.getInstance().getRightJoystick().getRawButton(escape))) {
-            if (getRearEncoder() - getFrontEncoder() > 200) {
-                // Slow Rear
-                rearMotor.set(ControlMode.PercentOutput, rearMotor.getMotorOutputPercent() - .01);
-            } else if (getFrontEncoder() - getRearEncoder() > 200) {
-                // Speed Up Rear
-                rearMotor.set(ControlMode.PercentOutput, rearMotor.getMotorOutputPercent() + .01);
-            }
-            // frontMotor.set(ControlMode.Position, 13000);
-            // rearMotor.set(ControlMode.Position, getRearEncoder() + 500);
-        }
-        while (!Teleop.getInstance().getRightJoystick().getRawButton(escape)) {
-            frontMotor.set(ControlMode.Position, target);
-            rearMotor.set(ControlMode.Position, target);
-        }
-    }
+    
     // SENSORS
 
     public int getFrontEncoder() {
@@ -299,11 +279,6 @@ public class Climber {
         rearMotor.getSensorCollection().setQuadraturePosition(0, 10);
     }
 
-    public void safetyLimit(int encoder, int limit, TalonSRX talon) {
-        if (encoder > limit) {
-            talon.set(ControlMode.PercentOutput, 0);
-        }
-    }
 
     public void diagnostic() {
         SmartDashboard.putNumber("Climber Front %:", frontMotor.getMotorOutputPercent());
@@ -362,6 +337,27 @@ public class Climber {
             SmartDashboard.putBoolean("Drive Forward", false);
         }
         if (stage == 7) {
+        }
+    }
+    public void percentOutputClimber() {
+        int target = 15000;
+        frontMotor.set(ControlMode.PercentOutput, .5);
+        rearMotor.set(ControlMode.PercentOutput, .5);
+
+        while ((getFrontEncoder() < target) && (!Teleop.getInstance().getRightJoystick().getRawButton(escape))) {
+            if (getRearEncoder() - getFrontEncoder() > 200) {
+                // Slow Rear
+                rearMotor.set(ControlMode.PercentOutput, rearMotor.getMotorOutputPercent() - .01);
+            } else if (getFrontEncoder() - getRearEncoder() > 200) {
+                // Speed Up Rear
+                rearMotor.set(ControlMode.PercentOutput, rearMotor.getMotorOutputPercent() + .01);
+            }
+            // frontMotor.set(ControlMode.Position, 13000);
+            // rearMotor.set(ControlMode.Position, getRearEncoder() + 500);
+        }
+        while (!Teleop.getInstance().getRightJoystick().getRawButton(escape)) {
+            frontMotor.set(ControlMode.Position, target);
+            rearMotor.set(ControlMode.Position, target);
         }
     }
 

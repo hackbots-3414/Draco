@@ -67,12 +67,11 @@ public class Robot extends IterativeRobot {
 		//Lifecam.startRear();
 	}
 	@Override
-	public void robotPeriodic() {
-		//Make sure this is for both auton and teleop
-	/*
-		if(!isOperatorControl()&&!isAutonomous()){ 
-			Teleop.getInstance().stopAll();
-		} */
+	public void disabledInit() {
+		teleopInit();
+	}
+	@Override
+	public void disabledPeriodic() {
 		if(isDisabled()){
 			Teleop.getInstance().stopAll();
 			if((Math.abs(Teleop.getInstance().getLeftJoystick().getY())>.1)|| (Math.abs(Teleop.getInstance().getRightJoystick().getY())>.1) ){
@@ -82,6 +81,15 @@ public class Robot extends IterativeRobot {
 				SmartDashboard.putBoolean("Joysticks Zeroed", true);
 			}
 		}
+	}
+	@Override
+	public void robotPeriodic() {
+		//Make sure this is for both auton and teleop
+	/*
+		if(!isOperatorControl()&&!isAutonomous()){ 
+			Teleop.getInstance().stopAll();
+		} */
+		
 		if(Timer.getMatchTime() <= 30 && Timer.getMatchTime()> 10){
 			//LED.setYellow();
 		}
@@ -139,7 +147,7 @@ public class Robot extends IterativeRobot {
 		//SHOULD WORK
 	    Teleop.getInstance().climber();
 		//BONUS
-		DashboardOutput.diagnostic();
+		//DashboardOutput.diagnostic();
 		
 	}
 
