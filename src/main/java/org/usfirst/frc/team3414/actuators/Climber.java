@@ -51,11 +51,14 @@ public class Climber {
         rearsensor = new DigitalInput(Config.CLIMBER_REAR_SENSOR); // 4
         middleMotor.setInverted(true);
         initEncoders();
-        resetEncoders();
+        resetEncoders(); // Because the reset only occurs at the time of enable, starting the climber mid
+                         // climb will work fine :) //TODO test this on the hardware.
+        updateDashboard(0);
 
     }
 
-    public void climb(int target, int margin,double finalDriveTime) {
+    public void climb(int target, int margin, double finalDriveTime, boolean operatorControlEnabled,
+            double acceptedTime) {
         /*-
          * Stage 1 - Climb Evenly 
          * Stage 2 - Move Forward 
@@ -72,18 +75,29 @@ public class Climber {
         front(frontMotor);
         setFront(target);
         long start = System.currentTimeMillis();
+        long stage2Start = 0;
+        long stage4Start = 0;
+        long stage6Start = 0;
+        int safetyLimit = 5000;
+        double frontRetractTime = .5; // Stage 3 won't be triggered until
+        double rearRetractTime = .5;
+        double topClimbTime = 8;
+        double midClimbTime = 4;
+        double midToTopClimbTime = 4;
         while (getEscapeButton()) {
+            updateDashboard(stage);
             if (stage == 1) {
-                LED.climberRise(); //Sets the LEDs
+                LED.climberRise(); // Sets the LEDs
                 setFront(target);
                 setRear(getFrontEncoder() + offset);
-                if(Math.abs(getFrontEncoder() - getRearEncoder()) > 10000){ //experimental
+                if (Math.abs(getFrontEncoder() - getRearEncoder()) > safetyLimit) { // experimental
                     break;
 
                 }
-                //if (getRearEncoder() >= margin || checkOverride()) {
-                if (getRearEncoder() >= margin) { 
+                if (getRearEncoder() >= margin) {
+                    // if (getRearEncoder() >= margin) { //code to switch to stage 2
                     LED.setGreen();
+                    stage2Start = System.currentTimeMillis();
                     stage = 2;
                 }
             }
@@ -92,7 +106,12 @@ public class Climber {
                 setFront(target);
                 // setRear(getFrontEncoder() + offset);
                 setRear(target + offset);
-                if (atFrontDistance()) {
+                if ((atFrontDistance() || checkOverride())
+                        && (System.currentTimeMillis() - stage2Start > frontRetractTime * 1000)) { // If the front
+                                                                                                   // sensor is
+                                                                                                   // triggered or, the
+                                                                                                   // override is
+                    // pressed, go to the next stage
                     setBottom(0);
                     stage = 3;
 
@@ -103,6 +122,7 @@ public class Climber {
                 retractFront();
                 setRear(target);
                 if (getFrontEncoder() <= 100) {
+                    stage4Start = System.currentTimeMillis();
                     stage = 4;
 
                 }
@@ -111,7 +131,11 @@ public class Climber {
                 setBottom(.3414);
                 setDriveTrain(.10);
                 setRear(target);
-                if (atRearDistance()) {
+                if ((atRearDistance() || checkOverride())
+                        && (System.currentTimeMillis() - stage4Start > rearRetractTime * 1000)) { // If the rear sensor
+                                                                                                  // is triggered or the
+                                                                                                  // override is
+                    // pressed go to the next stage
                     stage = 5;
                     setDriveTrain(0);
                     setBottom(0);
@@ -122,93 +146,31 @@ public class Climber {
                 retractRear();
                 if (getRearEncoder() <= 100) {
                     stage = 6;
+                    stage6Start = System.currentTimeMillis();
                 }
             }
             if (stage == 6) {
-                setDriveTrain(.3414); //.3414 originally
-                Timer.delay(finalDriveTime); //originally .7
-                stage = 7;
-            } if(stage >= 7 || stage <=0) {
+                if (!operatorControlEnabled) {
+                    setDriveTrain(.3414); // .3414 originally
+                    // Timer.delay(finalDriveTime); //originally .7, a .7 wait. Replaced with an if
+                    // statement to allow for breakout
+                    // stage = 7;
+                    double delaytime = finalDriveTime * 1000;
+                    if (System.currentTimeMillis() - stage6Start > delaytime) { // Our own timer.delay, only difference
+                                                                                // is that this loops every couple of
+                                                                                // ms, so driver can escape any time
+                        stage = 7;
+                    }
+                } else {
+                    stage = 7;
+                }
+            }
+            if (stage >= 7 || stage <= 0) {
                 stop();
                 System.out.println("Climb Finished :)");
+                SmartDashboard.putNumber("Climb Finished in:", (System.currentTimeMillis() - start) / 1000);
                 LED.climberFinished();
                 break;
-            }
-        }
-        stop();
-
-    }
-    public void flippedClimb(int target, int margin) { //Need some beta time for this, maybe when we tested we swapped follows and leads. In flipped, they're swapped
-        /*-
-         * Stage 1 - Climb Evenly 
-         * Stage 2 - Move Forward 
-         * Stage 3 - Raise Front 
-         * Stage 4 - Move Whole Bot Forward 
-         * Stage 5 - Raise Rear
-         * Stage 6 - Drive Forward on platform
-         */
-        // target = 16000 for top
-        int offset = 0;
-        // margin = 13500 for top
-        int stage = 1;
-        rear(rearMotor);
-        front(frontMotor);
-        setFront(target);
-        while (getEscapeButton()) {
-            if (stage == 1) {
-                System.out.println("Not at target height (IR)");
-                setRear(target);
-                setFront(getFrontEncoder() + offset);
-
-                if (getFrontEncoder() >= margin) {
-                    stage = 2;
-                } //Only flipped up to here.
-            }
-            if (stage == 2) {
-                setBottom(.3414);
-                setFront(target);
-                // setRear(getFrontEncoder() + offset);
-                setRear(target + offset);
-                if (atFrontDistance()) {
-                    setBottom(0);
-                    stage = 3;
-
-                }
-
-            }
-            if (stage == 3) {
-                retractFront();
-                setRear(target);
-                if (getFrontEncoder() <= 100) {
-                    stage = 4;
-
-                }
-            }
-            if (stage == 4) {
-                setBottom(.3414);
-                setDriveTrain(.10);
-                setRear(target);
-                if (atRearDistance()) {
-                    stage = 5;
-                    setDriveTrain(0);
-                    setBottom(0);
-                }
-            }
-            if (stage == 5) {
-                setBottom(0);
-                retractRear();
-                if (getRearEncoder() >= 200) {
-                    stage = 6;
-                }
-            }
-            if (stage == 6) {
-                setDriveTrain(.3414);
-                stage = 7;
-            } if(stage >= 7 || stage <=0) {
-                stop();
-                System.out.println("Climb Finished :)");
-                break;
-
             }
         }
         stop();
@@ -223,7 +185,7 @@ public class Climber {
         climber.configMotionCruiseVelocity(1196);// 1196
         climber.configPeakOutputForward(1.0);
         climber.configPeakOutputReverse(-1.0);
-        climber.config_kP(0,8);// (0, 0.175); or 7, 20 on beta
+        climber.config_kP(0, 8);// (0, 0.175); or 7, 20 on beta
         climber.config_kI(0, 0); // (0,0)
         climber.config_kD(0, 0); // 1.75
         // climber.config_kF(0, 0.427799073);
@@ -234,13 +196,13 @@ public class Climber {
 
     }
 
-    public void front(TalonSRX climber) { //PERFECT TUNING ON BETA AS OF 3/15/2019
+    public void front(TalonSRX climber) { // PERFECT TUNING ON BETA AS OF 3/15/2019
         climber.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
         climber.getSensorCollection().setQuadraturePosition(0, 10);
         climber.configMotionAcceleration(4784);
         climber.configMotionCruiseVelocity(650); // 1196, 720 on beta
         climber.configPeakOutputForward(1.0);
-        climber.configPeakOutputReverse(-1.0)   ;
+        climber.configPeakOutputReverse(-1.0);
         climber.config_kP(0, 3); // Originally 1
         climber.config_kI(0, 0);
         climber.config_kD(0, 0);
@@ -345,27 +307,62 @@ public class Climber {
     }
 
     public void diagnostic() {
-                SmartDashboard.putNumber("Climber Front %:", frontMotor.getMotorOutputPercent());
-                SmartDashboard.putNumber("Climber Middle %:", middleMotor.getMotorOutputPercent());
-                SmartDashboard.putNumber("Climber Rear %:", rearMotor.getMotorOutputPercent());
-                SmartDashboard.putNumber("Climber Front Encoder", getFrontEncoder());
-                SmartDashboard.putNumber("Climber Rear Encoder", getRearEncoder());
-              
+        SmartDashboard.putNumber("Climber Front %:", frontMotor.getMotorOutputPercent());
+        SmartDashboard.putNumber("Climber Middle %:", middleMotor.getMotorOutputPercent());
+        SmartDashboard.putNumber("Climber Rear %:", rearMotor.getMotorOutputPercent());
+        SmartDashboard.putNumber("Climber Front Encoder", getFrontEncoder());
+        SmartDashboard.putNumber("Climber Rear Encoder", getRearEncoder());
+
     }
+
     // ESCAPE TRIGGER
     public boolean getEscapeButton() {
         return !Teleop.getInstance().getLeftJoystick().getRawButton(escape)
                 || !Teleop.getInstance().getRightJoystick().getRawButton(escape);
     }
-    public boolean checkOverride(){
-        if(left.getRawButton(8) && left.getRawButton(9)){
+
+    public boolean checkOverride() {
+        if (left.getRawButton(8) && left.getRawButton(9)) {
             return true;
-        }
-        else if(right.getRawButton(8) && right.getRawButton(9)){
+        } else if (right.getRawButton(8) && right.getRawButton(9)) {
             return true;
-        }
-        else{
+        } else {
             return false;
+        }
+    }
+
+    public void updateDashboard(int stage) {
+        if (stage == 1) {
+            SmartDashboard.putBoolean("Rising", true);
+        } else {
+            SmartDashboard.putBoolean("Rising", false);
+        }
+        if (stage == 2) {
+            SmartDashboard.putBoolean("Move Bottom Forward", true);
+        } else {
+            SmartDashboard.putBoolean("Move Bottom Forward", false);
+        }
+        if (stage == 3) {
+            SmartDashboard.putBoolean("Retract Front", true);
+        } else {
+            SmartDashboard.putBoolean("Retract Front", false);
+        }
+        if (stage == 4) {
+            SmartDashboard.putBoolean("Move DriveTrain Forward", true);
+        } else {
+            SmartDashboard.putBoolean("Move DriveTrain Forward", false);
+        }
+        if (stage == 5) {
+            SmartDashboard.putBoolean("Retract Rear", true);
+        } else {
+            SmartDashboard.putBoolean("Retract Rear", false);
+        }
+        if (stage == 6) {
+            SmartDashboard.putBoolean("Drive Forward", true);
+        } else {
+            SmartDashboard.putBoolean("Drive Forward", false);
+        }
+        if (stage == 7) {
         }
     }
 
