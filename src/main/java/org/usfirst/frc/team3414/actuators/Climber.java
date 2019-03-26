@@ -57,8 +57,7 @@ public class Climber {
 
     }
 
-    public void climb(int target, int margin, double finalDriveTime, boolean operatorControlEnabled,
-            double acceptedTime) {
+    public void climb(int target, int margin, double finalDriveTime, boolean operatorControlEnabled) {
         /*-
          * Stage 1 - Climb Evenly 
          * Stage 2 - Move Forward 
