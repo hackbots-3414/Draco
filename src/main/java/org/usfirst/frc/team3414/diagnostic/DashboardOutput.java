@@ -13,6 +13,7 @@ import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.Tunnel;
 import org.usfirst.frc.team3414.auton.Align;
 import org.usfirst.frc.team3414.sensors.LimeLightUtil;
+import org.usfirst.frc.team3414.teleop.Teleop;
 import org.usfirst.frc.team3414.actuators.Climber;
 
 
@@ -53,6 +54,8 @@ public class DashboardOutput {
         outputAlign();
         outputLimelightUtil();
 
+    }
+    public static void checklist(){
     }
     
 }

@@ -55,7 +55,7 @@ public class Climber {
 
     }
 
-    public void climb(int target, int margin) {
+    public void climb(int target, int margin,double finalDriveTime) {
         /*-
          * Stage 1 - Climb Evenly 
          * Stage 2 - Move Forward 
@@ -125,8 +125,8 @@ public class Climber {
                 }
             }
             if (stage == 6) {
-                setDriveTrain(.3414);
-                Timer.delay(.7);
+                setDriveTrain(.3414); //.3414 originally
+                Timer.delay(finalDriveTime); //originally .7
                 stage = 7;
             } if(stage >= 7 || stage <=0) {
                 stop();

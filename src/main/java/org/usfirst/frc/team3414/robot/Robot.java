@@ -76,10 +76,10 @@ public class Robot extends IterativeRobot {
 		if(isDisabled()){
 			Teleop.getInstance().stopAll();
 			if((Math.abs(Teleop.getInstance().getLeftJoystick().getY())>.1)|| (Math.abs(Teleop.getInstance().getRightJoystick().getY())>.1) ){
-				System.out.println("SOMETHING ISN'T ZEROED");	
-			}
+				SmartDashboard.putBoolean("Joysticks Zeroed", false);
+						}
 			else{
-				System.out.println("Ready");
+				SmartDashboard.putBoolean("Joysticks Zeroed", true);
 			}
 		}
 		if(Timer.getMatchTime() <= 30 && Timer.getMatchTime()> 10){
