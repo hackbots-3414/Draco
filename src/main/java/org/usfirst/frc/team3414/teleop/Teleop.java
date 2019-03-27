@@ -93,14 +93,21 @@ public class Teleop {
 			Intake.getInstance().on();
 			Intake.getInstance().goDown();
 			Tunnel.getInstance().on();
-		} else if (pad.getAButton() && Tunnel.getInstance().getBallPos() >= 1 ) {
+		} else if (pad.getAButton() && Tunnel.getInstance().getBallPos() == 1 ) {
+			Intake.getInstance().goUp();
+			Intake.getInstance().off();
+			Tunnel.getInstance().on();
+			//Tunnel.getInstance().off();
+			//At Kyle's request, tunnel is back to its original state, it keeps going until the ball gets up there
+		}
+		else if(pad.getAButton() && Tunnel.getInstance().getBallPos() == 2){
 			Intake.getInstance().goUp();
 			Intake.getInstance().off();
 			Tunnel.getInstance().off();
-		} else if (pad.getBButton()) {
+		}
+		 else if (pad.getBButton()) {
 			Intake.getInstance().off();
 			Tunnel.getInstance().on();
-			//HatchPanelManipulator.getInstance().setIn();
 		} else {
 			Intake.getInstance().goUp();
 			Intake.getInstance().off();
