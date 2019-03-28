@@ -58,7 +58,8 @@ public class Robot extends IterativeRobot {
 		
 		Lifecam.init();
 		Lifecam.startRear();
-		LED.setBlock(false);
+		LED.setLineBlock(false);
+		LED.setTimeBlock(false);
 	}
 	@Override
 	public void disabledInit() {
@@ -78,20 +79,6 @@ public class Robot extends IterativeRobot {
 	}
 	@Override
 	public void robotPeriodic() {
-		//Make sure this is for both auton and teleop
-	/*
-		if(!isOperatorControl()&&!isAutonomous()){ 
-			Teleop.getInstance().stopAll();
-		} */
-		
-		if(Timer.getMatchTime() <= 30 && Timer.getMatchTime()> 10){
-			//LED.setYellow();
-		}
-		else if(Timer.getMatchTime()<10){
-			//LED.setRed(); //On Alpha, red and green are swapped
-				//WE WANT GREEN
-		}
-
 		}
 	
 
@@ -126,9 +113,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		LED.lineLED();
-		LED.climbWarning();
-		Teleop.getInstance().driverInfo(); //Please don't delete this. Just displays game time. 
+		Teleop.getInstance().driverInfo(); //Please don't delete this. Updates LEDs for line guiding and time warning, and dashboard updates for timing. 
 		//Teleop.getInstance().replaySystem();
 	//	Teleop.getInstance().align(); 
 		//Teleop.getInstance().driveStraight();
@@ -146,7 +131,6 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-		LED.setBlock(false);
 		// if (Config.REPLAY_MODE) {
 		// 	try {
 		// 		Auton.getInstance().replayInit();
@@ -166,7 +150,7 @@ public class Robot extends IterativeRobot {
 
 		// }
 		Limelight.init();
-	LED.setPurple(); 
+		LED.reset();
 	}
 
 	/**

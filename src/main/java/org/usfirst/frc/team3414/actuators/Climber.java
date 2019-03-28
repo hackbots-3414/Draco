@@ -89,10 +89,12 @@ public class Climber {
                 LED.setRed(); // Sets the LEDs
                 setFront(target);
                 setRear(getFrontEncoder() + offset);
-               /* if (Math.abs(getFrontEncoder() - getRearEncoder()) > safetyLimit) { // experimental
-                    break;
-
-                }*/
+                /*
+                 * if (Math.abs(getFrontEncoder() - getRearEncoder()) > safetyLimit) { //
+                 * experimental break;
+                 * 
+                 * }
+                 */
                 if (getRearEncoder() >= margin) {
                     // if (getRearEncoder() >= margin) { //code to switch to stage 2
                     LED.setRed();
@@ -101,7 +103,7 @@ public class Climber {
                 }
             }
             if (stage == 2) {
-                setBottom(.4);
+                setBottom(.3414);
                 setFront(target);
                 // setRear(getFrontEncoder() + offset);
                 setRear(target + offset);
@@ -127,7 +129,7 @@ public class Climber {
                 }
             }
             if (stage == 4) {
-                setBottom(.40); //originally .3414
+                setBottom(.3414); // originally .3414
                 setDriveTrain(.10);
                 setRear(target);
                 if ((atRearDistance() || checkOverride())
@@ -156,12 +158,12 @@ public class Climber {
                     // stage = 7;
                     double delaytime = finalDriveTime * 1000;
                     if (System.currentTimeMillis() - stage6Start > delaytime) { // Our own timer.delay, only difference
-                       LED.setBlock(true);                                                         // is that this loops every couple of
+                        LED.setMasterBlock(false); // is that this loops every couple of
                         LED.setParty();
                         stage = 7;
                     }
                 } else {
-                    LED.setBlock(true);
+                    LED.setMasterBlock(true);
                     LED.setParty();
                     stage = 7;
                 }
@@ -198,7 +200,9 @@ public class Climber {
 
     }
 
-    public void front(TalonSRX climber) { // P̶E̶R̶F̶E̶C̶T̶ ̶T̶U̶N̶I̶N̶G̶ ̶O̶N̶ ̶B̶E̶T̶A̶ ̶A̶S̶ ̶O̶F̶ ̶3̶/̶1̶5̶/̶2̶0̶1̶9 pretty good tuning on beta as of 3/25/19 and perfect tuning on alpha as of 3/23/19
+    public void front(TalonSRX climber) { // P̶E̶R̶F̶E̶C̶T̶ ̶T̶U̶N̶I̶N̶G̶ ̶O̶N̶ ̶B̶E̶T̶A̶ ̶A̶S̶ ̶O̶F̶ ̶3̶/̶1̶5̶/̶2̶0̶1̶9
+                                          // pretty good tuning on beta as of 3/25/19 and perfect tuning on alpha 
+                                          // s of 3/23/19
         climber.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
         climber.getSensorCollection().setQuadraturePosition(0, 10);
         climber.configMotionAcceleration(4784);
@@ -243,7 +247,6 @@ public class Climber {
         rearMotor.set(ControlMode.Position, 0);
     }
 
-    
     // SENSORS
 
     public int getFrontEncoder() {
@@ -281,7 +284,6 @@ public class Climber {
         rearMotor.getSensorCollection().setQuadraturePosition(0, 10);
         rearMotor.getSensorCollection().setQuadraturePosition(0, 10);
     }
-
 
     public void diagnostic() {
         SmartDashboard.putNumber("Climber Front %:", frontMotor.getMotorOutputPercent());
@@ -342,6 +344,7 @@ public class Climber {
         if (stage == 7) {
         }
     }
+
     public void percentOutputClimber() {
         int target = 15000;
         frontMotor.set(ControlMode.PercentOutput, .5);

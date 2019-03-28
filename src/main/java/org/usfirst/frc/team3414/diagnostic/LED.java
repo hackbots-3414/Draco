@@ -73,10 +73,19 @@ public class LED {
         light.set(-.97);
     }
 
-    static boolean blocked = false;
+    static boolean lineBlocked = false;
+    static boolean timeBlocked = false;
+    static boolean masterBlock = false;
 
-    public static void setBlock(boolean blockLineLED) {
-        blocked = blockLineLED;
+    public static void setMasterBlock(boolean blockAll){
+        masterBlock = blockAll;
+    }
+    public static void setLineBlock(boolean blockLineLED) {
+        lineBlocked = blockLineLED;
+    }
+
+    public static void setTimeBlock(boolean blockTimeLED) {
+        timeBlocked = blockTimeLED;
     }
 
     public static void setFire() { // Fire is a safety hazard :(
@@ -103,26 +112,8 @@ public class LED {
         light.set(.21);
     }
 
-    // In match time sets
-    public static void checkClimberTime() {
-        climberFirstWarning();
-        climberSecondWarning();
-        climberLastWarning();
+    
 
-    }
-
-    private static void climberFirstWarning() {
-    }
-
-    // 6 second warning
-    private static void climberSecondWarning() {
-    }
-
-    static long lastTime = 0;
-
-    public static void climberRise() {
-        setFire();
-    }
 
     public static void climberLastWarning() {
         // LED.setRed();
@@ -173,25 +164,29 @@ public class LED {
     public static void setStatic() {
         setPurple();
     }
-
+    public static void reset(){
+        setMasterBlock(false);
+        setLineBlock(false);
+        setTimeBlock(false);
+        setPurple();
+    }
     public static void lineLED() {
-        if (!blocked) {
-            if(System.currentTimeMillis() - HatchPanelManipulator.getInstance().getLastOpen() < 3000){
-                System.out.println("I am true");
-                LED.setGreen();
-            }
-             else if (Teleop.getInstance().getLineSensor().getAverageVoltage() > 1.0
+        if (!lineBlocked && !masterBlock) {
+            if (Teleop.getInstance().getLineSensor().getAverageVoltage() > 1.0
                     && HatchPanelManipulator.getInstance().isOpen()) {
-                //LED.setYellow();
+                LED.setYellow();
+                setTimeBlock(true);
             } else if (Teleop.getInstance().getLineSensor().getAverageVoltage() > 1.0
                     && !HatchPanelManipulator.getInstance().isOpen()) {
-              //  LED.setYellow();
-              LED.setOrange();
+                setGreen();
+                setTimeBlock(true);
 
             } else {
-                // This go purple not green or other colors
-                LED.setPurple();
+                // This should go purple not green or other colors
+                setPurple();
             }
+        }else {
+            setTimeBlock(false);
         }
     }
 
@@ -204,26 +199,47 @@ public class LED {
     }
 
     public static void climbWarning() {
-        if (!blocked) {
+        if (!timeBlocked && !masterBlock) {
             if (!DriverStation.getInstance().isAutonomous()) {
                 if (Timer.getMatchTime() <= 30 && Timer.getMatchTime() > 10) {
-                    setBlock(true);
-                    setYellow();
+                    blinkPurple();
                 } else if (Timer.getMatchTime() < 10) {
-                    setBlock(true);
-                    setRed();
+                    blinkRed();
                 }
             }
         }
         // put more in, you get the idea
 
     }
-    double[] colors = {-.45, 0.01,};
+    static long lastBlink = System.currentTimeMillis();
+    static int blinkInterval = 500;
+    private static void blinkRed() {
+        if(System.currentTimeMillis() - lastBlink > blinkInterval){
+            setRed();
+            lastBlink = System.currentTimeMillis();
+        }
+        else{
+            setWhite();
+        }
+    }
+
+    private static void blinkPurple() {
+        if(System.currentTimeMillis() - lastBlink > blinkInterval){
+            setPurple();
+            lastBlink = System.currentTimeMillis();
+        }
+        else{
+            setWhite();
+        }
+    }
+
+    double[] colors = { -.45, 0.01, };
 
     public static void setHBRainbow() {
-
+        
     }
-    public static void set(double value){
+
+    public static void set(double value) {
         light.set(value);
     }
 }

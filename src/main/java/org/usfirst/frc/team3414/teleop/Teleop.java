@@ -50,7 +50,7 @@ public class Teleop {
 	int stopcounter = 0;
 
 	public void freeDriveTrain() {
-		if (left.getRawButton(1)) {
+		if (left.getRawButton(1) || right.getRawButton(1)) {
 			DriveTrain.getInstance().setBlock(false); // Emergency release for drivetrain lockout in case somebody
 														// messes up calling it elsewhere.
 		}
@@ -58,7 +58,8 @@ public class Teleop {
 
 	public void driverInfo() {
 		MatchTimer.outputTime();
-		LED.checkClimberTime();
+		LED.climbWarning();
+		LED.lineLED();
 	}
 
 	public void record() throws IOException {
@@ -179,7 +180,7 @@ public class Teleop {
 
 		if (right.getRawButton(6) && left.getRawButton(6)) { //Top Climb
 			// Climber.getInstance().motionmagicclimber();
-			Climber.getInstance().climb(16500, 14500,.6,false);
+			Climber.getInstance().climb(16500, 14500,.6,false); //Should be 16000 on alpha. 
 		} else if (left.getRawButton(7) && right.getRawButton(7)) { //Lower Climb
 			// Climber.getInstance().motionmagicclimberMidplatform();
 			Climber.getInstance().climb(6000, 4500,.6,false);
