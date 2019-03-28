@@ -36,11 +36,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends IterativeRobot {
-	// testing
-	private static final String kDefaultAuto = "Default";
-	private static final String kCustomAuto = "My Auto";
-	private String m_autoSelected;
-	private SendableChooser<String> m_chooser = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -50,9 +45,7 @@ public class Robot extends IterativeRobot {
 	// Fc. Compressor c = new Compressor(Config.COMPRESSOR);
 	@Override
 	public void robotInit() {
-		m_chooser.addDefault("Default Auto", kDefaultAuto);
-		m_chooser.addObject("My Auto", kCustomAuto);
-		SmartDashboard.putData("Auto choices", m_chooser);
+		
 		// HCompressor.init();
 		// c.enabled();
 		// c.setClosedLoopControl(true);
@@ -63,8 +56,9 @@ public class Robot extends IterativeRobot {
 		Limelight.init();
 		teleopInit();
 		
-		//Lifecam.init();
-		//Lifecam.startRear();
+		Lifecam.init();
+		Lifecam.startRear();
+		LED.setBlock(false);
 	}
 	@Override
 	public void disabledInit() {
@@ -116,10 +110,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		teleopInit();
-		m_autoSelected = m_chooser.getSelected();
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
-		System.out.println("Auto selected " + m_autoSelected);
 	}
 	public void autonomousPeriodic() {
 		teleopPeriodic();
@@ -134,6 +126,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		LED.lineLED();
+		LED.climbWarning();
 		Teleop.getInstance().driverInfo(); //Please don't delete this. Just displays game time. 
 		//Teleop.getInstance().replaySystem();
 	//	Teleop.getInstance().align(); 
@@ -152,6 +146,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
+		LED.setBlock(false);
 		// if (Config.REPLAY_MODE) {
 		// 	try {
 		// 		Auton.getInstance().replayInit();

@@ -86,22 +86,22 @@ public class Climber {
         while (getEscapeButton()) {
             updateDashboard(stage);
             if (stage == 1) {
-                LED.climberRise(); // Sets the LEDs
+                LED.setRed(); // Sets the LEDs
                 setFront(target);
                 setRear(getFrontEncoder() + offset);
-                if (Math.abs(getFrontEncoder() - getRearEncoder()) > safetyLimit) { // experimental
+               /* if (Math.abs(getFrontEncoder() - getRearEncoder()) > safetyLimit) { // experimental
                     break;
 
-                }
+                }*/
                 if (getRearEncoder() >= margin) {
                     // if (getRearEncoder() >= margin) { //code to switch to stage 2
-                    LED.setGreen();
+                    LED.setRed();
                     stage2Start = System.currentTimeMillis();
                     stage = 2;
                 }
             }
             if (stage == 2) {
-                setBottom(.3414);
+                setBottom(.4);
                 setFront(target);
                 // setRear(getFrontEncoder() + offset);
                 setRear(target + offset);
@@ -127,7 +127,7 @@ public class Climber {
                 }
             }
             if (stage == 4) {
-                setBottom(.3414);
+                setBottom(.40); //originally .3414
                 setDriveTrain(.10);
                 setRear(target);
                 if ((atRearDistance() || checkOverride())
@@ -156,15 +156,18 @@ public class Climber {
                     // stage = 7;
                     double delaytime = finalDriveTime * 1000;
                     if (System.currentTimeMillis() - stage6Start > delaytime) { // Our own timer.delay, only difference
-                                                                                // is that this loops every couple of
-                                                                                // ms, so driver can escape any time
+                       LED.setBlock(true);                                                         // is that this loops every couple of
+                        LED.setParty();
                         stage = 7;
                     }
                 } else {
+                    LED.setBlock(true);
+                    LED.setParty();
                     stage = 7;
                 }
             }
             if (stage >= 7 || stage <= 0) {
+                updateDashboard(stage);
                 stop();
                 System.out.println("Climb Finished :)");
                 SmartDashboard.putNumber("Climb Finished in:", (System.currentTimeMillis() - start) / 1000);

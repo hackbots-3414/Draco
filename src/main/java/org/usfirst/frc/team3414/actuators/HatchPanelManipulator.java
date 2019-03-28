@@ -85,9 +85,21 @@ public class HatchPanelManipulator {
     public void setOverride(boolean set){
         override = set;
     }
+    public long getLastOpen(){
+        return lastOpen;
+        }
+    
+    long lastOpen = 0;
     public void setOpen() {
+        lastOpen = System.currentTimeMillis();
         hatchUp.set(false);
         hatchDown.set(true);
+    }
+    public boolean isOut(){
+        return sliderOut.get(); 
+    }
+    public boolean isOpen(){
+        return hatchDown.get();
     }
 
     public void diagnostic() {

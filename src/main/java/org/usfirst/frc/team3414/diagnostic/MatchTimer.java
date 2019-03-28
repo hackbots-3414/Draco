@@ -19,7 +19,7 @@ public class MatchTimer {
 
     public static void outputTime() {
       
-        SmartDashboard.putString("Remaining Time:", getRemaining().toString());
+        SmartDashboard.putNumber("Remaining Time:", Timer.getMatchTime());
 
     }
 

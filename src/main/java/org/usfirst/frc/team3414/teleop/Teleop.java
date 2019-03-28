@@ -179,7 +179,7 @@ public class Teleop {
 
 		if (right.getRawButton(6) && left.getRawButton(6)) { //Top Climb
 			// Climber.getInstance().motionmagicclimber();
-			Climber.getInstance().climb(16000, 14500,.6,false);
+			Climber.getInstance().climb(16500, 14500,.6,false);
 		} else if (left.getRawButton(7) && right.getRawButton(7)) { //Lower Climb
 			// Climber.getInstance().motionmagicclimberMidplatform();
 			Climber.getInstance().climb(6000, 4500,.6,false);
@@ -198,6 +198,7 @@ public class Teleop {
 
 	public double getLeftJoy() {
 		return left.getY();
+
 	}
 
 	public double getRightJoy() {
