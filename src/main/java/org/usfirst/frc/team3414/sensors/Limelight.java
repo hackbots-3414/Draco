@@ -9,13 +9,19 @@ package org.usfirst.frc.team3414.sensors;
 
 import org.usfirst.frc.team3414.config.Config;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSource;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
  */
 public class Limelight {
+    AxisCamera camera;
     public static void init(){
+        camera = CameraServer.getInstance().addAxisCamera(SmartDashboard.getString("Limelight IP", limelight.local:5800));
         if(Config.PIT_MODE = true){
         pitMode();
         }
@@ -23,6 +29,9 @@ public class Limelight {
             yieldAll();
         }
     
+    }
+    public static void refresh(){
+        camera = CameraServer.getInstance().addAxisCamera(SmartDashboard.getString("Limelight IP", limelight.local:5800));
     }
     public static void setLED(int state){
         //0-Use pipeline mode 1-Force off 2-Force Blink 3-Force on
