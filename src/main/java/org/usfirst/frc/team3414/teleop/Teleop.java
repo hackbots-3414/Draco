@@ -177,7 +177,7 @@ public class Teleop {
 	}
 
 	public void climber() {
-
+		//Want to shave off time? Change the second parameter(margin) to a smaller value. Risk is the robot doesn't get as high as you want
 		if (right.getRawButton(6) && left.getRawButton(6)) { //Top Climb
 			// Climber.getInstance().motionmagicclimber();
 			Climber.getInstance().climb(16500, 14500,.6,false); //Should be 16000 on alpha. 
