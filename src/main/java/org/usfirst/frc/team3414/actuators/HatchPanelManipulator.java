@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.LED;
+import org.usfirst.frc.team3414.diagnostic.LEDColor;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -48,15 +49,15 @@ public class HatchPanelManipulator {
     public void setOut() {
         sliderOut.set(true);
         sliderIn.set(false);
-        //LED.setGreen();
-      //  LED.setRed();
-      LED.setGreen();
+        //LED.set(LEDColor.GREEN);
+      //  LED.set(LEDColor.RED);
+      LED.set(LEDColor.GREEN);
     }
 
     public void setIn() {
         sliderOut.set(false);
         sliderIn.set(true);
-       LED.setPurple();
+       LED.set(LEDColor.PURPLE);
     }
     public void setOpenAssisted(){
         if(isTouchingPanel()){

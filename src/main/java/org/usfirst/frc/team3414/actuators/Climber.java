@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.LED;
+import org.usfirst.frc.team3414.diagnostic.LEDColor;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -86,7 +87,7 @@ public class Climber {
         while (getEscapeButton()) {
             updateDashboard(stage);
             if (stage == 1) {
-                LED.setRed(); // Sets the LEDs
+                LED.set(LEDColor.RED); // Sets the LEDs
                 setFront(target);
                 setRear(getFrontEncoder() + offset);
                 /*
@@ -97,7 +98,7 @@ public class Climber {
                  */
                 if (getRearEncoder() >= margin) {
                     // if (getRearEncoder() >= margin) { //code to switch to stage 2
-                    LED.setRed();
+                    LED.set(LEDColor.RED);
                     stage2Start = System.currentTimeMillis();
                     stage = 2;
                 }
@@ -158,22 +159,20 @@ public class Climber {
                     // stage = 7;
                     double delaytime = finalDriveTime * 1000;
                     if (System.currentTimeMillis() - stage6Start > delaytime) { // Our own timer.delay, only difference
-                        LED.setMasterBlock(false); // is that this loops every couple of
-                        LED.setParty();
+                        
                         stage = 7;
                     }
                 } else {
-                    LED.setMasterBlock(true);
-                    LED.setParty();
                     stage = 7;
                 }
             }
             if (stage >= 7 || stage <= 0) {
                 updateDashboard(stage);
                 stop();
+                LED.setMasterBlock(false); // is that this loops every couple of
+                LED.setParty();
                 System.out.println("Climb Finished :)");
                 SmartDashboard.putNumber("Climb Finished in:", (System.currentTimeMillis() - start) / 1000);
-                LED.climberFinished();
                 break;
             }
         }

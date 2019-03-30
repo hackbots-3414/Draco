@@ -58,7 +58,7 @@ public class Teleop {
 
 	public void driverInfo() {
 		MatchTimer.outputTime();
-		LED.climbWarning();
+		LED.timeWarning();
 		LED.lineLED();
 	}
 

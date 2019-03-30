@@ -163,7 +163,7 @@
 //     public void motionmagicclimber() {
 //         rear(rearMotor);
 //         front(frontMotor);
-//         LED.setRed();
+//         LED.set(LEDColor.RED);
 //         triggered = false;
 //         rear(rearMotor);
 //         front(frontMotor);
@@ -183,7 +183,7 @@
 //                 middleMotor.setNeutralMode(NeutralMode.Coast);
 //                 System.out.println("HEY LOOK AT ME " + getFrontEncoder());
 
-//                 LED.setYellow();
+//                 LED.set(LEDColor.YELLOW);
 
 //                 moveBottomForward(1.5, 16000);
 //                 middleMotor.setNeutralMode(NeutralMode.Brake);
@@ -197,7 +197,7 @@
 //                 DriveTrain.getInstance().set(-.2, -.2);
 //                 retractRear(1.8, 0);
 //                 moveForward(.5, .25);
-//                 LED.setGreen();
+//                 LED.set(LEDColor.GREEN);
 //                 break;
 
 //             } // Once the front gets so high, turn on the middle (bottom, stationary motor)
@@ -216,7 +216,7 @@
 
 //     public void magicClimbMid() {
 
-//         LED.setRed();
+//         LED.set(LEDColor.RED);
 
 //         triggered = false;
 //         rear(rearMotor);
@@ -239,7 +239,7 @@
 //             if (getFrontEncoder() > margin) {
 //                 System.out.println("HEY LOOK AT ME " + getFrontEncoder());
 
-//                 LED.setYellow();
+//                 LED.set(LEDColor.YELLOW);
 
 //                 moveBottomForward(2, margin);
 //                 // Hold the rear to current position
@@ -252,7 +252,7 @@
 //                 DriveTrain.getInstance().set(0, 0);
 //                 retractRear(2, 0);
 //                 moveForward(.5, .25);
-//                 LED.setGreen();
+//                 LED.set(LEDColor.GREEN);
 //                 break;
 
 //             } // Once the front gets so high, turn on the middle (bottom, stationary motor)
@@ -271,7 +271,7 @@
 
 //     public void motionmagicclimberMidplatform() {
 //         System.out.println("MID PLATFORM");
-//         LED.setRed();
+//         LED.set(LEDColor.RED);
 //         triggered = false;
 //         rear(rearMotor);
 //         front(frontMotor);
@@ -286,7 +286,7 @@
 //             // }
 
 //             if (getFrontEncoder() > 5200) {
-//                 LED.setYellow();
+//                 LED.set(LEDColor.YELLOW);
 //                 moveBottomForward(2.5, 5800);
 //                 retractFront(5800);
 //                 // moveForward(2, .15 );
@@ -295,7 +295,7 @@
 //                 // retractRear(.4,0);
 //                 retractRear(.45, -400);
 //                 moveForward(.5, .5);
-//                 LED.setGreen();
+//                 LED.set(LEDColor.GREEN);
 //                 break;
 
 //             } // Once the front gets so high, turn on the middle (bottom, stationary motor)
