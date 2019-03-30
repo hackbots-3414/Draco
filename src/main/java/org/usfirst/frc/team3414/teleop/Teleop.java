@@ -179,17 +179,16 @@ public class Teleop {
 	public void climber() {
 		//Want to shave off time? Change the second parameter(margin) to a smaller value. Risk is the robot doesn't get as high as you want
 		if (right.getRawButton(6) && left.getRawButton(6)) { //Top Climb
-			// Climber.getInstance().motionmagicclimber();
-			Climber.getInstance().climb(16500, 14500,.6,false); //Should be 16000 on alpha. 
+			Climber.getInstance().climb(16500, 14500,.6); //Should be 16000 on alpha. 
 		} else if (left.getRawButton(7) && right.getRawButton(7)) { //Lower Climb
 			// Climber.getInstance().motionmagicclimberMidplatform();
-			Climber.getInstance().climb(6000, 4500,.6,false);
+			Climber.getInstance().climb(6000, 4500,.6);
 		}
 		else if(left.getRawButton(10) && right.getRawButton(10)){
-			Climber.getInstance().climb(11500,10500,.4,false); //Lower to Top
+			Climber.getInstance().climb(11500,10500,.4); //Lower to Top
 		}
 		else if(left.getRawButton(11) && right.getRawButton(11)){
-			Climber.getInstance().climb(11500, 10500, 0, true); //Lower to Top with operator control.
+			Climber.getInstance().climb(11500, 10500, 0); //Lower to Top with operator control.
 		}
 		/*
 		if (left.getRawButton(8) && right.getRawButton(8)) { //Encoder Climb Don't worry about this one for LEDs

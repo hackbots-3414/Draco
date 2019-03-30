@@ -37,6 +37,7 @@ public class Intake {
     public TalonSRX intakeMotor;
     Solenoid intakePiston0;
     Solenoid intakePiston1;
+    double throttle = Config.INTAKE_THROTTLE;
     public void init() {
          intakeMotor = new TalonSRX(Config.INTAKE_TALON);
          intakePiston0 = new Solenoid(Config.INTAKE_PISTON);
@@ -51,19 +52,19 @@ public class Intake {
     }
 
     public void on() {
-        intakeMotor.set(ControlMode.PercentOutput, 1*Config.intake_throttle());
+        intakeMotor.set(ControlMode.PercentOutput, 1*throttle);
     }
 
     public void off() {
-        intakeMotor.set(ControlMode.PercentOutput, 0.0*Config.intake_throttle());
+        intakeMotor.set(ControlMode.PercentOutput, 0.0*throttle);
     }
 
     public void reverse() {
-        intakeMotor.set(ControlMode.PercentOutput, -1.0*Config.intake_throttle());
+        intakeMotor.set(ControlMode.PercentOutput, -1.0*throttle);
     }
 
     public void positive() {
-        intakeMotor.set(ControlMode.PercentOutput, 1.0*Config.intake_throttle());
+        intakeMotor.set(ControlMode.PercentOutput, 1.0*throttle);
     }
     public void goDown(){
         intakePiston0.set(false);

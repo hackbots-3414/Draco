@@ -23,8 +23,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Limelight {
     static AxisCamera camera;
     public static void init(){
-        camera = CameraServer.getInstance().addAxisCamera(SmartDashboard.getString("Limelight IP", "limelight.local:5800"));
-        camera.setFPS(15);
+        if(Config.PIT_STREAM){
+            camera = CameraServer.getInstance().addAxisCamera(SmartDashboard.getString("Limelight IP", "limelight.local:5800"));
+        }
         if(Config.PIT_MODE = true){
         pitMode();
         }
@@ -33,7 +34,7 @@ public class Limelight {
         }
     
     }
-    public static void refresh(){
+    public static void resetStream(){
         camera = CameraServer.getInstance().addAxisCamera(SmartDashboard.getString("Limelight IP", "limelight.local:5800"));
     }
     public static void setLED(int state){

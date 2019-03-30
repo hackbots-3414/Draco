@@ -58,8 +58,7 @@ public class Robot extends IterativeRobot {
 		
 		Lifecam.init();
 		Lifecam.startRear();
-		LED.setLineBlock(false);
-		LED.setTimeBlock(false);
+		LED.reset();
 	}
 	@Override
 	public void disabledInit() {

@@ -25,36 +25,24 @@ public class LED {
         light.set(value);
     }
 
-    public static void setRainbow() { // Successful Climb
-        light.set(-.99);
-    }
-
-    public static void setParty() {
-        light.set(-.97);
-    }
-
-    static boolean lineBlocked = false;
     static boolean timeBlocked = false;
     static boolean masterBlock = false;
 
-    public static void setMasterBlock(boolean blockAll){
+    public static void setMasterBlock(boolean blockAll) {
         masterBlock = blockAll;
     }
-    public static void setLineBlock(boolean blockLineLED) {
-        lineBlocked = blockLineLED;
-    }
-
     public static void setTimeBlock(boolean blockTimeLED) {
         timeBlocked = blockTimeLED;
     }
-    public static void reset(){
+
+    public static void reset() {
         setMasterBlock(false);
-        setLineBlock(false);
         setTimeBlock(false);
         set(LEDColor.PURPLE);
     }
+
     public static void lineLED() {
-        if (!lineBlocked && !masterBlock) {
+        if (!masterBlock) {
             if (Teleop.getInstance().getLineSensor().getAverageVoltage() > 1.0
                     && HatchPanelManipulator.getInstance().isOpen()) {
                 LED.set(LEDColor.YELLOW);
@@ -68,49 +56,37 @@ public class LED {
                 // This should go purple not green or other colors
                 set(LEDColor.PURPLE);
             }
-        }else {
+        } else {
             setTimeBlock(false);
         }
-    }
-
-    public static void setConfetti() {
-        light.set(-.87);
     }
 
     public static void timeWarning() {
         if (!timeBlocked && !masterBlock) {
             if (!DriverStation.getInstance().isAutonomous()) {
-                if (Timer.getMatchTime() <= 30 && Timer.getMatchTime() > 10) {
-                    blinkPurple();
+                if (Timer.getMatchTime() <= 20 && Timer.getMatchTime() > 10) {
+                    blink(LEDColor.PURPLE, LEDColor.WHITE);
                 } else if (Timer.getMatchTime() < 10) {
-                    blinkRed();
+                    blink(LEDColor.RED, LEDColor.WHITE);
                 }
             }
         }
         // put more in, you get the idea
 
     }
+
     static long lastBlink = System.currentTimeMillis();
     static int blinkInterval = 500;
-    private static void blinkRed() {
-        if(System.currentTimeMillis() - lastBlink > blinkInterval){
-            LED.set(LEDColor.RED);
+
+    public static void blink(double color, double secondColor) {
+        if (System.currentTimeMillis() - lastBlink > blinkInterval) {
+            LED.set(color);
             lastBlink = System.currentTimeMillis();
-        }
-        else{
-            set(LEDColor.WHITE);
+        } else {
+            set(secondColor);
         }
     }
 
-    private static void blinkPurple() {
-        if(System.currentTimeMillis() - lastBlink > blinkInterval){
-            set(LEDColor.PURPLE);
-            lastBlink = System.currentTimeMillis();
-        }
-        else{
-            set(LEDColor.WHITE);
-        }
-    }    
     public static void set(double value) {
         light.set(value);
     }

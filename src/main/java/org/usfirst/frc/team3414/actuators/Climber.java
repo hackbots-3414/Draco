@@ -53,12 +53,12 @@ public class Climber {
         middleMotor.setInverted(true);
         initEncoders();
         resetEncoders(); // Because the reset only occurs at the time of enable, starting the climber mid
-                         // climb will work fine :) //TODO test this on the hardware.
+                         // climb will work fine :)
         updateDashboard(0);
 
     }
 
-    public void climb(int target, int margin, double finalDriveTime, boolean operatorControlEnabled) {
+    public void climb(int target, int margin, double finalDriveTime) {
         /*-
          * Stage 1 - Climb Evenly 
          * Stage 2 - Move Forward 
@@ -147,12 +147,11 @@ public class Climber {
                 setBottom(0);
                 retractRear();
                 if (getRearEncoder() <= 100) {
-                    stage = 6;
                     stage6Start = System.currentTimeMillis();
+                    stage = 6;
                 }
             }
             if (stage == 6) {
-                if (!operatorControlEnabled) {
                     setDriveTrain(.3414); // .3414 originally
                     // Timer.delay(finalDriveTime); //originally .7, a .7 wait. Replaced with an if
                     // statement to allow for breakout
@@ -162,15 +161,13 @@ public class Climber {
                         
                         stage = 7;
                     }
-                } else {
-                    stage = 7;
-                }
+               
             }
             if (stage >= 7 || stage <= 0) {
                 updateDashboard(stage);
                 stop();
-                LED.setMasterBlock(false); // is that this loops every couple of
-                LED.setParty();
+                LED.setMasterBlock(true); 
+                LED.set(LEDColor.PARTY);
                 System.out.println("Climb Finished :)");
                 SmartDashboard.putNumber("Climb Finished in:", (System.currentTimeMillis() - start) / 1000);
                 break;
@@ -341,6 +338,10 @@ public class Climber {
             SmartDashboard.putBoolean("Drive Forward", false);
         }
         if (stage == 7) {
+            SmartDashboard.putBoolean("Climb Finished", true);
+        }
+        else{
+            SmartDashboard.putBoolean("Climb Finished", false);
         }
     }
 
