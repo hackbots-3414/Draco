@@ -15,9 +15,11 @@ import org.usfirst.frc.team3414.auton.MoveStraight;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.LED;
 import org.usfirst.frc.team3414.diagnostic.MatchTimer;
+import org.usfirst.frc.team3414.sensors.CameraSwitcher;
 import org.usfirst.frc.team3414.sensors.LimeLightUtil;
 import org.usfirst.frc.team3414.sensors.Limelight;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
@@ -273,12 +275,15 @@ public class Teleop {
 
 	public void camera() {
 		// Limelight.init();
+		CameraSwitcher.init();
 		if (pad.getXButton()) {
-			Limelight.rearView();
+			CameraSwitcher.setFront();
+		//	Limelight.rearView();
 		} else if (pad.getYButton()) {
-			Limelight.frontView();
+			CameraSwitcher.setRear();
+			//Limelight.frontView();
 		} else {
-			Limelight.defaultView();
+		//	Limelight.defaultView();
 		}
 	}
 
