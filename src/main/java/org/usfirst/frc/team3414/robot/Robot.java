@@ -68,6 +68,19 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		if(isDisabled()){
 			Teleop.getInstance().stopAll();
+			if(Teleop.getInstance().getLeftJoystick().getRawButton(1)){
+				SmartDashboard.putBoolean("Left Joystick:", true);
+			}
+			else{
+				SmartDashboard.putBoolean("Left Joystick:", false);
+			}
+			if(Teleop.getInstance().getRightJoystick().getRawButton(1)){
+				SmartDashboard.putBoolean("Right Joystick:", true);
+			}
+			else{
+				SmartDashboard.putBoolean("Right Joystick:", false);
+			}
+
 			if((Math.abs(Teleop.getInstance().getLeftJoystick().getY())>.1)|| (Math.abs(Teleop.getInstance().getRightJoystick().getY())>.1) ){
 				SmartDashboard.putBoolean("Joysticks Zeroed", false);
 						}
