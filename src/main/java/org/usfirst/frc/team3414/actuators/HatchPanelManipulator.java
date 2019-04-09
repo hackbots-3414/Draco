@@ -79,10 +79,13 @@ public class HatchPanelManipulator {
             //LED.hatchAbleToBePickedUp();
         }
     }
+
     public void setClosed() {
         hatchUp.set(true);
         hatchDown.set(false);
     }
+
+
     public void setOverride(boolean set){
         override = set;
     }

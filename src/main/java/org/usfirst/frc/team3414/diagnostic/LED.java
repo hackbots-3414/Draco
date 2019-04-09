@@ -46,34 +46,30 @@ public class LED {
             if (Teleop.getInstance().getLineSensor().getAverageVoltage() > 1.0
                     && HatchPanelManipulator.getInstance().isOpen()) {
                 LED.set(LEDColor.YELLOW);
-                //setTimeBlock(true);  I WORKED AT ONE POINT
+                setTimeBlock(true);  
             } else if (Teleop.getInstance().getLineSensor().getAverageVoltage() > 1.0
                     && !HatchPanelManipulator.getInstance().isOpen()) {
                 set(LEDColor.GREEN);
-               // setTimeBlock(true); I WORKED AT ONE POINT
+               setTimeBlock(true); 
 
-            } else {
-                // This should go purple not green or other colors
-               // set(LEDColor.PURPLE); REENABLE ME
-            }
+            } 
+            
         } else {
             setTimeBlock(false);
         }
     }
 
     public static void timeWarning() {
-        System.out.println("Z TIME "+ Timer.getMatchTime());
         if (!timeBlocked && !masterBlock) {
-            System.out.println(timeBlocked +"1");
             if (!DriverStation.getInstance().isAutonomous()) {
-                System.out.println(timeBlocked +"2");
                 if (Timer.getMatchTime() <= 30 && Timer.getMatchTime() > 10) {
-                    System.out.println(timeBlocked +"3");
                     blink(LEDColor.WHITE, LEDColor.PURPLE);
                 } else if (Timer.getMatchTime() <= 10) {
                     blink(LEDColor.RED, LEDColor.WHITE);
-                    System.out.println(timeBlocked +"4");
 
+                }
+                else{
+                    set(LEDColor.PURPLE);
                 }
             }
         }
@@ -82,7 +78,7 @@ public class LED {
     }
 
     static long lastBlink = System.currentTimeMillis();
-    static int blinkInterval = 2000;
+    static int blinkInterval = 500;
 
     public static void blink(double color, double secondColor) {
         System.out.println(System.currentTimeMillis() - lastBlink);

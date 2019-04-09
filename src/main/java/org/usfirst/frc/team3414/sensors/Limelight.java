@@ -10,6 +10,7 @@ package org.usfirst.frc.team3414.sensors;
 import org.usfirst.frc.team3414.config.Config;
 
 import edu.wpi.cscore.AxisCamera;
+import edu.wpi.cscore.HttpCamera;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSource;
 import edu.wpi.cscore.VideoMode.PixelFormat;
@@ -24,8 +25,7 @@ public class Limelight {
     static AxisCamera camera;
     public static void init(){
         if(Config.PIT_STREAM){
-            camera = CameraServer.getInstance().addAxisCamera(SmartDashboard.getString("limelight_Stream", "limelight.local:5800"));
-      
+            camera = CameraServer.getInstance().addAxisCamera(SmartDashboard.getString("limelight_Stream", "10.34.14.11:5800"));
         }
         if(Config.PIT_MODE = true){
         pitMode();
@@ -34,6 +34,9 @@ public class Limelight {
             yieldAll();
         }
     
+    }
+    public static void stream(){
+        NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection").setString(camera.getName());
     }
     public static void resetStream(){
             camera = CameraServer.getInstance().addAxisCamera(SmartDashboard.getString("limelight_Stream", "10.34.14.11:5800"));

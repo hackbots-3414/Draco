@@ -16,6 +16,7 @@ import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.LED;
 import org.usfirst.frc.team3414.diagnostic.MatchTimer;
 import org.usfirst.frc.team3414.sensors.CameraSwitcher;
+import org.usfirst.frc.team3414.sensors.Lifecam;
 import org.usfirst.frc.team3414.sensors.LimeLightUtil;
 import org.usfirst.frc.team3414.sensors.Limelight;
 
@@ -155,16 +156,24 @@ public class Teleop {
 			// for the A button
 		}
 	}
-
+	long lastRelease = System.currentTimeMillis();
+	double retractTime = (.5) * 1000;
+	boolean panelReleased = false;
 	public void manipulator() {
+		if(panelReleased && System.currentTimeMillis() - lastRelease < retractTime){
+			panelReleased = false;
+			HatchPanelManipulator.getInstance().setIn();
+		}
 		if (pad.getPov() == 0) {
 			HatchPanelManipulator.getInstance().setOut();
 		} else if (pad.getPov() == 180) {
 			HatchPanelManipulator.getInstance().setIn();
-		} else if (pad.getLBButton()) {
+		} else if (pad.getLBButton()) { //RELEASE
 			HatchPanelManipulator.getInstance().setClosed(); //Traditional
 			HatchPanelManipulator.getInstance().setOverride(true);
-		} else if (pad.getLT()) {
+			lastRelease = System.currentTimeMillis();
+			panelReleased = true;
+		} else if (pad.getLT()) { //CONTROL
 			HatchPanelManipulator.getInstance().setOpen(); //Traditional
 			HatchPanelManipulator.getInstance().setOverride(true);
 		}
@@ -277,14 +286,14 @@ public class Teleop {
 		// Limelight.init();
 	//	CameraSwitcher.init();
 		if (pad.getXButton()) {
-			CameraSwitcher.setFront();
+			//CameraSwitcher.setFront();
+			Limelight.stream();
 		//	Limelight.rearView();
 		} else if (pad.getYButton()) {
-			CameraSwitcher.setRear();
+			Lifecam.stream();
+			//CameraSwitcher.setRear();
 			//Limelight.frontView();
-		}else if(left.getRawButton(1)){
-			Limelight.resetStream();
-	}
+		}
 		 else {
 		//	Limelight.defaultView();
 		}
