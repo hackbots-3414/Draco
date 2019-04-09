@@ -24,7 +24,8 @@ public class Limelight {
     static AxisCamera camera;
     public static void init(){
         if(Config.PIT_STREAM){
-            camera = CameraServer.getInstance().addAxisCamera(SmartDashboard.getString("Limelight IP", "limelight.local:5800"));
+            camera = CameraServer.getInstance().addAxisCamera(SmartDashboard.getString("limelight_Stream", "limelight.local:5800"));
+      
         }
         if(Config.PIT_MODE = true){
         pitMode();
@@ -35,7 +36,7 @@ public class Limelight {
     
     }
     public static void resetStream(){
-        camera = CameraServer.getInstance().addAxisCamera(SmartDashboard.getString("Limelight IP", "limelight.local:5800"));
+            camera = CameraServer.getInstance().addAxisCamera(SmartDashboard.getString("limelight_Stream", "10.34.14.11:5800"));
     }
     public static void setLED(int state){
         //0-Use pipeline mode 1-Force off 2-Force Blink 3-Force on

@@ -17,6 +17,7 @@ import org.usfirst.frc.team3414.actuators.Tunnel;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.DashboardOutput;
 import org.usfirst.frc.team3414.diagnostic.LED;
+import org.usfirst.frc.team3414.sensors.CameraSwitcher;
 import org.usfirst.frc.team3414.sensors.Lifecam;
 import org.usfirst.frc.team3414.sensors.Limelight;
 import org.usfirst.frc.team3414.teleop.Teleop;
@@ -148,6 +149,7 @@ public class Robot extends IterativeRobot {
 		// 	}
 
 		// }
+		Limelight.resetStream();
 		Limelight.init();
 		LED.reset();
 	}

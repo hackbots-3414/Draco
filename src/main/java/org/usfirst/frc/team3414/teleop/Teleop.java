@@ -275,14 +275,17 @@ public class Teleop {
 
 	public void camera() {
 		// Limelight.init();
-		CameraSwitcher.init();
+	//	CameraSwitcher.init();
 		if (pad.getXButton()) {
 			CameraSwitcher.setFront();
 		//	Limelight.rearView();
 		} else if (pad.getYButton()) {
 			CameraSwitcher.setRear();
 			//Limelight.frontView();
-		} else {
+		}else if(left.getRawButton(1)){
+			Limelight.resetStream();
+	}
+		 else {
 		//	Limelight.defaultView();
 		}
 	}
