@@ -16,6 +16,7 @@ import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.Tunnel;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.DashboardOutput;
+import org.usfirst.frc.team3414.diagnostic.DriveChecklist;
 import org.usfirst.frc.team3414.diagnostic.LED;
 import org.usfirst.frc.team3414.sensors.CameraSwitcher;
 import org.usfirst.frc.team3414.sensors.Lifecam;
@@ -66,28 +67,8 @@ public class Robot extends IterativeRobot {
 	}
 	@Override
 	public void disabledPeriodic() {
-		if(isDisabled()){
 			Teleop.getInstance().stopAll();
-			if(Teleop.getInstance().getLeftJoystick().getRawButton(1)){
-				SmartDashboard.putBoolean("Left Joystick:", true);
-			}
-			else{
-				SmartDashboard.putBoolean("Left Joystick:", false);
-			}
-			if(Teleop.getInstance().getRightJoystick().getRawButton(1)){
-				SmartDashboard.putBoolean("Right Joystick:", true);
-			}
-			else{
-				SmartDashboard.putBoolean("Right Joystick:", false);
-			}
-
-			if((Math.abs(Teleop.getInstance().getLeftJoystick().getY())>.1)|| (Math.abs(Teleop.getInstance().getRightJoystick().getY())>.1) ){
-				SmartDashboard.putBoolean("Joysticks Zeroed", false);
-						}
-			else{
-				SmartDashboard.putBoolean("Joysticks Zeroed", true);
-			}
-		}
+			DriveChecklist.joysticks();
 	}
 	@Override
 	public void robotPeriodic() {
@@ -126,9 +107,6 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-		Limelight.resetStream();
-		Limelight.init();
-		Limelight.stream();
 		LED.reset();
 	}
 

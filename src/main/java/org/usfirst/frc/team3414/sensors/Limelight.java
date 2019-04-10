@@ -25,7 +25,7 @@ public class Limelight {
     static AxisCamera camera;
     public static void init(){
         if(Config.PIT_STREAM){
-          //  camera = CameraServer.getInstance().addAxisCamera("10.34.14.11:5800");
+            camera = CameraServer.getInstance().addAxisCamera("10.34.14.11:5800");
         }
         if(Config.PIT_MODE = true){
         pitMode();
@@ -36,7 +36,7 @@ public class Limelight {
     
     }
     public static void stream(){
-// NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection").setString(camera.getName());
+    NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection").setString(camera.getName());
     }
     public static void resetStream(){
             //camera = CameraServer.getInstance().addAxisCamera(SmartDashboard.getString("limelight_Stream", "10.34.14.11:5800"));
@@ -64,6 +64,14 @@ public class Limelight {
     public static void defaultView(){
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(0);
 
+    }
+    public static void setLight(boolean light){
+        if(light = false){
+        setLED(1);
+        }
+        else{
+            setLED(0);
+        }
     }
     public static void rearView(){
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(2);
