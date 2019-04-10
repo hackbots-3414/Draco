@@ -89,6 +89,7 @@ public class Climber {
             updateDashboard(stage);
             if (stage == 1) {
                 LED.set(LEDColor.RED); // Sets the LEDs
+                HatchPanelManipulator.getInstance().setIn();
                 setFront(target);
                 setRear(getFrontEncoder() + offset);
                 /*

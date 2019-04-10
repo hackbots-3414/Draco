@@ -87,7 +87,12 @@ public class Teleop {
 	}
 
 	public void drive() {
+		if(left.getRawButton(1) || right.getRawButton(1)){
+			DriveTrain.getInstance().teleop(left.getY()*.25, right.getY()*.25);
+		}
+		else{
 		DriveTrain.getInstance().teleop(left.getY(), right.getY());
+		}
 	}
 
 	public void ball() {
@@ -160,7 +165,7 @@ public class Teleop {
 	double retractTime = (.5) * 1000;
 	boolean panelReleased = false;
 	public void manipulator() {
-		if(panelReleased && System.currentTimeMillis() - lastRelease < retractTime){
+		if(panelReleased && System.currentTimeMillis() - lastRelease > retractTime){
 			panelReleased = false;
 			HatchPanelManipulator.getInstance().setIn();
 		}
@@ -171,11 +176,12 @@ public class Teleop {
 		} else if (pad.getLBButton()) { //RELEASE
 			HatchPanelManipulator.getInstance().setClosed(); //Traditional
 			HatchPanelManipulator.getInstance().setOverride(true);
-			lastRelease = System.currentTimeMillis();
-			panelReleased = true;
+			
 		} else if (pad.getLT()) { //CONTROL
 			HatchPanelManipulator.getInstance().setOpen(); //Traditional
 			HatchPanelManipulator.getInstance().setOverride(true);
+			lastRelease = System.currentTimeMillis();
+			panelReleased = false; //set me to true if you want automated retract
 		}
 		else if (pad.getRT()){
 			/*
@@ -190,7 +196,7 @@ public class Teleop {
 	public void climber() {
 		//Want to shave off time? Change the second parameter(margin) to a smaller value. Risk is the robot doesn't get as high as you want
 		if (right.getRawButton(6) && left.getRawButton(6)) { //Top Climb
-			Climber.getInstance().climb(16500, 14500,.6); //Should be 16000 on alpha. 
+			Climber.getInstance().climb(16000, 14500,.6); //Should be 16000 on alpha. 16500 on beta 
 		} else if (left.getRawButton(7) && right.getRawButton(7)) { //Lower Climb
 			// Climber.getInstance().motionmagicclimberMidplatform();
 			Climber.getInstance().climb(6000, 4500,.6);

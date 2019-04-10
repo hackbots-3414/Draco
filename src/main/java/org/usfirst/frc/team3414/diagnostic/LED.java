@@ -13,6 +13,7 @@ import org.usfirst.frc.team3414.teleop.Teleop;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
@@ -31,6 +32,7 @@ public class LED {
     public static void setMasterBlock(boolean blockAll) {
         masterBlock = blockAll;
     }
+
     public static void setTimeBlock(boolean blockTimeLED) {
         timeBlocked = blockTimeLED;
     }
@@ -42,33 +44,35 @@ public class LED {
     }
 
     public static void lineLED() {
+        SmartDashboard.putBoolean("COLOR SENSOR", Teleop.getInstance().getLineSensor().getAverageVoltage() > 1);
         if (!masterBlock) {
             if (Teleop.getInstance().getLineSensor().getAverageVoltage() > 1.0
                     && HatchPanelManipulator.getInstance().isOpen()) {
                 LED.set(LEDColor.YELLOW);
-                setTimeBlock(true);  
+                setTimeBlock(true);
             } else if (Teleop.getInstance().getLineSensor().getAverageVoltage() > 1.0
                     && !HatchPanelManipulator.getInstance().isOpen()) {
                 set(LEDColor.GREEN);
-               setTimeBlock(true); 
+                setTimeBlock(true);
 
-            } 
-            
-        } else {
-            setTimeBlock(false);
+            }else{
+                setTimeBlock(false);
+            }
         }
     }
 
     public static void timeWarning() {
         if (!timeBlocked && !masterBlock) {
             if (!DriverStation.getInstance().isAutonomous()) {
-                if (Timer.getMatchTime() <= 30 && Timer.getMatchTime() > 10) {
-                    blink(LEDColor.WHITE, LEDColor.PURPLE);
-                } else if (Timer.getMatchTime() <= 10) {
+                if (Timer.getMatchTime() <= 30 && Timer.getMatchTime() > 20) {
+                    blink(LEDColor.GREEN, LEDColor.WHITE);
+                }else if(Timer.getMatchTime() <= 20 && Timer.getMatchTime() > 10){
+                    blink(LEDColor.YELLOW, LEDColor.WHITE);
+                }
+                 else if (Timer.getMatchTime() <= 10) {
                     blink(LEDColor.RED, LEDColor.WHITE);
 
-                }
-                else{
+                } else {
                     set(LEDColor.PURPLE);
                 }
             }
@@ -76,20 +80,26 @@ public class LED {
         // put more in, you get the idea
 
     }
-
+    public static double get(){
+        return light.get();
+    }
     static long lastBlink = System.currentTimeMillis();
     static int blinkInterval = 500;
+    static double lastSetting = 0;
 
     public static void blink(double color, double secondColor) {
-        System.out.println(System.currentTimeMillis() - lastBlink);
         if (System.currentTimeMillis() - lastBlink > blinkInterval) {
-            System.out.println("PRIMARY");
-            LED.set(color);
             lastBlink = System.currentTimeMillis();
-        } else {
+            if(color == lastSetting ){
+                set(secondColor);
+                lastSetting = secondColor;
 
-           set(secondColor);
-        }
+            }
+            else{
+                set(color);
+                lastSetting = color;
+            }
+        } 
     }
 
     public static void set(double value) {

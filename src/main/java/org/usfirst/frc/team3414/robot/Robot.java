@@ -126,9 +126,9 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-	
 		Limelight.resetStream();
 		Limelight.init();
+		Limelight.stream();
 		LED.reset();
 	}
 
