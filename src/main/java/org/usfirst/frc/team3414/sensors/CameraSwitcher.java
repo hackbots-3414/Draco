@@ -4,6 +4,10 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CameraSwitcher {
+
+	public static void init() {
+        NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection").setString("limelight");
+	}
     /*
     public static void setFront(){
         NetworkTableInstance.getDefault().getTable("cameratable").getEntry("target").setString(SmartDashboard.getString("limelight_Stream", "http://10.34.14.11:5800"));

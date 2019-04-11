@@ -19,13 +19,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Add your docs here.
  */
 public class LED {
-    public static Spark light = new Spark(0);
+    public static Spark light = new Spark(1);
 
     // static Spark light = new Spark(10);
     public static void setSpark(double value) {
         light.set(value);
     }
-
+    public static int getChannel(){
+        return light.getChannel();
+    }
     static boolean timeBlocked = false;
     static boolean masterBlock = false;
 

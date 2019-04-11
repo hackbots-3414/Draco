@@ -64,6 +64,11 @@ public class Teleop {
 		LED.timeWarning();
 		LED.lineLED();
 	}
+	public void pitAxis(){
+		if(pad.getLSButton() && pad.getRSButton()){
+			Limelight.resetStream();
+		}
+	}
 
 	public void record() throws IOException {
 
@@ -106,7 +111,7 @@ public class Teleop {
 			Intake.getInstance().goUp();
 			Intake.getInstance().off();
 			Tunnel.getInstance().on();
-			//Tunnel.getInstance().off();
+			Tunnel.getInstance().off();
 			//At Kyle's request, tunnel is back to its original state, it keeps going until the ball gets up there
 		}
 		else if(pad.getAButton() && Tunnel.getInstance().getBallPos() == 2){
@@ -165,6 +170,7 @@ public class Teleop {
 	double retractTime = (.5) * 1000;
 	boolean panelReleased = false;
 	public void manipulator() {
+		HatchPanelManipulator.getInstance().setOpenAssisted();
 		if(panelReleased && System.currentTimeMillis() - lastRelease > retractTime){
 			panelReleased = false;
 			HatchPanelManipulator.getInstance().setIn();
@@ -188,6 +194,9 @@ public class Teleop {
 			HatchPanelManipulator.getInstance().setOverride(false); //Pettengil button controls
 			HatchPanelManipulator.getInstance().setOpenAssisted();
 			*/
+		}
+		else{
+			HatchPanelManipulator.getInstance().setOverride(false);
 		}
 
 		
@@ -291,11 +300,11 @@ public class Teleop {
 	public void camera() {
 		// Limelight.init();
 	//	CameraSwitcher.init();
-		if (pad.getXButton()) {
+		if (pad.getYButton() || (left.getRawButton(3) || right.getRawButton(3))) {
 			//CameraSwitcher.setFront();
 			Limelight.stream();
 		//	Limelight.rearView();
-		} else if (pad.getYButton()) {
+		} else if (pad.getXButton()  || (left.getRawButton(2) || right.getRawButton(2))) {
 			Lifecam.stream();
 			//CameraSwitcher.setRear();
 			//Limelight.frontView();

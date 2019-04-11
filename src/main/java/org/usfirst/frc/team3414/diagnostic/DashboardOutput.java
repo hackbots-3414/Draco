@@ -55,7 +55,5 @@ public class DashboardOutput {
         outputLimelightUtil();
 
     }
-    public static void checklist(){
-    }
     
 }

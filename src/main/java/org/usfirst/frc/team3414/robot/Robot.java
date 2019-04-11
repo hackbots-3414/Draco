@@ -18,6 +18,7 @@ import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.DashboardOutput;
 import org.usfirst.frc.team3414.diagnostic.DriveChecklist;
 import org.usfirst.frc.team3414.diagnostic.LED;
+import org.usfirst.frc.team3414.diagnostic.LEDColor;
 import org.usfirst.frc.team3414.sensors.CameraSwitcher;
 import org.usfirst.frc.team3414.sensors.Lifecam;
 import org.usfirst.frc.team3414.sensors.Limelight;
@@ -53,7 +54,7 @@ public class Robot extends IterativeRobot {
 		Intake.getInstance().init();
 		Tunnel.getInstance().init();
 		Climber.getInstance().init();
-		
+		CameraSwitcher.init();
 		teleopInit();
 
 		//LEDS and Cameras
@@ -67,6 +68,9 @@ public class Robot extends IterativeRobot {
 	}
 	@Override
 	public void disabledPeriodic() {
+		Limelight.pitMode();
+		Teleop.getInstance().camera();
+		
 			Teleop.getInstance().stopAll();
 			DriveChecklist.joysticks();
 	}
