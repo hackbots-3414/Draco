@@ -54,11 +54,12 @@ public class Robot extends IterativeRobot {
 		Tunnel.getInstance().init();
 		Climber.getInstance().init();
 		CameraSwitcher.init();
+		CameraSwitcher.initStreams();
 		teleopInit();
 
 		//LEDS and Cameras
 		Limelight.init();
-		Lifecam.init();
+	//	Lifecam.init();
 		LED.reset();
 	}
 	@Override
@@ -92,6 +93,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopPeriodic() {
+		System.out.println(CameraSwitcher.getName());
 		Teleop.getInstance().driverInfo(); //Please don't delete this. Updates LEDs for line guiding and time warning, and dashboard updates for timing. 
 		//Teleop.getInstance().replaySystem();
 	//	Teleop.getInstance().align(); 

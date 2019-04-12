@@ -18,6 +18,9 @@ public class CameraSwitcher {
         
 
     }
+    public static String getName(){
+        return server.getName();
+    }
     public static void setFront(){
         if(server != null){
             server.setSource(Limelight.getAxisCam());
