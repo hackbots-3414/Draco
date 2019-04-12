@@ -25,7 +25,7 @@ public class Limelight {
     static AxisCamera camera;
     public static void init(){
         if(Config.PIT_STREAM){
-           // camera = CameraServer.getInstance().addAxisCamera("10.34.14.11:5800");
+            camera = CameraServer.getInstance().addAxisCamera("10.34.14.11:5800");
         }
         if(Config.PIT_MODE = true){
         pitMode();
