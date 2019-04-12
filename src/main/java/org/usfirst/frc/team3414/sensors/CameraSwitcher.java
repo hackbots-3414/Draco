@@ -15,6 +15,8 @@ public class CameraSwitcher {
         Lifecam.init();
         server = CameraServer.getInstance().getServer();
         server.setSource(Limelight.getAxisCam());
+        
+
     }
     public static void setFront(){
         if(server != null){

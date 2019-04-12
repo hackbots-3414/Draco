@@ -60,7 +60,9 @@ public class HatchPanelManipulator {
        LED.set(LEDColor.PURPLE);
     }
     public void setOpenAssisted(){
+        SmartDashboard.putString("Panel", "YES");
         if(isTouchingPanel()){
+            SmartDashboard.putString("Panel", "NO");
             setOpen();
         }
     }
