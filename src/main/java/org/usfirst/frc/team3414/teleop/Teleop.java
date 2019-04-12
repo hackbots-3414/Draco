@@ -302,12 +302,13 @@ public class Teleop {
 	//	CameraSwitcher.init();
 		if (pad.getYButton() || (left.getRawButton(3) || right.getRawButton(3))) {
 			//CameraSwitcher.setFront();
-			Limelight.stream();
-			CameraSwitcher.setFront();
+		//	Limelight.stream();
+			//CameraSwitcher.setFront();
+			Limelight.pitStream();
 		//	Limelight.rearView();
 		} else if (pad.getXButton()  || (left.getRawButton(2) || right.getRawButton(2))) {
 			Lifecam.stream();
-			CameraSwitcher.setRear();
+		///X	CameraSwitcher.setRear();
 			//CameraSwitcher.setRear();
 			//Limelight.frontView();
 		}

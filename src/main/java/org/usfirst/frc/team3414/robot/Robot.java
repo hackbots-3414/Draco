@@ -48,7 +48,6 @@ public class Robot extends IterativeRobot {
 	// Fc. Compressor c = new Compressor(Config.COMPRESSOR);
 	@Override
 	public void robotInit() {
-		CameraSwitcher.initStreams();
 		//Actuators 
 		DriveTrain.getInstance().init();
 		Intake.getInstance().init();

@@ -11,7 +11,10 @@ public class CameraSwitcher {
         NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection").setString("limelight");
     }
     public static void initStreams(){
+        Limelight.init();
+        Lifecam.init();
         server = CameraServer.getInstance().getServer();
+        server.setSource(Limelight.getAxisCam());
     }
     public static void setFront(){
         if(server != null){

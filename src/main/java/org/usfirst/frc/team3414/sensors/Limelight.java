@@ -35,7 +35,7 @@ public class Limelight {
         }
     
     }
-    public static void streamPit(){
+    public static void pitStream(){
     NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection").setString(camera.getName());
     }
     public static void stream(){
