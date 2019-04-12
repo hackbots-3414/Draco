@@ -24,6 +24,9 @@ public class Lifecam {
         camera.setFPS(15);
             camera.setResolution(360, 240);
         }
+    public static UsbCamera getCam(){
+        return camera;
+    }
     public static void startRear(){ //NOT IN USE
             camera.setFPS(15);
             camera.setResolution(360, 240);

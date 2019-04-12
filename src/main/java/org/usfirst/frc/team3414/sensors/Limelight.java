@@ -41,6 +41,9 @@ public class Limelight {
     public static void stream(){
         NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection").setString("limelight");
         }
+    public static AxisCamera getAxis(){
+        return camera;
+    }
     public static void resetStream(){
         camera = CameraServer.getInstance().addAxisCamera("10.34.14.11:5800");
         }
