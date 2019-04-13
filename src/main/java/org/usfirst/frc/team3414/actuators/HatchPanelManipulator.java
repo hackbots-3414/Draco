@@ -46,6 +46,9 @@ public class HatchPanelManipulator {
      * void inanddown(){ hatchPanelBackAndForth.set(false);
      * hatchPanelUpAndDown.set(false); }
      */
+    public void init(){
+        SmartDashboard.putString("Manipulator", "null");
+    }
     public void setOut() {
         sliderOut.set(true);
         sliderIn.set(false);
@@ -60,10 +63,12 @@ public class HatchPanelManipulator {
        LED.set(LEDColor.PURPLE);
     }
     public void setOpenAssisted(){
-        SmartDashboard.putString("Panel", "YES");
         if(isTouchingPanel()){
-            SmartDashboard.putString("Panel", "NO");
+            SmartDashboard.putString("Panel", "YES");
             setOpen();
+        }
+        else{
+            SmartDashboard.putString("Panel", "NO");
         }
     }
     public void setOpenAutomatic(){
