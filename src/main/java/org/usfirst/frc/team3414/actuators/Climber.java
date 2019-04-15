@@ -18,7 +18,6 @@ import org.usfirst.frc.team3414.diagnostic.LEDColor;
 import org.usfirst.frc.team3414.teleop.Teleop;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -85,11 +84,10 @@ public class Climber {
         double topClimbTime = 8;
         double midClimbTime = 4;
         double midToTopClimbTime = 4;
-        while (getEscapeButton() && DriverStation.getInstance().isEnabled()) {
+        while (getEscapeButton()) {
             updateDashboard(stage);
             if (stage == 1) {
                 LED.set(LEDColor.RED); // Sets the LEDs
-                HatchPanelManipulator.getInstance().setIn();
                 setFront(target);
                 setRear(getFrontEncoder() + offset);
                 /*

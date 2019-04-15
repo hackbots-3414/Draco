@@ -10,7 +10,6 @@ package org.usfirst.frc.team3414.sensors;
 import org.usfirst.frc.team3414.config.Config;
 
 import edu.wpi.cscore.AxisCamera;
-import edu.wpi.cscore.HttpCamera;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSource;
 import edu.wpi.cscore.VideoMode.PixelFormat;
@@ -23,9 +22,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Limelight {
     static AxisCamera camera;
+    
     public static void init(){
         if(Config.PIT_STREAM){
-            camera = CameraServer.getInstance().addAxisCamera("10.34.14.11:5800");
+            camera = CameraServer.getInstance().addAxisCamera(SmartDashboard.getString("Limelight IP", "limelight.local:5800"));
         }
         if(Config.PIT_MODE = true){
         pitMode();
@@ -35,18 +35,9 @@ public class Limelight {
         }
     
     }
-    public static void pitStream(){
-    NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection").setString(camera.getName());
-    }
-    public static void stream(){
-        NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection").setString("limelight");
-        }
-    public static AxisCamera getAxisCam(){
-        return camera;
-    }
     public static void resetStream(){
-        camera = CameraServer.getInstance().addAxisCamera("10.34.14.11:5800");
-        }
+        camera = CameraServer.getInstance().addAxisCamera(SmartDashboard.getString("Limelight IP", "limelight.local:5800"));
+    }
     public static void setLED(int state){
         //0-Use pipeline mode 1-Force off 2-Force Blink 3-Force on
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(state);
@@ -70,14 +61,6 @@ public class Limelight {
     public static void defaultView(){
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(0);
 
-    }
-    public static void setLight(boolean light){
-        if(light = false){
-        setLED(1);
-        }
-        else{
-            setLED(0);
-        }
     }
     public static void rearView(){
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(2);

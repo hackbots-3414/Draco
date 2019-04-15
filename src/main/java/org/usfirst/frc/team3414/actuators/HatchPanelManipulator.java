@@ -21,12 +21,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Add your docs here.
  */
 public class HatchPanelManipulator {
-    Solenoid sliderOut = new Solenoid(Config.HORIZONTAL_MANIPULATOR_OUT);
-    Solenoid sliderIn = new Solenoid(Config.HORIZONTAL_MANIPULATOR_IN);
-    Solenoid hatchUp = new Solenoid(Config.VERTICAL_MANIPULATOR_UP);
-    Solenoid hatchDown = new Solenoid(Config.VERTICAL_MANIPULATOR_DOWN);
-
-    DigitalInput button  = new  DigitalInput(4);
+    public void init(){
+        sliderOut = new Solenoid(Config.HORIZONTAL_MANIPULATOR_OUT);
+        sliderIn = new Solenoid(Config.HORIZONTAL_MANIPULATOR_IN);
+        hatchUp = new Solenoid(Config.VERTICAL_MANIPULATOR_UP);
+        hatchDown = new Solenoid(Config.VERTICAL_MANIPULATOR_DOWN);
+        button = new DigitalInput(Config.MANIPULATOR_BUTTON_CHANNEL);
+    }
+    Solenoid sliderOut;
+    Solenoid sliderIn;
+    Solenoid hatchUp;
+    Solenoid hatchDown;
+    DigitalInput button;
 
     private static HatchPanelManipulator instance;
 
@@ -46,15 +52,12 @@ public class HatchPanelManipulator {
      * void inanddown(){ hatchPanelBackAndForth.set(false);
      * hatchPanelUpAndDown.set(false); }
      */
-    public void init(){
-        SmartDashboard.putString("Manipulator", "null");
-    }
     public void setOut() {
         sliderOut.set(true);
         sliderIn.set(false);
         //LED.set(LEDColor.GREEN);
       //  LED.set(LEDColor.RED);
-   //   LED.set(LEDColor.GREEN);
+      LED.set(LEDColor.GREEN);
     }
 
     public void setIn() {
@@ -64,11 +67,7 @@ public class HatchPanelManipulator {
     }
     public void setOpenAssisted(){
         if(isTouchingPanel()){
-            SmartDashboard.putString("Panel", "YES");
             setOpen();
-        }
-        else{
-            SmartDashboard.putString("Panel", "NO");
         }
     }
     public void setOpenAutomatic(){
@@ -86,13 +85,10 @@ public class HatchPanelManipulator {
             //LED.hatchAbleToBePickedUp();
         }
     }
-
     public void setClosed() {
         hatchUp.set(true);
         hatchDown.set(false);
     }
-
-
     public void setOverride(boolean set){
         override = set;
     }

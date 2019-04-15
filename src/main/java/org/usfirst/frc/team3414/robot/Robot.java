@@ -12,14 +12,12 @@ import java.io.IOException;
 
 import org.usfirst.frc.team3414.actuators.Climber;
 import org.usfirst.frc.team3414.actuators.DriveTrain;
+import org.usfirst.frc.team3414.actuators.HatchPanelManipulator;
 import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.Tunnel;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.DashboardOutput;
-import org.usfirst.frc.team3414.diagnostic.DriveChecklist;
 import org.usfirst.frc.team3414.diagnostic.LED;
-import org.usfirst.frc.team3414.diagnostic.LEDColor;
-import org.usfirst.frc.team3414.sensors.CameraSwitcher;
 import org.usfirst.frc.team3414.sensors.Lifecam;
 import org.usfirst.frc.team3414.sensors.Limelight;
 import org.usfirst.frc.team3414.teleop.Teleop;
@@ -48,18 +46,20 @@ public class Robot extends IterativeRobot {
 	// Fc. Compressor c = new Compressor(Config.COMPRESSOR);
 	@Override
 	public void robotInit() {
-		//Actuators 
+		
+		// HCompressor.init();
+		// c.enabled();
+		// c.setClosedLoopControl(true);
 		DriveTrain.getInstance().init();
+		HatchPanelManipulator.getInstance().init();
 		Intake.getInstance().init();
 		Tunnel.getInstance().init();
 		Climber.getInstance().init();
-		CameraSwitcher.init();
-		CameraSwitcher.initStreams();
-		teleopInit();
-
-		//LEDS and Cameras
 		Limelight.init();
-	//	Lifecam.init();
+		teleopInit();
+		
+		Lifecam.init();
+		Lifecam.startRear();
 		LED.reset();
 	}
 	@Override
@@ -68,32 +68,52 @@ public class Robot extends IterativeRobot {
 	}
 	@Override
 	public void disabledPeriodic() {
-		Limelight.pitMode();
-		Teleop.getInstance().camera();
-		
+		if(isDisabled()){
 			Teleop.getInstance().stopAll();
-			DriveChecklist.joysticks();
+			if((Math.abs(Teleop.getInstance().getLeftJoystick().getY())>.1)|| (Math.abs(Teleop.getInstance().getRightJoystick().getY())>.1) ){
+				SmartDashboard.putBoolean("Joysticks Zeroed", false);
+						}
+			else{
+				SmartDashboard.putBoolean("Joysticks Zeroed", true);
+			}
+		}
 	}
 	@Override
 	public void robotPeriodic() {
 		}
 	
 
-	
+	/**
+	 * This autonomous (along with the chooser code above) shows how to select
+	 * between different autonomous modes using the dashboard. The sendable chooser
+	 * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
+	 * remove all of the chooser code and uncomment the getString line to get the
+	 * auto name from the text box below the Gyro
+	 *
+	 * <p>
+	 * You can add additional auto modes by adding additional comparisons to the
+	 * switch structure below with additional strings. If using the SendableChooser
+	 * make sure to add them to the chooser code above as well.
+	 */
 	@Override
 	public void autonomousInit() {
 		teleopInit();
-		
+		// autoSelected = SmartDashboard.getString("Auto Selector",
+		// defaultAuto);
 	}
 	public void autonomousPeriodic() {
 		teleopPeriodic();
 		
 	}
 
-	
+	/**
+	 * This function is called periodically during autonomous.
+	 */
+	/**
+	 * This function is called periodically during operator control.
+	 */
 	@Override
 	public void teleopPeriodic() {
-		System.out.println(CameraSwitcher.getName());
 		Teleop.getInstance().driverInfo(); //Please don't delete this. Updates LEDs for line guiding and time warning, and dashboard updates for timing. 
 		//Teleop.getInstance().replaySystem();
 	//	Teleop.getInstance().align(); 
@@ -112,6 +132,25 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
+		// if (Config.REPLAY_MODE) {
+		// 	try {
+		// 		Auton.getInstance().replayInit();
+		// 	} catch (FileNotFoundException e) {
+		// 		// TODO Auto-generated catch block
+		// 		e.printStackTrace();
+		// 	}
+		// }
+
+		// else if (!Config.REPLAY_MODE) {
+		// 	try {
+		// 		Auton.getInstance().recordInit();
+		// 	} catch (IOException e) {
+		// 		// TODO Auto-generated catch block
+		// 		e.printStackTrace();
+		// 	}
+
+		// }
+		Limelight.init();
 		LED.reset();
 	}
 
