@@ -3,90 +3,79 @@ package org.usfirst.frc.team3414.teleop;
 import org.usfirst.frc.team3414.config.Config;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 public class Controller {
 	//Normal Controllers with Normal Mappings. There is a difference.
 	
-	Joystick pad;
-	public Controller(int channel){
-		pad = new Joystick(channel);
+    F310 pad;
+    XboxController xbox;
+	public  Controller(){
+        pad = new F310(Config.CONTROLLER_CHANNEL);
+        xbox = new XboxController(Config.XBOX_CONTROLLER_CHANNEL);
 		}
 		public void closeOut() {
 			pad = null;
 		}
 	public boolean getAButton() {
-		return pad.getRawButton(2);
+		return pad.getAButton() || xbox.getAButton();
 
 	}
 
 	public boolean getBButton() {
-		return pad.getRawButton(3);
+		return pad.getBButton() || xbox.getAButton();
 
 	}
 
 	public boolean getXButton() {
-		return pad.getRawButton(1);
+		return pad.getXButton() || xbox.getXButton();
 
 	}
 
 	public boolean getYButton() {
-		return pad.getRawButton(4);
-
+        return pad.getYButton() || xbox.getYButton();
 	}
 
 	public boolean getLBButton() {
-		return pad.getRawButton(5);
-
+        return pad.getLBButton() || xbox.getBumper(Hand.kLeft);
 	}
 
 	public boolean getRBButton() {
-		return pad.getRawButton(6);
+		return pad.getRBButton() || xbox.getBumper(Hand.kRight);
 	}
 
 	public boolean getLT() {
-		return pad.getRawButton(7);
+		return pad.getLT() || xbox.getTriggerAxis(Hand.kLeft) > .25;
 
 	}
 
 	public boolean getRT() {
-		return pad.getRawButton(8);
+		return pad.getRT() || xbox.getTriggerAxis(Hand.kRight) > .25;
 
 	}
 	public boolean getLSButton(){
-		return pad.getRawButton(11);
-	}
+        return pad.getLSButton() || xbox.getStickButton(Hand.kLeft);
+    	}
 	public boolean getRSButton(){
-		return pad.getRawButton(12);
+        return pad.getRSButton() || xbox.getStickButton(Hand.kRight);
 	}
 
 	public double getPov() {
-		return pad.getPOV();
-	}
-	public boolean isPovPositive(){
-		if((135 >= pad.getPOV()) && (pad.getPOV() <= 45)){
-			return true;
-		}
-		else{
-			return false;
-		}		
-	}
-	public boolean isPovNegative(){
-		if((225 >= pad.getPOV()) && (pad.getPOV() <= 315)){
-			return true;
-		}
-		else{
-			return false;
-		}		
-	}
+		return pad.getPov();
+    }
+    public double getXPov(){
+        return xbox.getPOV();
+    }	
+	
 private static Controller instance;
 
 public static Controller getInstance()
 		{
 			if(instance == null)
 			{
-				instance = new Controller(Config.CONTROLLER_CHANNEL);
-			}
-			
+				instance = new Controller();
+            }
 			return instance;
 			
 	}
