@@ -23,6 +23,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Teleop {
@@ -40,7 +41,7 @@ public class Teleop {
 	AutonReplayRecord auton = new AutonReplayRecord();
 	Joystick left = new Joystick(Config.LEFT_STICK);
 	Joystick right = new Joystick(Config.RIGHT_STICK);
-	Controller pad = Controller.getInstance();
+	Controller pad = new Controller();
 	AnalogInput irLeft = new AnalogInput(Config.LEFT_IR);
 	AnalogInput irRight = new AnalogInput(Config.RIGHT_IR);
 	AnalogInput lineSensor = new AnalogInput(Config.LINE_SENSOR);
@@ -156,17 +157,10 @@ public class Teleop {
 	}
 
 	public void manipulator() {
-		if(Config.PAD.equals("F310")){
-			if (pad.getPov() == 0) {
-				HatchPanelManipulator.getInstance().setOut();
-			}
-		else if (Config.PAD.equals("XBONE")){
-			if (pad.getXPov() == 0) {
-				HatchPanelManipulator.getInstance().setOut();
-			}}
-		
-		
-		 if (pad.getPov() == 180) {
+		System.out.println(pad.getXPov());
+				if (pad.getPov() == 0 || pad.getXPov() == 0) {
+			HatchPanelManipulator.getInstance().setOut();
+		} else if (pad.getXPov() == 180 || pad.getPov()  == 180) {
 			HatchPanelManipulator.getInstance().setIn();
 		} else if (pad.getLBButton()) {
 			HatchPanelManipulator.getInstance().setClosed(); //Traditional
@@ -181,11 +175,9 @@ public class Teleop {
 			HatchPanelManipulator.getInstance().setOpenAssisted();
 			*/
 		}
-	}}
-	
 
 		
-	
+	}
 
 	public void climber() {
 		//Want to shave off time? Change the second parameter(margin) to a smaller value. Risk is the robot doesn't get as high as you want

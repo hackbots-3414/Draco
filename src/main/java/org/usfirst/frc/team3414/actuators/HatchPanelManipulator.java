@@ -15,6 +15,7 @@ import org.usfirst.frc.team3414.diagnostic.LEDColor;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -35,7 +36,6 @@ public class HatchPanelManipulator {
     DigitalInput button;
 
     private static HatchPanelManipulator instance;
-
     public static HatchPanelManipulator getInstance() {
         if (instance == null) {
             instance = new HatchPanelManipulator();

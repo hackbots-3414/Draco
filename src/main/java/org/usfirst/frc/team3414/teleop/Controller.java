@@ -3,15 +3,15 @@ package org.usfirst.frc.team3414.teleop;
 import org.usfirst.frc.team3414.config.Config;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
 public class Controller {
 	//Normal Controllers with Normal Mappings. There is a difference.
 	
     F310 pad;
     XboxController xbox;
-	public Controller(){
+	public  Controller(){
         pad = new F310(Config.CONTROLLER_CHANNEL);
         xbox = new XboxController(Config.XBOX_CONTROLLER_CHANNEL);
 		}
@@ -24,7 +24,7 @@ public class Controller {
 	}
 
 	public boolean getBButton() {
-		return pad.getBButton() || xbox.getAButton();
+		return pad.getBButton() || xbox.getBButton();
 
 	}
 
@@ -66,7 +66,10 @@ public class Controller {
     }
     public double getXPov(){
         return xbox.getPOV();
-    }	
+    }
+    public void setRumble(RumbleType type, double value){
+        xbox.setRumble(type, value);
+        }	
 	
 private static Controller instance;
 

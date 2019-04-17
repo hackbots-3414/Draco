@@ -11,8 +11,6 @@ public class Config {
 	public static final int LEFT_STICK = 0;
 	public static final int RIGHT_STICK = 1;
 	public static final int CONTROLLER_CHANNEL = 2;
-	public static final String PAD = "XBONE"; //Can be F310 or XBONE
-	
 	//Values that anyone can change
 	public static final double INTAKE_THROTTLE = .75; //Originally .75. 
 	public static final boolean PIT_STREAM = true; //Reads the Limelight as an IPCamera, used in pitmode. Will add a small delay during comp. 
@@ -74,6 +72,6 @@ public class Config {
 	public static final double LEVEL_2_TIME = 10;
 	public static final double LEVEL_3_TIME = 10;
 	public static final int VACUUM_TALON = 0;
-	public static final int XBOX_CONTROLLER_CHANNEL = 0;
+	public static final int XBOX_CONTROLLER_CHANNEL = 3;
 
 }
