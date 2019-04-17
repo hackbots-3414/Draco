@@ -11,7 +11,7 @@ public class Controller {
 	
     F310 pad;
     XboxController xbox;
-	public  Controller(){
+	public Controller(){
         pad = new F310(Config.CONTROLLER_CHANNEL);
         xbox = new XboxController(Config.XBOX_CONTROLLER_CHANNEL);
 		}

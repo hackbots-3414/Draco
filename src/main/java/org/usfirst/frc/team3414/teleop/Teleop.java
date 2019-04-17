@@ -40,7 +40,7 @@ public class Teleop {
 	AutonReplayRecord auton = new AutonReplayRecord();
 	Joystick left = new Joystick(Config.LEFT_STICK);
 	Joystick right = new Joystick(Config.RIGHT_STICK);
-	Controller pad = new Controller();
+	Controller pad = Controller.getInstance();
 	AnalogInput irLeft = new AnalogInput(Config.LEFT_IR);
 	AnalogInput irRight = new AnalogInput(Config.RIGHT_IR);
 	AnalogInput lineSensor = new AnalogInput(Config.LINE_SENSOR);
@@ -156,9 +156,17 @@ public class Teleop {
 	}
 
 	public void manipulator() {
-		if (pad.getPov() == 0) {
-			HatchPanelManipulator.getInstance().setOut();
-		} else if (pad.getPov() == 180) {
+		if(Config.PAD.equals("F310")){
+			if (pad.getPov() == 0) {
+				HatchPanelManipulator.getInstance().setOut();
+			}
+		else if (Config.PAD.equals("XBONE")){
+			if (pad.getXPov() == 0) {
+				HatchPanelManipulator.getInstance().setOut();
+			}}
+		
+		
+		 if (pad.getPov() == 180) {
 			HatchPanelManipulator.getInstance().setIn();
 		} else if (pad.getLBButton()) {
 			HatchPanelManipulator.getInstance().setClosed(); //Traditional
@@ -173,9 +181,11 @@ public class Teleop {
 			HatchPanelManipulator.getInstance().setOpenAssisted();
 			*/
 		}
+	}}
+	
 
 		
-	}
+	
 
 	public void climber() {
 		//Want to shave off time? Change the second parameter(margin) to a smaller value. Risk is the robot doesn't get as high as you want
