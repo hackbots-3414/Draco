@@ -10,6 +10,7 @@ package org.usfirst.frc.team3414.robot;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.usfirst.frc.team3414.actuators.Arm;
 import org.usfirst.frc.team3414.actuators.Climber;
 import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.HBVacuum;
@@ -52,8 +53,9 @@ public class Robot extends IterativeRobot {
 		// c.enabled();
 		// c.setClosedLoopControl(true);
 		DriveTrain.getInstance().init();
-		HatchPanelManipulator.getInstance().init();
+//	HatchPanelManipulator.getInstance().init();
 		HBVacuum.getInstance().init();
+		Arm.getInstance().init();
 		Intake.getInstance().init();
 		Tunnel.getInstance().init();
 		Climber.getInstance().init();
@@ -124,7 +126,8 @@ public class Robot extends IterativeRobot {
 		Teleop.getInstance().drive();
 		Teleop.getInstance().freeDriveTrain();
 		Teleop.getInstance().ball();
-		Teleop.getInstance().manipulator();
+		//Teleop.getInstance().manipulator();
+		Teleop.getInstance().arm();
 		Teleop.getInstance().camera();
 		Teleop.getInstance().vacuum();
 		//SHOULD WORK

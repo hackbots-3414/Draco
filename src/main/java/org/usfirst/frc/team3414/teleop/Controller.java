@@ -51,7 +51,7 @@ public class Controller {
 	}
 
 	public boolean getRT() {
-		return pad.getRT() || xbox.getTriggerAxis(Hand.kRight) > .25;
+		return pad.getRT() || xbox.getTriggerAxis(Hand.kRight) > .75;
 
 	}
 	public boolean getLSButton(){

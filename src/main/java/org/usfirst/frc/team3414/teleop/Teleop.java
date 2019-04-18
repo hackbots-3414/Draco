@@ -3,6 +3,7 @@ package org.usfirst.frc.team3414.teleop;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.usfirst.frc.team3414.actuators.Arm;
 import org.usfirst.frc.team3414.actuators.Climber;
 import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.HBVacuum;
@@ -158,7 +159,6 @@ public class Teleop {
 	}
 
 	public void manipulator() {
-		System.out.println(pad.getXPov());
 				if (pad.getPov() == 0 || pad.getXPov() == 0) {
 			HatchPanelManipulator.getInstance().setOut();
 		} else if (pad.getXPov() == 180 || pad.getPov()  == 180) {
@@ -301,10 +301,23 @@ public class Teleop {
 		if(pad.getLBButton()){
 			HBVacuum.getInstance().releaseGamePiece();
 		}
+		else if(pad.getLT()){
+			HBVacuum.getInstance().grab();
+		}
 
 	}
 
 	public Controller getController() {
 		return pad;
 	}
+
+	public void arm() {
+		//if (pad.getPov() == 0 || pad.getXPov() == 0) {
+			if(pad.getXPov() == 0){
+			Arm.getInstance().setOut();
+			
+		} else if (pad.getXPov() == 180 || pad.getPov()  == 180) {
+			Arm.getInstance().setIn();
+	}
+}
 }

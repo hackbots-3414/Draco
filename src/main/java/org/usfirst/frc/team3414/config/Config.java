@@ -41,7 +41,7 @@ public class Config {
 	public static final int MANIPULATOR_BUTTON_CHANNEL = 4;
 
 	//Tunnel Talons
-	public static final int TUNNEL_TALON_TOP = 25;
+	public static final int TUNNEL_TALON_TOP = 25; //Doesn't exist
 	public static final int CARGO_MOTOR_ONE = 51;
 	public static final int CARGO_MOTOR_TWO = 45;
 
@@ -73,13 +73,13 @@ public class Config {
 	public static final double LEVEL_3_TIME = 10;
 	public static final int XBOX_CONTROLLER_CHANNEL = 3;
 
-	public static final int VACUUM_TALON = -1;
-	public static final int VENT_SOLENOID = -1;
+	public static final int VACUUM_TALON = 6 ; //52  c
+	public static final int VENT_SOLENOID = 4; //change back to 4
 	public static final int VACUUM_PUMP_SPIN_UP_TIME = 500;
-	public static final double VACUUM_GAME_PIECE_DETECTED_CONDUCTANCE = 0.2;
-	public static final double VACUUM_MOTOR_PRESENT_CONDUCTANCE = 0.05;
+	public static final double VACUUM_GAME_PIECE_DETECTED_CONDUCTANCE = 0.6; //.2 , ours was .3
+	public static final double VACUUM_MOTOR_PRESENT_CONDUCTANCE = 0.3; //.05 , ours was .6
 	public static final double VACUUM_INITIAL_HOLD_SPEED = 1.0;
 	public static final double VACUUM_SUSTAIN_HOLD_SPEED = 0.2;
-	public static final double VACUUM_SOLENOID_ON_TIME_TO_VENT_VACUUM = 5000;
+	public static final double VACUUM_SOLENOID_ON_TIME_TO_VENT_VACUUM = 2500; //5000
 	public static int GAME_PIECE_DETECTION_MINIMUM_COUNTS = 20;
 }

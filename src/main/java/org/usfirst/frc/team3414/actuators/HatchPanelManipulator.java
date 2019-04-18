@@ -101,10 +101,20 @@ public class HatchPanelManipulator {
         hatchDown.set(true);
     }
     public boolean isOut(){
+        if(hatchDown != null){
         return sliderOut.get(); 
+        }
+        else{
+            return false;
+        }
     }
     public boolean isOpen(){
+        if(hatchDown != null){
         return hatchDown.get();
+        }
+        else{
+            return false;
+        }
     }
 
     public void diagnostic() {

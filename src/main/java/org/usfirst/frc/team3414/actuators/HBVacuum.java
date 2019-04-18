@@ -64,8 +64,10 @@ public class HBVacuum extends Subsystem {
          * Create the talon and solenoid and assign them to their respective references
          * so we can use them later.
          */
+        /*
         vacuumTalon = new TalonSRX(TalonCANID);
         ventSolenoid = new Solenoid(solenoidID);
+        */
 
         m_subsystemName = name;
 
@@ -134,6 +136,7 @@ public class HBVacuum extends Subsystem {
         // Grab Code goes here
         grabGamePiece();
     }
+    long lastpulse = System.currentTimeMillis();
     public void holdGamePiece() {
 
         /*
@@ -145,7 +148,9 @@ public class HBVacuum extends Subsystem {
          * hold on a game piece already in the suction cups.
          */
         vacuumTalon.set(ControlMode.PercentOutput, Config.VACUUM_SUSTAIN_HOLD_SPEED);
-    
+       
+
+        
         m_vacuumState = state.holding;
       }
       public void releaseGamePiece() {
@@ -166,15 +171,16 @@ public class HBVacuum extends Subsystem {
          * current going through the PCM's solenoid driver for solenoids that shouldn't
          * need release control.
          */
-        if (m_vacuumState == state.holding) {
+        if (m_vacuumState == state.holding){// m_vacuumState == state.grabbing) {
           /*
            * Open the venting solenoid for this vacuum system to allow the game piece to
            * fall off the suction cup by breaking the vacuum in this system. The solenoid
            * will run for a short length of time, vacuumSolenoidOnTimeToVentVacuum, and
            * automatically turn off later.
            */
-          ventSolenoid.setPulseDuration(Config.VACUUM_SOLENOID_ON_TIME_TO_VENT_VACUUM / 1000.0);
-          ventSolenoid.startPulse();
+          //ORIGINAL ventSolenoid.setPulseDuration(Config.VACUUM_SOLENOID_ON_TIME_TO_VENT_VACUUM / 1000.0);
+          //ORIGINAL ventSolenoid.startPulse();
+          ventSolenoid.set(true);
         }
         /*
          * Reset the timestamp to 0 so we can detect the first time we turn on the
