@@ -88,6 +88,9 @@ public class Teleop {
 	}
 
 	public void drive() {
+		if(left.getRawButton(1) || right.getRawButton(1)){
+			DriveTrain.getInstance().teleop(left.getY() * .3, right.getY() * .3);
+		}
 		DriveTrain.getInstance().teleop(left.getY(), right.getY());
 	}
 

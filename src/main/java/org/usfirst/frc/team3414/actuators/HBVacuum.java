@@ -139,7 +139,7 @@ public class HBVacuum extends Subsystem {
     long lastpulse = System.currentTimeMillis();
     public void holdGamePiece() {
 
-        /*
+        /*  
          * Close the venting solenoid so we can maintain a vacuum with the vacuum motor.
          */
         ventSolenoid.set(false);

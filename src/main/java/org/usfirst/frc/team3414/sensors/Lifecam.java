@@ -22,7 +22,6 @@ public class Lifecam {
     public static void startRear(){
             camera.setFPS(15);
             camera.setResolution(360, 240);
-            camera.setVideoMode(PixelFormat.kGray, 360, 240, 30);
         }
     public static void stopRear(){ //TODO test this, possibly a BAD IDEA
         camera.free();
