@@ -12,6 +12,7 @@ import java.io.IOException;
 
 import org.usfirst.frc.team3414.actuators.Climber;
 import org.usfirst.frc.team3414.actuators.DriveTrain;
+import org.usfirst.frc.team3414.actuators.HBVacuum;
 import org.usfirst.frc.team3414.actuators.HatchPanelManipulator;
 import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.Tunnel;
@@ -52,6 +53,7 @@ public class Robot extends IterativeRobot {
 		// c.setClosedLoopControl(true);
 		DriveTrain.getInstance().init();
 		HatchPanelManipulator.getInstance().init();
+		HBVacuum.getInstance().init();
 		Intake.getInstance().init();
 		Tunnel.getInstance().init();
 		Climber.getInstance().init();
@@ -124,6 +126,7 @@ public class Robot extends IterativeRobot {
 		Teleop.getInstance().ball();
 		Teleop.getInstance().manipulator();
 		Teleop.getInstance().camera();
+		Teleop.getInstance().vacuum();
 		//SHOULD WORK
 	    Teleop.getInstance().climber();
 		//BONUS

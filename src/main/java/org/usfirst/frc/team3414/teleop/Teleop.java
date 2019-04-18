@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.usfirst.frc.team3414.actuators.Climber;
 import org.usfirst.frc.team3414.actuators.DriveTrain;
+import org.usfirst.frc.team3414.actuators.HBVacuum;
 import org.usfirst.frc.team3414.actuators.HatchPanelManipulator;
 import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.MotionMagicClimb;
@@ -293,5 +294,17 @@ public class Teleop {
 		Intake.getInstance().stop();
 		Tunnel.getInstance().stop();
 		Climber.getInstance().stop();
+	}
+
+	public void vacuum() {
+		HBVacuum.getInstance().periodic();
+		if(pad.getLBButton()){
+			HBVacuum.getInstance().releaseGamePiece();
+		}
+
+	}
+
+	public Controller getController() {
+		return pad;
 	}
 }
