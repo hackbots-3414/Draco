@@ -245,8 +245,7 @@ public class HBVacuum extends Subsystem {
         m_debouncedDetectedState.addNewValue(testForGamePiece());
     
         if (isDetectsGamePiece()) {
-            Teleop.getInstance().getController().setRumble(RumbleType.kLeftRumble, 1);
-            Teleop.getInstance().getController().setRumble(RumbleType.kRightRumble, 1);
+            Teleop.getInstance().getController().timedRumble(1, 1);
 
           if (!m_newGamePieceDetected) {
             m_newGamePieceDetected = true;
@@ -258,8 +257,7 @@ public class HBVacuum extends Subsystem {
     
           m_timeStampOfEnable = 0;
         } else {
-            Teleop.getInstance().getController().setRumble(RumbleType.kLeftRumble, 0);
-            Teleop.getInstance().getController().setRumble(RumbleType.kRightRumble, 0);
+         
           m_newGamePieceDetected = false;
         }
     
