@@ -224,14 +224,21 @@ public class HBVacuum extends Subsystem {
     
           double conductance = m_averageConductance.getAverage();
     
-          isDetected = (conductance < m_vacuumGamePieceDetectedConductance) 
-              && (conductance > m_vacuumMotorPresentConductance);
+          isDetected = (conductance < m_vacuumGamePieceDetectedConductance) //Biggest 
+              && (conductance > m_vacuumMotorPresentConductance); //Smallest
         }
     
         return isDetected;
       }
       @Override
-      public void periodic() {
+      public void periodic() {                                                                                //BIGGEST                                                                                                             //SMALLEST
+          if((m_vacuumState == state.grabbing) && (m_averageConductance.getAverage() < Config.VACUUM_GAME_PIECE_DETECTED_CONDUCTANCE) && m_averageConductance.getAverage() >Config.VACUUM_MOTOR_PRESENT_CONDUCTANCE){
+            Teleop.getInstance().getController().setSuperRumble(1);
+
+          }
+          else{
+            Teleop.getInstance().getController().setSuperRumble(0);
+          }
         /*
          * Periodically review if the game piece has been captured by this vacuum
          * system. If it has, set the vacuum system to the minimum sustaining vacuum
@@ -254,11 +261,9 @@ public class HBVacuum extends Subsystem {
           }
     
          // holdGamePiece(); Original code, we just want rumble instead of actually taking the piece
-         Teleop.getInstance().getController().setSuperRumble(1);
     
           m_timeStampOfEnable = 0;
         } else {
-            Teleop.getInstance().getController().setSuperRumble(0);
           m_newGamePieceDetected = false;
         }
     
@@ -282,6 +287,8 @@ public class HBVacuum extends Subsystem {
         SmartDashboard.putNumber(m_subsystemName + "VacuumMotorCurrent", currentTalonCurrent);
         SmartDashboard.putNumber(m_subsystemName + "VacuumMotorConductance", conductance);
         SmartDashboard.putNumber(m_subsystemName + "VacuumMotorAverageConductance", m_averageConductance.getAverage());
+        SmartDashboard.putNumber(m_subsystemName + "PercentOutput Vacuum", vacuumTalon.getMotorOutputPercent());
+
     
       }
       @Override

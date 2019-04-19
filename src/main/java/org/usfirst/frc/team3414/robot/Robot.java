@@ -101,6 +101,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		HBVacuum.getInstance().grabGamePiece();
 		teleopInit();
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);

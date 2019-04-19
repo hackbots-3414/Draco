@@ -19,7 +19,8 @@ public class MatchTimer {
 
     public static void outputTime() {
       
-        SmartDashboard.putNumber("Remaining Time:", Timer.getMatchTime());
+        SmartDashboard.putNumber
+        ("Remaining Time:", Timer.getMatchTime());
 
     }
 
