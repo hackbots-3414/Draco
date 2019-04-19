@@ -23,6 +23,7 @@ public class LED {
     // static Spark light = new Spark(10);
     public static void setSpark(double value) {
         light.set(value);
+        lastColor = value;
     }
 
     static boolean timeBlocked = false;
@@ -77,18 +78,19 @@ public class LED {
 
     static long lastBlink = System.currentTimeMillis();
     static int blinkInterval = 500;
-
+    static double lastColor = 0;
     public static void blink(double color, double secondColor) {
         if (System.currentTimeMillis() - lastBlink > blinkInterval) {
+            if(color == lastColor){
+                color = secondColor;
+            }
             LED.set(color);
-            lastBlink = System.currentTimeMillis();
-        } else {
-            set(secondColor);
-        }
     }
+}
 
     public static void set(double value) {
         light.set(value);
+        lastColor = value;
     }
 
 }

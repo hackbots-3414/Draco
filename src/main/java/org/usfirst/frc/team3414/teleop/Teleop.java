@@ -301,11 +301,14 @@ public class Teleop {
 
 	public void vacuum() {
 		HBVacuum.getInstance().periodic();
-		if(pad.getLBButton()){
+		if(pad.getLBButton()){ //Imported Release
 			HBVacuum.getInstance().releaseGamePiece();
 		}
-		else if(pad.getLT()){
+		else if(pad.getLT()){ //modified grab
 			HBVacuum.getInstance().grab();
+		}
+		else if(pad.getRT()){
+			HBVacuum.getInstance().holdGamePiece();
 		}
 
 	}

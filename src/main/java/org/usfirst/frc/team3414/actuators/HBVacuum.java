@@ -171,7 +171,8 @@ public class HBVacuum extends Subsystem {
          * current going through the PCM's solenoid driver for solenoids that shouldn't
          * need release control.
          */
-        if (m_vacuumState == state.holding){// m_vacuumState == state.grabbing) {
+       // if (m_vacuumState == state.holding){// m_vacuumState == state.grabbing) { 
+        if(true){ //Will always run instead of only while in the holding state
           /*
            * Open the venting solenoid for this vacuum system to allow the game piece to
            * fall off the suction cup by breaking the vacuum in this system. The solenoid
@@ -223,7 +224,7 @@ public class HBVacuum extends Subsystem {
     
           double conductance = m_averageConductance.getAverage();
     
-          isDetected = (conductance < m_vacuumGamePieceDetectedConductance)
+          isDetected = (conductance < m_vacuumGamePieceDetectedConductance) 
               && (conductance > m_vacuumMotorPresentConductance);
         }
     
@@ -245,7 +246,6 @@ public class HBVacuum extends Subsystem {
         m_debouncedDetectedState.addNewValue(testForGamePiece());
     
         if (isDetectsGamePiece()) {
-            Teleop.getInstance().getController().timedRumble(1, 1);
 
           if (!m_newGamePieceDetected) {
             m_newGamePieceDetected = true;
@@ -253,11 +253,12 @@ public class HBVacuum extends Subsystem {
            // Robot.m_oi.rumbleOperator(Config.VACUUM_GAME_PIECE_DETECTED_JOYSTICK_RUMBLE_TIME);
           }
     
-          holdGamePiece();
+         // holdGamePiece(); Original code, we just want rumble instead of actually taking the piece
+         Teleop.getInstance().getController().setSuperRumble(1);
     
           m_timeStampOfEnable = 0;
         } else {
-         
+            Teleop.getInstance().getController().setSuperRumble(0);
           m_newGamePieceDetected = false;
         }
     
@@ -345,4 +346,9 @@ public class HBVacuum extends Subsystem {
             return m_accumulation / m_values.size();
         }
     }
+
+	public void poweredRelease() {
+        releaseGamePiece();
+        vacuumTalon.set(ControlMode.PercentOutput, -.02);
+	}
 }

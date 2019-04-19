@@ -103,4 +103,9 @@ public class Controller {
 		return instance;
 
 	}
+
+	public void setSuperRumble(double power) {
+		xbox.setRumble(RumbleType.kLeftRumble, power);
+			xbox.setRumble(RumbleType.kLeftRumble, power);
+	}
 }
