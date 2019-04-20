@@ -68,6 +68,7 @@ public class Robot extends IterativeRobot {
 	}
 	@Override
 	public void disabledInit() {
+		Teleop.getInstance().getController().setSuperRumble(0);
 		teleopInit();
 	}
 	@Override

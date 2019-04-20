@@ -64,6 +64,15 @@ public class Teleop {
 		MatchTimer.outputTime();
 		LED.timeWarning();
 		LED.lineLED();
+		lineIndicatorOutput();
+	}
+	public void lineIndicatorOutput(){
+		if(lineSensor.getAverageVoltage() > 1){
+			SmartDashboard.putBoolean("LINE", true);
+		}
+		else{
+			SmartDashboard.putBoolean("LINE", false);
+		}
 	}
 
 	public void record() throws IOException {
