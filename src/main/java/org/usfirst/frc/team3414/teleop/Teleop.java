@@ -18,6 +18,7 @@ import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.LED;
 import org.usfirst.frc.team3414.diagnostic.MatchTimer;
 import org.usfirst.frc.team3414.sensors.CameraSwitcher;
+import org.usfirst.frc.team3414.sensors.Lifecam;
 import org.usfirst.frc.team3414.sensors.LimeLightUtil;
 import org.usfirst.frc.team3414.sensors.Limelight;
 
@@ -64,15 +65,6 @@ public class Teleop {
 		MatchTimer.outputTime();
 		LED.timeWarning();
 		LED.lineLED();
-		lineIndicatorOutput();
-	}
-	public void lineIndicatorOutput(){
-		if(lineSensor.getAverageVoltage() > 1){
-			SmartDashboard.putBoolean("LINE", true);
-		}
-		else{
-			SmartDashboard.putBoolean("LINE", false);
-		}
 	}
 
 	public void record() throws IOException {
@@ -100,10 +92,7 @@ public class Teleop {
 		if(left.getRawButton(1) || right.getRawButton(1)){
 			DriveTrain.getInstance().teleop(left.getY() * .3, right.getY() * .3);
 		}
-		else{
-
 		DriveTrain.getInstance().teleop(left.getY(), right.getY());
-		}
 	}
 
 	public void ball() {
@@ -289,20 +278,24 @@ public class Teleop {
 			}
 		}
 	}
-
-	public void camera() {
-		// Limelight.init();
-		CameraSwitcher.init();
-		if (pad.getXButton()) {
-			CameraSwitcher.setFront();
-		//	Limelight.rearView();
-		} else if (pad.getYButton()) {
-			CameraSwitcher.setRear();
-			//Limelight.frontView();
-		} else {
-		//	Limelight.defaultView();
-		}
+public void camera(){
+	if (pad.getYButton() || (left.getRawButton(3) || right.getRawButton(3))) {
+		//CameraSwitcher.setFront();
+	//	Limelight.stream();
+		CameraSwitcher.setFront();
+		Limelight.pitStream();
+	//	Limelight.rearView();
+	} else if (pad.getXButton()  || (left.getRawButton(2) || right.getRawButton(2))) {
+		Lifecam.stream();
+	///X	CameraSwitcher.setRear();
+		CameraSwitcher.setRear();
+		//Limelight.frontView();
 	}
+	 else {
+	//	Limelight.defaultView();
+	}
+}
+
 
 	public void stopAll() {
 		DriveTrain.getInstance().set(0, 0);
@@ -321,6 +314,9 @@ public class Teleop {
 		}
 		else if(pad.getRT()){
 			HBVacuum.getInstance().holdGamePiece();
+		}
+		else if(pad.getRBButton()){
+			HBVacuum.getInstance().poweredRelease();
 		}
 
 	}
