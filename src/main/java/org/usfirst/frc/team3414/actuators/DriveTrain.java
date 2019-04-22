@@ -54,9 +54,12 @@ AnalogInput lineSensor;
 		blocked = block;
 	}
 	boolean isrecording = Config.REPLAY_MODE;
-	public void teleop(double leftSpeed, double rightSpeed) {
+	public void teleop(double leftSpeed, double rightSpeed) { 
 		left.set(leftSpeed);
 		right.set(rightSpeed);
+		if(driveState != state.teleop){ //sets the state to teleop
+			driveState = state.teleop;
+		}
 		if (isrecording) {
 			try {
 				AutonReplayRecord.getInstance().record(leftSpeed, rightSpeed);
@@ -113,6 +116,10 @@ AnalogInput lineSensor;
 	public int getLeftEncoder() {
 		return left.getEncoder();
 	}
+	public void resetEncoders(){
+		left.resetEncoder();
+		right.resetEncoder();
+	}
 
 	public void init() {
 		left.setInverted(true);
@@ -130,6 +137,31 @@ AnalogInput lineSensor;
 
 	public void stop() {
 		teleop(0, 0);
+	}
+	public enum state {
+		teleop,automated,assisted;
+	}
+	private state driveState = state.teleop;
+	int tolerance = Config.DRIVE_STRAIGHT_TOLERANCE;
+	int error = 0;
+	public void driveStraight(double leftSpeed, double rightSpeed){
+	if(driveState == state.teleop){
+		driveState = state.assisted; //If was previously in teleop mode, reset encoders for assisted mode
+		resetEncoders();
+	}
+	 error = getRightEncoder() - getLeftEncoder(); //Positive means right bias. Negative means left bias
+	 if(error > tolerance){ //Right bias
+		 left.set(leftSpeed);
+		 right.set(0);
+	 }
+	 if(error < tolerance && error < 0) { //Left bias
+		right.set(rightSpeed);
+		left.set(0);
+	 }
+	 else{
+		 set(leftSpeed, rightSpeed);
+	 }
+
 	}
 
 	public void diagnostic() {

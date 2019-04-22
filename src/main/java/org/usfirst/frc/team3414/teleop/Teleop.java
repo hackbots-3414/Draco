@@ -89,10 +89,14 @@ public class Teleop {
 	}
 
 	public void drive() {
-		if(left.getRawButton(1) || right.getRawButton(1)){
+		if (left.getRawButton(1) || right.getRawButton(1)) {
 			DriveTrain.getInstance().teleop(left.getY() * .3, right.getY() * .3);
+		} else if (left.getRawButton(3) || right.getRawButton(3)) {
+			DriveTrain.getInstance().driveStraight(left.getY(), right.getY());
+		} else {
+
+			DriveTrain.getInstance().teleop(left.getY(), right.getY());
 		}
-		DriveTrain.getInstance().teleop(left.getY(), right.getY());
 	}
 
 	public void ball() {
@@ -102,19 +106,17 @@ public class Teleop {
 			Intake.getInstance().on();
 			Intake.getInstance().goDown();
 			Tunnel.getInstance().on();
-		} else if (pad.getAButton() && Tunnel.getInstance().getBallPos() == 1 ) {
+		} else if (pad.getAButton() && Tunnel.getInstance().getBallPos() == 1) {
 			Intake.getInstance().goUp();
 			Intake.getInstance().off();
 			Tunnel.getInstance().on();
-			//Tunnel.getInstance().off();
-			//At Kyle's request, tunnel is back to its original state, it keeps going until the ball gets up there
-		}
-		else if(pad.getAButton() && Tunnel.getInstance().getBallPos() == 2){
+			 Tunnel.getInstance().off(); //Stops the ball at 1 and will stop at 2 anyway
+	
+		} else if (pad.getAButton() && Tunnel.getInstance().getBallPos() == 2) {
 			Intake.getInstance().goUp();
 			Intake.getInstance().off();
 			Tunnel.getInstance().off();
-		}
-		 else if (pad.getBButton()) {
+		} else if (pad.getBButton()) {
 			Intake.getInstance().off();
 			Tunnel.getInstance().on();
 		} else {
@@ -163,45 +165,42 @@ public class Teleop {
 	}
 
 	public void manipulator() {
-				if (pad.getPov() == 0 || pad.getXPov() == 0) {
+		if (pad.getPov() == 0 || pad.getXPov() == 0) {
 			HatchPanelManipulator.getInstance().setOut();
-		} else if (pad.getXPov() == 180 || pad.getPov()  == 180) {
+		} else if (pad.getXPov() == 180 || pad.getPov() == 180) {
 			HatchPanelManipulator.getInstance().setIn();
 		} else if (pad.getLBButton()) {
-			HatchPanelManipulator.getInstance().setClosed(); //Traditional
+			HatchPanelManipulator.getInstance().setClosed(); // Traditional
 			HatchPanelManipulator.getInstance().setOverride(true);
 		} else if (pad.getLT()) {
-			HatchPanelManipulator.getInstance().setOpen(); //Traditional
+			HatchPanelManipulator.getInstance().setOpen(); // Traditional
 			HatchPanelManipulator.getInstance().setOverride(true);
-		}
-		else if (pad.getRT()){
+		} else if (pad.getRT()) {
 			/*
-			HatchPanelManipulator.getInstance().setOverride(false); //Pettengil button controls
-			HatchPanelManipulator.getInstance().setOpenAssisted();
-			*/
+			 * HatchPanelManipulator.getInstance().setOverride(false); //Pettengil button
+			 * controls HatchPanelManipulator.getInstance().setOpenAssisted();
+			 */
 		}
 
-		
 	}
 
 	public void climber() {
-		//Want to shave off time? Change the second parameter(margin) to a smaller value. Risk is the robot doesn't get as high as you want
-		if (right.getRawButton(6) && left.getRawButton(6)) { //Top Climb
-			Climber.getInstance().climb(16500, 14500,.6); //Should be 16000 on alpha. 
-		} else if (left.getRawButton(7) && right.getRawButton(7)) { //Lower Climb
+		// Want to shave off time? Change the second parameter(margin) to a smaller
+		// value. Risk is the robot doesn't get as high as you want
+		if (right.getRawButton(6) && left.getRawButton(6)) { // Top Climb
+			Climber.getInstance().climb(16500, 14500, .6); // Should be 16000 on alpha.
+		} else if (left.getRawButton(7) && right.getRawButton(7)) { // Lower Climb
 			// Climber.getInstance().motionmagicclimberMidplatform();
-			Climber.getInstance().climb(6000, 4500,.6);
-		}
-		else if(left.getRawButton(10) && right.getRawButton(10)){
-			Climber.getInstance().climb(11500,10500,.4); //Lower to Top
-		}
-		else if(left.getRawButton(11) && right.getRawButton(11)){
-			Climber.getInstance().climb(11500, 10500, 0); //Lower to Top with operator control.
+			Climber.getInstance().climb(6000, 4500, .6);
+		} else if (left.getRawButton(10) && right.getRawButton(10)) {
+			Climber.getInstance().climb(11500, 10500, .4); // Lower to Top
+		} else if (left.getRawButton(11) && right.getRawButton(11)) {
+			Climber.getInstance().climb(11500, 10500, 0); // Lower to Top with operator control.
 		}
 		/*
-		if (left.getRawButton(8) && right.getRawButton(8)) { //Encoder Climb Don't worry about this one for LEDs
-			Climber.getInstance().percentOutputClimber();
-		} */
+		 * if (left.getRawButton(8) && right.getRawButton(8)) { //Encoder Climb Don't
+		 * worry about this one for LEDs Climber.getInstance().percentOutputClimber(); }
+		 */
 	}
 
 	public double getLeftJoy() {
@@ -224,7 +223,8 @@ public class Teleop {
 	public AnalogInput getRightIR() {
 		return irRight;
 	}
-	public AnalogInput getLineSensor(){
+
+	public AnalogInput getLineSensor() {
 		return lineSensor;
 	}
 
@@ -242,11 +242,13 @@ public class Teleop {
 		}
 		if (right.getRawButton(4) && left.getRawButton(4)) {
 			LimeLightUtil.findTheLineLeft(DriveTrain.getInstance().getLeftMotor(),
-					DriveTrain.getInstance().getRightMotor(), irLeft, irRight, Teleop.getInstance().getRightJoystick(),lineSensor);
+					DriveTrain.getInstance().getRightMotor(), irLeft, irRight, Teleop.getInstance().getRightJoystick(),
+					lineSensor);
 		}
 		if (right.getRawButton(5) && right.getRawButton(5)) {
 			LimeLightUtil.findTheLineRight(DriveTrain.getInstance().getLeftMotor(),
-					DriveTrain.getInstance().getRightMotor(),irLeft, irRight, Teleop.getInstance().getRightJoystick(),lineSensor);
+					DriveTrain.getInstance().getRightMotor(), irLeft, irRight, Teleop.getInstance().getRightJoystick(),
+					lineSensor);
 		}
 		if (right.getRawButton(2) && left.getRawButton(2)) {
 			LimeLightUtil.straightenRobotToTarget(DriveTrain.getInstance().getLeftMotor(),
@@ -278,24 +280,23 @@ public class Teleop {
 			}
 		}
 	}
-public void camera(){
-	if (pad.getYButton() || (left.getRawButton(3) || right.getRawButton(3))) {
-		//CameraSwitcher.setFront();
-	//	Limelight.stream();
-		CameraSwitcher.setFront();
-		Limelight.pitStream();
-	//	Limelight.rearView();
-	} else if (pad.getXButton()  || (left.getRawButton(2) || right.getRawButton(2))) {
-		Lifecam.stream();
-	///X	CameraSwitcher.setRear();
-		CameraSwitcher.setRear();
-		//Limelight.frontView();
-	}
-	 else {
-	//	Limelight.defaultView();
-	}
-}
 
+	public void camera() {
+		if (pad.getYButton() || (left.getRawButton(3) || right.getRawButton(3))) {
+			// CameraSwitcher.setFront();
+			// Limelight.stream();
+			CameraSwitcher.setFront();
+			Limelight.pitStream();
+			// Limelight.rearView();
+		} else if (pad.getXButton() || (left.getRawButton(2) || right.getRawButton(2))) {
+			Lifecam.stream();
+			/// X CameraSwitcher.setRear();
+			CameraSwitcher.setRear();
+			// Limelight.frontView();
+		} else {
+			// Limelight.defaultView();
+		}
+	}
 
 	public void stopAll() {
 		DriveTrain.getInstance().set(0, 0);
@@ -306,16 +307,13 @@ public void camera(){
 
 	public void vacuum() {
 		HBVacuum.getInstance().periodic();
-		if(pad.getLBButton()){ //Imported Release
+		if (pad.getLBButton()) { // Imported Release
 			HBVacuum.getInstance().releaseGamePiece();
-		}
-		else if(pad.getLT()){ //modified grab
+		} else if (pad.getLT()) { // modified grab
 			HBVacuum.getInstance().grab();
-		}
-		else if(pad.getRT()){
+		} else if (pad.getRT()) {
 			HBVacuum.getInstance().holdGamePiece();
-		}
-		else if(pad.getRBButton()){
+		} else if (pad.getRBButton()) {
 			HBVacuum.getInstance().poweredRelease();
 		}
 
@@ -326,12 +324,12 @@ public void camera(){
 	}
 
 	public void arm() {
-		//if (pad.getPov() == 0 || pad.getXPov() == 0) {
-			if(pad.getXPov() == 0){
+		// if (pad.getPov() == 0 || pad.getXPov() == 0) {
+		if (pad.getXPov() == 0) {
 			Arm.getInstance().setOut();
-			
-		} else if (pad.getXPov() == 180 || pad.getPov()  == 180) {
+
+		} else if (pad.getXPov() == 180 || pad.getPov() == 180) {
 			Arm.getInstance().setIn();
+		}
 	}
-}
 }

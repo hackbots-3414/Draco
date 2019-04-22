@@ -14,7 +14,7 @@ public class Config {
 	//Values that anyone can change
 	public static final double INTAKE_THROTTLE = .75; //Originally .75. 
 	public static final boolean PIT_STREAM = true; //Reads the Limelight as an IPCamera, used in pitmode. Will add a small delay during comp. 
-	
+	public static final int DRIVE_STRAIGHT_TOLERANCE = 1000;
 	
 	//Various modes, Replay has been removed
 	public static final boolean REPLAY_MODE = false;
