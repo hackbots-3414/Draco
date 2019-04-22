@@ -92,8 +92,10 @@ public class Teleop {
 		if (left.getRawButton(1) || right.getRawButton(1)) {
 			DriveTrain.getInstance().teleop(left.getY() * .3, right.getY() * .3);
 		} else if (left.getRawButton(3) || right.getRawButton(3)) {
-			DriveTrain.getInstance().driveStraight(left.getY(), right.getY());
-		} else {
+			DriveTrain.getInstance().driveStraight((left.getY() +right.getY())/2);
+			//DriveTrain.getInstance().teleop((left.getY() + right.getY()) /2);
+		}
+		 else {
 
 			DriveTrain.getInstance().teleop(left.getY(), right.getY());
 		}

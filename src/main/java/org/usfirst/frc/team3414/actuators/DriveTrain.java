@@ -72,8 +72,9 @@ AnalogInput lineSensor;
 		}
 	}
 
-
-
+	public void teleop(double speed){
+		teleop(speed,speed);
+	}
 	public void set(double leftSpeed, double rightSpeed) {
 		left.set(leftSpeed);
 		right.set(rightSpeed);
@@ -144,23 +145,25 @@ AnalogInput lineSensor;
 	private state driveState = state.teleop;
 	int tolerance = Config.DRIVE_STRAIGHT_TOLERANCE;
 	int error = 0;
-	public void driveStraight(double leftSpeed, double rightSpeed){
+	double previousSpeed;
+	public void driveStraight(double speed){
 	if(driveState == state.teleop){
 		driveState = state.assisted; //If was previously in teleop mode, reset encoders for assisted mode
 		resetEncoders();
+		previousSpeed = 1;
 	}
 	 error = getRightEncoder() - getLeftEncoder(); //Positive means right bias. Negative means left bias
 	 if(error > tolerance){ //Right bias
-		 left.set(leftSpeed);
+		 left.set(speed);
 		 right.set(0);
 	 }
 	 if(error < tolerance && error < 0) { //Left bias
-		right.set(rightSpeed);
+		right.set(speed);
 		left.set(0);
 	 }
 	 else{
-		 set(leftSpeed, rightSpeed);
-	 }
+		 set(speed,speed);
+	 	 }
 
 	}
 

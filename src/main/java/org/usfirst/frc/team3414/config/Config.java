@@ -11,10 +11,13 @@ public class Config {
 	public static final int LEFT_STICK = 0;
 	public static final int RIGHT_STICK = 1;
 	public static final int CONTROLLER_CHANNEL = 2;
+	public static final int XBOX_CONTROLLER_CHANNEL = 3;
 	//Values that anyone can change
+
 	public static final double INTAKE_THROTTLE = .75; //Originally .75. 
 	public static final boolean PIT_STREAM = true; //Reads the Limelight as an IPCamera, used in pitmode. Will add a small delay during comp. 
 	public static final int DRIVE_STRAIGHT_TOLERANCE = 1000;
+	
 	
 	//Various modes, Replay has been removed
 	public static final boolean REPLAY_MODE = false;
@@ -71,13 +74,12 @@ public class Config {
 	public static final int ESCAPE_BUTTON = 1;
 	public static final double LEVEL_2_TIME = 10;
 	public static final double LEVEL_3_TIME = 10;
-	public static final int XBOX_CONTROLLER_CHANNEL = 3;
 
 	public static final int VACUUM_TALON = 6 ; //52  c
-	public static final int VENT_SOLENOID = 4; //change back to 4
-	public static final int VACUUM_PUMP_SPIN_UP_TIME = 1000; //500
-	public static final double VACUUM_GAME_PIECE_DETECTED_CONDUCTANCE = .09; //.2 , ours was .3 BIGGEST
-	public static final double VACUUM_MOTOR_PRESENT_CONDUCTANCE = .04; //.05 , ours was .6 SMALLEST
+	public static final int VENT_SOLENOID = 4; //change back to 6
+	public static final int VACUUM_PUMP_SPIN_UP_TIME = 500;
+	public static final double VACUUM_GAME_PIECE_DETECTED_CONDUCTANCE = 0.6; //.2 , ours was .3
+	public static final double VACUUM_MOTOR_PRESENT_CONDUCTANCE = 0.3; //.05 , ours was .6
 	public static final double VACUUM_INITIAL_HOLD_SPEED = 1.0;
 	public static final double VACUUM_SUSTAIN_HOLD_SPEED = 0.2;
 	public static final double VACUUM_SOLENOID_ON_TIME_TO_VENT_VACUUM = 2500; //5000

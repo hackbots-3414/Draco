@@ -358,7 +358,7 @@ public class HBVacuum extends Subsystem {
         }
     }
 
-	public void poweredRelease() {
+	public void poweredRelease() { //Not finished, don't use
         releaseGamePiece();
         vacuumTalon.set(ControlMode.PercentOutput, -.02);
 	}
