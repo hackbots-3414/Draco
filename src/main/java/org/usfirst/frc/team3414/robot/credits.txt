@@ -1,0 +1,33 @@
+ ______   _______  _______  _______  _______ 
+(  __  \ (  ____ )(  ___  )(  ____ \(  ___  )
+| (  \  )| (    )|| (   ) || (    \/| (   ) |
+| |   ) || (____)|| (___) || |      | |   | |
+| |   | ||     __)|  ___  || |      | |   | |
+| |   ) || (\ (   | (   ) || |      | |   | |
+| (__/  )| ) \ \__| )   ( || (____/\| (___) |
+(______/ |/   \__/|/     \|(_______/(_______)
+                                             
+Created by the 2019 Hackbots Programming Team, Mentors, and with help from StackOverflow, ChiefDelphi, and many others
+
+In order of seniority:
+
+Mentors:
+Rob Francis
+Ben Zumbrunnen
+Himanshu Dash
+
+
+Students:
+Jon Vaysman - Lead (4th year)
+
+Marcus Caver - Camera Streaming and Raspberry Pi  (2nd year)
+
+Lucas England - Assisted Driving (2nd year)
+
+Buddy Michels -  Scouting System (2nd year)
+
+Sravani Dash - Vision Processing (1st year)
+
+Colin Hay - IR Sensors (1st year)
+
+Ross Lewerenz - Encoder Driving (1st year)
