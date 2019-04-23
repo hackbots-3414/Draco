@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3414.sensors;
 
 import edu.wpi.cscore.VideoSink;
+import edu.wpi.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,10 +15,13 @@ public class CameraSwitcher {
         Limelight.init();
         Lifecam.init();
         //server = CameraServer.getInstance().getServer(); C++ guide
-        server = CameraServer.getInstance().addServer("Switched Cam"); //Followed the guide here. https://www.chiefdelphi.com/t/switching-cameras-with-code/344360/4
+     //   server = CameraServer.getInstance().addServer("Switched Cam"); //Followed the guide here. https://www.chiefdelphi.com/t/switching-cameras-with-code/344360/4
         //Thanks Peter_Johnson
-        server.setSource(Limelight.getAxisCam());
-        
+     //   server.setSource(Limelight.getAxisCam());
+        //Limelight.getAxisCam().setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+       // Lifecam.getCam().setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+     //   server.setSource(Lifecam.getCam());
+
 
     }
     public static String getName(){

@@ -23,8 +23,7 @@ public class Lifecam {
     public static void startRear(){ //NOT IN USE
             camera.setFPS(15);
             camera.setResolution(360, 240);
-            camera.setVideoMode(PixelFormat.kGray, 360, 240, 30);
-        }
+            }
     public static void stream() {
         NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection").setString(camera.getName());
     }

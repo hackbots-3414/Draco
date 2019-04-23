@@ -316,7 +316,10 @@ public class Teleop {
 		} else if (pad.getRT()) {
 			HBVacuum.getInstance().holdGamePiece();
 		} else if (pad.getRBButton()) {
-			HBVacuum.getInstance().poweredRelease();
+			HBVacuum.getInstance().releaseGamePiece();
+		}
+		else{
+			HBVacuum.getInstance().closeVent();
 		}
 
 	}

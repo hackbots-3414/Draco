@@ -20,6 +20,7 @@ import org.usfirst.frc.team3414.actuators.Tunnel;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.DashboardOutput;
 import org.usfirst.frc.team3414.diagnostic.LED;
+import org.usfirst.frc.team3414.sensors.CameraSwitcher;
 import org.usfirst.frc.team3414.sensors.Lifecam;
 import org.usfirst.frc.team3414.sensors.Limelight;
 import org.usfirst.frc.team3414.teleop.Teleop;
@@ -53,16 +54,17 @@ public class Robot extends IterativeRobot {
 		// c.enabled();
 		// c.setClosedLoopControl(true);
 		DriveTrain.getInstance().init();
+		CameraSwitcher.initStreams();
 //	HatchPanelManipulator.getInstance().init();
 		HBVacuum.getInstance().init();
 		Arm.getInstance().init();
 		Intake.getInstance().init();
 		Tunnel.getInstance().init();
 		Climber.getInstance().init();
-		Limelight.init();
+		//Limelight.init();
 		teleopInit();
 		
-		Lifecam.init();
+		//lifecam.init();
 		Lifecam.startRear();
 		LED.reset();
 	}
@@ -73,6 +75,7 @@ public class Robot extends IterativeRobot {
 	}
 	@Override
 	public void disabledPeriodic() {
+		Teleop.getInstance().camera();
 		if(isDisabled()){
 			Teleop.getInstance().stopAll();
 			if((Math.abs(Teleop.getInstance().getLeftJoystick().getY())>.1)|| (Math.abs(Teleop.getInstance().getRightJoystick().getY())>.1) ){

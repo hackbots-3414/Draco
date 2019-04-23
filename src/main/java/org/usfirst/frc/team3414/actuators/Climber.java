@@ -55,7 +55,7 @@ public class Climber {
         initEncoders();
         resetEncoders(); // Because the reset only occurs at the time of enable, starting the climber mid
                          // climb will work fine :)
-        updateDashboard(0);
+       // updateDashboard(0);
 
     }
 
@@ -86,7 +86,7 @@ public class Climber {
         double midClimbTime = 4;
         double midToTopClimbTime = 4;
         while (getEscapeButton() && DriverStation.getInstance().isEnabled()) {
-            updateDashboard(stage);
+           // updateDashboard(stage);
             if (stage == 1) {
                 LED.set(LEDColor.RED); // Sets the LEDs
                 setFront(target);
@@ -165,9 +165,9 @@ public class Climber {
                
             }
             if (stage >= 7 || stage <= 0) {
-                updateDashboard(stage);
+               // updateDashboard(stage);
                 stop();
-                LED.setMasterBlock(true); 
+                LED.setMasterBlock(true);  
                 LED.set(LEDColor.PARTY);
                 System.out.println("Climb Finished :)");
                 SmartDashboard.putNumber("Climb Finished in:", (System.currentTimeMillis() - start) / 1000);

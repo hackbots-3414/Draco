@@ -56,6 +56,7 @@ public class HBVacuum extends Subsystem {
     public void init() {
         vacuumTalon = new TalonSRX(Config.VACUUM_TALON);
         ventSolenoid = new Solenoid(Config.VENT_SOLENOID);
+        SmartDashboard.putBoolean("Has Panel", false);
     }
 
     private HBVacuum(int TalonCANID, int solenoidID, String name) {
@@ -361,5 +362,12 @@ public class HBVacuum extends Subsystem {
 	public void poweredRelease() { //Not finished, don't use
         releaseGamePiece();
         vacuumTalon.set(ControlMode.PercentOutput, -.02);
+	}
+
+	public void closeVent() {
+        if(ventSolenoid.get()){
+
+        ventSolenoid.set(false);
+        }
 	}
 }
