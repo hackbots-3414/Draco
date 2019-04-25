@@ -327,7 +327,7 @@ public class Teleop {
 
 	public Controller getController() {
 		return pad;
-	}
+	}	;
 
 	public void arm() {
 		// if (pad.getPov() == 0 || pad.getXPov() == 0) {
