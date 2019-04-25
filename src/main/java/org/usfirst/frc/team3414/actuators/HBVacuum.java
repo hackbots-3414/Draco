@@ -235,13 +235,15 @@ public class HBVacuum extends Subsystem {
       public void periodic() {                                                                                //BIGGEST                                                                                                             //SMALLEST
           if((m_vacuumState == state.grabbing) && (m_averageConductance.getAverage() < Config.VACUUM_GAME_PIECE_DETECTED_CONDUCTANCE) && m_averageConductance.getAverage() >Config.VACUUM_MOTOR_PRESENT_CONDUCTANCE){
             Teleop.getInstance().getController().setSuperRumble(1);
-            if(m_vacuumState == state.holding || m_vacuumState == state.grabbing ){
+          }
+            else{Teleop.getInstance().getController().setSuperRumble(0);
+            }
+            if(m_vacuumState == state.holding ){
                 SmartDashboard.putBoolean("Has Panel", true);
             }
 
-          }
+          
           else{
-            Teleop.getInstance().getController().setSuperRumble(0);
             SmartDashboard.putBoolean("Has Panel", false);
           }
         /*

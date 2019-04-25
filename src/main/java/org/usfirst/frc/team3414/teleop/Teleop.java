@@ -287,13 +287,13 @@ public class Teleop {
 		if (pad.getYButton() || (left.getRawButton(3) || right.getRawButton(3))) {
 			// CameraSwitcher.setFront();
 			// Limelight.stream();
-			CameraSwitcher.setFront();
+			//CameraSwitcher.setFront();
+		//	Limelight.stream();
 			Limelight.pitStream();
 			// Limelight.rearView();
 		} else if (pad.getXButton() || (left.getRawButton(2) || right.getRawButton(2))) {
 			Lifecam.stream();
 			/// X CameraSwitcher.setRear();
-			CameraSwitcher.setRear();
 			// Limelight.frontView();
 		} else {
 			// Limelight.defaultView();
