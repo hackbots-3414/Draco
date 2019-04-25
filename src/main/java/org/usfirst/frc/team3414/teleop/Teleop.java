@@ -16,6 +16,7 @@ import org.usfirst.frc.team3414.auton.AutonReplayRecord;
 import org.usfirst.frc.team3414.auton.MoveStraight;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.LED;
+import org.usfirst.frc.team3414.diagnostic.LEDColor;
 import org.usfirst.frc.team3414.diagnostic.MatchTimer;
 import org.usfirst.frc.team3414.sensors.CameraSwitcher;
 import org.usfirst.frc.team3414.sensors.Lifecam;
@@ -90,9 +91,10 @@ public class Teleop {
 
 	public void drive() {
 		if (left.getRawButton(1) || right.getRawButton(1)) {
-			DriveTrain.getInstance().teleop(left.getY() * .3, right.getY() * .3);
-		} else if (left.getRawButton(3) || right.getRawButton(3)) {
-			DriveTrain.getInstance().driveStraight((left.getY() +right.getY())/2);
+			DriveTrain.getInstance().teleop(left.getY() * .3414, right.getY() * .3414);
+		} else if ((left.getRawButton(3) && right.getRawButton(3)) || (right.getRawButton(2) && left.getRawButton(2))) {
+			DriveTrain.getInstance().driveStraight((left.getY()*.4 +right.getY()*.4)/2);
+			LED.set(LEDColor.YELLOW);
 			//DriveTrain.getInstance().teleop((left.getY() + right.getY()) /2);
 		}
 		 else {
@@ -190,7 +192,7 @@ public class Teleop {
 		// Want to shave off time? Change the second parameter(margin) to a smaller
 		// value. Risk is the robot doesn't get as high as you want
 		if (right.getRawButton(6) && left.getRawButton(6)) { // Top Climb
-			Climber.getInstance().climb(16500, 14500, .6); // Should be 16000 on alpha.
+			Climber.getInstance().climb(16000, 14500, .6); // Should be 16000 on alpha. 16500 on beta
 		} else if (left.getRawButton(7) && right.getRawButton(7)) { // Lower Climb
 			// Climber.getInstance().motionmagicclimberMidplatform();
 			Climber.getInstance().climb(6000, 4500, .6);
@@ -295,7 +297,6 @@ public class Teleop {
 			Lifecam.stream();
 			/// X CameraSwitcher.setRear();
 			// Limelight.frontView();
-		} else {
 			// Limelight.defaultView();
 		}
 	}
@@ -330,7 +331,7 @@ public class Teleop {
 
 	public void arm() {
 		// if (pad.getPov() == 0 || pad.getXPov() == 0) {
-		if (pad.getXPov() == 0) {
+		if (pad.getXPov() == 0 ) {
 			Arm.getInstance().setOut();
 
 		} else if (pad.getXPov() == 180 || pad.getPov() == 180) {
