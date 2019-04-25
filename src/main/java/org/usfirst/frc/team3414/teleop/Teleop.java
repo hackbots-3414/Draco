@@ -331,7 +331,7 @@ public class Teleop {
 
 	public void arm() {
 		// if (pad.getPov() == 0 || pad.getXPov() == 0) {
-		if (pad.getXPov() == 0 ) {
+			if(pad.getXPov() == 0){
 			Arm.getInstance().setOut();
 
 		} else if (pad.getXPov() == 180 || pad.getPov() == 180) {
