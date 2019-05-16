@@ -26,6 +26,8 @@ public class Limelight {
     public static void init(){
         if(Config.PIT_STREAM){
             camera = CameraServer.getInstance().addAxisCamera("10.34.14.11:5800");
+            camera.setResolution(320, 240);
+            camera.setFPS(15);
         }
         if(Config.PIT_MODE = true){
         pitMode();

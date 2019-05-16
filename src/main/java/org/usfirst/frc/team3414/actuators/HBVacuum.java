@@ -109,6 +109,7 @@ public class HBVacuum extends Subsystem {
     }
 
     public void grabGamePiece() {
+        startTime = System.currentTimeMillis();
         /*
          * When we turn on the vacuums, get a timestamp of the first instant that the
          * vacuum motor turns on. We'll use this timestamp to figure out how long the
@@ -180,9 +181,9 @@ public class HBVacuum extends Subsystem {
            * will run for a short length of time, vacuumSolenoidOnTimeToVentVacuum, and
            * automatically turn off later.
            */
-          //ORIGINAL ventSolenoid.setPulseDuration(Config.VACUUM_SOLENOID_ON_TIME_TO_VENT_VACUUM / 1000.0);
-          //ORIGINAL ventSolenoid.startPulse();
-          ventSolenoid.set(true);
+        ventSolenoid.setPulseDuration(Config.VACUUM_SOLENOID_ON_TIME_TO_VENT_VACUUM / 1000.0);
+        ventSolenoid.startPulse();
+         // ventSolenoid.set(true);
         }
         /*
          * Reset the timestamp to 0 so we can detect the first time we turn on the
@@ -231,17 +232,20 @@ public class HBVacuum extends Subsystem {
     
         return isDetected;
       }
+      long startTime = System.currentTimeMillis();
       @Override
       public void periodic() {                                                                                //BIGGEST                                                                                                             //SMALLEST
-          if((m_vacuumState == state.grabbing) && (m_averageConductance.getAverage() < Config.VACUUM_GAME_PIECE_DETECTED_CONDUCTANCE) && m_averageConductance.getAverage() >Config.VACUUM_MOTOR_PRESENT_CONDUCTANCE){
+          if((m_vacuumState == state.grabbing) && (m_averageConductance.getAverage() < Config.VACUUM_GAME_PIECE_DETECTED_CONDUCTANCE) && m_averageConductance.getAverage() >Config.VACUUM_MOTOR_PRESENT_CONDUCTANCE && System.currentTimeMillis() - startTime > .5){
             Teleop.getInstance().getController().setSuperRumble(1);
-            if(m_vacuumState == state.holding || m_vacuumState == state.grabbing ){
+          }
+            else{Teleop.getInstance().getController().setSuperRumble(0);
+            }
+            if(m_vacuumState == state.holding ){
                 SmartDashboard.putBoolean("Has Panel", true);
             }
 
-          }
+          
           else{
-            Teleop.getInstance().getController().setSuperRumble(0);
             SmartDashboard.putBoolean("Has Panel", false);
           }
         /*
@@ -264,11 +268,12 @@ public class HBVacuum extends Subsystem {
             //Robot.m_oi.rumbleDriver(Config.VACUUM_GAME_PIECE_DETECTED_JOYSTICK_RUMBLE_TIME);
            // Robot.m_oi.rumbleOperator(Config.VACUUM_GAME_PIECE_DETECTED_JOYSTICK_RUMBLE_TIME);
           }
-    
+          SmartDashboard.putBoolean("Old Detect", true);
          // holdGamePiece(); Original code, we just want rumble instead of actually taking the piece
     
           m_timeStampOfEnable = 0;
         } else {
+            SmartDashboard.putBoolean("Old Detect", false);
           m_newGamePieceDetected = false;
         }
     

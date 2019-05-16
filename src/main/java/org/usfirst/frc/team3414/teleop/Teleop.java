@@ -16,6 +16,7 @@ import org.usfirst.frc.team3414.auton.AutonReplayRecord;
 import org.usfirst.frc.team3414.auton.MoveStraight;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.diagnostic.LED;
+import org.usfirst.frc.team3414.diagnostic.LEDColor;
 import org.usfirst.frc.team3414.diagnostic.MatchTimer;
 import org.usfirst.frc.team3414.sensors.CameraSwitcher;
 import org.usfirst.frc.team3414.sensors.Lifecam;
@@ -90,30 +91,37 @@ public class Teleop {
 
 	public void drive() {
 		if (left.getRawButton(1) || right.getRawButton(1)) {
-			DriveTrain.getInstance().teleop(left.getY() * .3, right.getY() * .3);
-		} else if (left.getRawButton(3) || right.getRawButton(3)) {
-			DriveTrain.getInstance().driveStraight((left.getY() +right.getY())/2);
-			//DriveTrain.getInstance().teleop((left.getY() + right.getY()) /2);
-		}
-		 else {
+			DriveTrain.getInstance().teleop(left.getY() * .3414, right.getY() * .3414);
+			LED.blink(LEDColor.PURPLE, LEDColor.WHITE);
+		} else if (left.getRawButton(2) || right.getRawButton(2)) {
+			System.out.println("Average Mode");
+			DriveTrain.getInstance().driveStraight((left.getY() * .4 + right.getY() * .4) / 2);
+			LED.set(LEDColor.YELLOW);
+			// DriveTrain.getInstance().teleop((left.getY() + right.getY()) /2);
+		} else {
 
 			DriveTrain.getInstance().teleop(left.getY(), right.getY());
 		}
 	}
-
+	boolean tunnelClear = true;
 	public void ball() {
+		if(pad.getAButtonReleased()){
+			tunnelClear = true;
+		}
 		SmartDashboard.putNumber("POV", pad.getPov());
 		boolean isBallMiddle = false;
 		if (pad.getAButton() && (Tunnel.getInstance().getBallPos() == 0)) { // Turn on Intake, run tunnel
 			Intake.getInstance().on();
 			Intake.getInstance().goDown();
 			Tunnel.getInstance().on();
-		} else if (pad.getAButton() && Tunnel.getInstance().getBallPos() == 1) {
+		}
+		 else if (pad.getAButton() && Tunnel.getInstance().getBallPos() == 1 && tunnelClear) { //BALL NEEDS TO STOP HERE
 			Intake.getInstance().goUp();
 			Intake.getInstance().off();
 			Tunnel.getInstance().on();
-			 Tunnel.getInstance().off(); //Stops the ball at 1 and will stop at 2 anyway
-	
+			Tunnel.getInstance().off(); // Stops the ball at 1 and will stop at 2 anyway
+			tunnelClear = false;
+
 		} else if (pad.getAButton() && Tunnel.getInstance().getBallPos() == 2) {
 			Intake.getInstance().goUp();
 			Intake.getInstance().off();
@@ -190,7 +198,7 @@ public class Teleop {
 		// Want to shave off time? Change the second parameter(margin) to a smaller
 		// value. Risk is the robot doesn't get as high as you want
 		if (right.getRawButton(6) && left.getRawButton(6)) { // Top Climb
-			Climber.getInstance().climb(16500, 14500, .6); // Should be 16000 on alpha.
+			Climber.getInstance().climb(16000, 14500, .6); // Should be 16000 on alpha. 16500 on beta
 		} else if (left.getRawButton(7) && right.getRawButton(7)) { // Lower Climb
 			// Climber.getInstance().motionmagicclimberMidplatform();
 			Climber.getInstance().climb(6000, 4500, .6);
@@ -231,22 +239,29 @@ public class Teleop {
 	}
 
 	public void align() {
-		if (right.getRawButton(3) && left.getRawButton(3)) {
+		if (right.getRawButton(4) && left.getRawButton(4)){
 			// while(!left.getRawButton(Config.ESCAPE_BUTTON)){
+				while(!left.getRawButton(Config.ESCAPE_BUTTON)){
 			Limelight.compMode();
+			LimeLightUtil.turnToTarget(DriveTrain.getInstance().getLeftMotor(), DriveTrain.getInstance().getRightMotor());
+			LED.set(LEDColor.WHITE);
+					}	/*
 			LimeLightUtil.driveToTarget(DriveTrain.getInstance().getLeftMotor(),
 					DriveTrain.getInstance().getRightMotor(), irLeft, irRight, Teleop.getInstance().getRightJoystick(),
 					lineSensor);
+			LED.set(LEDColor.WHITE);
 			// }
+			*/
 		} else {
 			DriveTrain.getInstance().setBlock(false);
 			Limelight.pitMode();
 		}
+		/*}
 		if (right.getRawButton(4) && left.getRawButton(4)) {
 			LimeLightUtil.findTheLineLeft(DriveTrain.getInstance().getLeftMotor(),
 					DriveTrain.getInstance().getRightMotor(), irLeft, irRight, Teleop.getInstance().getRightJoystick(),
 					lineSensor);
-		}
+		
 		if (right.getRawButton(5) && right.getRawButton(5)) {
 			LimeLightUtil.findTheLineRight(DriveTrain.getInstance().getLeftMotor(),
 					DriveTrain.getInstance().getRightMotor(), irLeft, irRight, Teleop.getInstance().getRightJoystick(),
@@ -255,7 +270,7 @@ public class Teleop {
 		if (right.getRawButton(2) && left.getRawButton(2)) {
 			LimeLightUtil.straightenRobotToTarget(DriveTrain.getInstance().getLeftMotor(),
 					DriveTrain.getInstance().getRightMotor(), irLeft, irRight, Teleop.getInstance().getRightJoystick());
-		}
+		} */
 
 	}
 
@@ -284,19 +299,13 @@ public class Teleop {
 	}
 
 	public void camera() {
-		if (pad.getYButton() || (left.getRawButton(3) || right.getRawButton(3))) {
-			// CameraSwitcher.setFront();
-			// Limelight.stream();
-			CameraSwitcher.setFront();
-			Limelight.pitStream();
-			// Limelight.rearView();
-		} else if (pad.getXButton() || (left.getRawButton(2) || right.getRawButton(2))) {
-			Lifecam.stream();
-			/// X CameraSwitcher.setRear();
-			CameraSwitcher.setRear();
-			// Limelight.frontView();
-		} else {
-			// Limelight.defaultView();
+		if (left.getRawButtonReleased(3) || right.getRawButtonReleased(3) || pad.getYButtonReleased()) {
+			if (CameraSwitcher.getState() == CameraSwitcher.state.lifecam) {
+				CameraSwitcher.setLimelight();
+			} else if (CameraSwitcher.getState() == CameraSwitcher.state.limelight) {
+				CameraSwitcher.setLifecam();
+			} else {
+			}
 		}
 	}
 
@@ -317,8 +326,7 @@ public class Teleop {
 			HBVacuum.getInstance().holdGamePiece();
 		} else if (pad.getRBButton()) {
 			HBVacuum.getInstance().releaseGamePiece();
-		}
-		else{
+		} else {
 			HBVacuum.getInstance().closeVent();
 		}
 
@@ -326,7 +334,7 @@ public class Teleop {
 
 	public Controller getController() {
 		return pad;
-	}
+	};
 
 	public void arm() {
 		// if (pad.getPov() == 0 || pad.getXPov() == 0) {

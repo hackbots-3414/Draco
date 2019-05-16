@@ -2,6 +2,7 @@ package org.usfirst.frc.team3414.actuators;
 
 import java.io.IOException;
 
+
 import org.usfirst.frc.team3414.auton.AutonReplayRecord;
 import org.usfirst.frc.team3414.config.Config;
 
@@ -15,14 +16,24 @@ public class DriveTrain {
 	private static DriveTrain instance;
 	public MultiMotor left = new MultiMotor(Config.LEFT_FRONT, Config.LEFT_REAR);
 	public MultiMotor right = new MultiMotor(Config.RIGHT_FRONT, Config.RIGHT_REAR);
-   /*
-	AnalogInput longRangeIRLeft = new AnalogInput(0);
-	AnalogInput longRangeIRRight = new AnalogInput(1);
-	AnalogInput lineSensor = new AnalogInput(2);
-*/
-AnalogInput longRangeIRLeft;
-AnalogInput longRangeIRRight;
-AnalogInput lineSensor;
+	/*
+	 * AnalogInput longRangeIRLeft = new AnalogInput(0); AnalogInput
+	 * longRangeIRRight = new AnalogInput(1); AnalogInput lineSensor = new
+	 * AnalogInput(2);
+	 */
+	AnalogInput longRangeIRLeft;
+	AnalogInput longRangeIRRight;
+	AnalogInput lineSensor;
+
+	long backoffStart = System.currentTimeMillis();
+	public void backoff(double time){
+		if(System.currentTimeMillis() - backoffStart < time*1000){
+			set(-.3,-.3);
+		}
+
+
+	}
+
 	public void autocorrect() {
 		left.set(0);
 		right.set(0);
@@ -53,11 +64,13 @@ AnalogInput lineSensor;
 	public void setBlock(boolean block) {
 		blocked = block;
 	}
+
 	boolean isrecording = Config.REPLAY_MODE;
-	public void teleop(double leftSpeed, double rightSpeed) { 
+
+	public void teleop(double leftSpeed, double rightSpeed) {
 		left.set(leftSpeed);
 		right.set(rightSpeed);
-		if(driveState != state.teleop){ //sets the state to teleop
+		if (driveState != state.teleop) { // sets the state to teleop
 			driveState = state.teleop;
 		}
 		if (isrecording) {
@@ -72,9 +85,10 @@ AnalogInput lineSensor;
 		}
 	}
 
-	public void teleop(double speed){
-		teleop(speed,speed);
+	public void teleop(double speed) {
+		teleop(speed, speed);
 	}
+
 	public void set(double leftSpeed, double rightSpeed) {
 		left.set(leftSpeed);
 		right.set(rightSpeed);
@@ -117,7 +131,8 @@ AnalogInput lineSensor;
 	public int getLeftEncoder() {
 		return left.getEncoder();
 	}
-	public void resetEncoders(){
+
+	public void resetEncoders() {
 		left.resetEncoder();
 		right.resetEncoder();
 	}
@@ -139,31 +154,33 @@ AnalogInput lineSensor;
 	public void stop() {
 		teleop(0, 0);
 	}
+
 	public enum state {
-		teleop,automated,assisted;
+		teleop, automated, assisted;
 	}
+
 	private state driveState = state.teleop;
 	int tolerance = Config.DRIVE_STRAIGHT_TOLERANCE;
 	int error = 0;
 	double previousSpeed;
-	public void driveStraight(double speed){
-	if(driveState == state.teleop){
-		driveState = state.assisted; //If was previously in teleop mode, reset encoders for assisted mode
-		resetEncoders();
-		previousSpeed = 1;
-	}
-	 error = getRightEncoder() - getLeftEncoder(); //Positive means right bias. Negative means left bias
-	 if(error > tolerance){ //Right bias
-		 left.set(speed);
-		 right.set(0);
-	 }
-	 if(error < tolerance && error < 0) { //Left bias
-		right.set(speed);
-		left.set(0);
-	 }
-	 else{
-		 set(speed,speed);
-	 	 }
+
+	public void driveStraight(double speed) {
+		if (driveState == state.teleop) {
+			driveState = state.assisted; // If was previously in teleop mode, reset encoders for assisted mode
+			resetEncoders();
+			previousSpeed = 1;
+		}
+		error = getRightEncoder() - getLeftEncoder(); // Positive means right bias. Negative means left bias
+		if (error > tolerance) { // Right bias
+			left.set(speed);
+			right.set(0);
+		}
+		if (error < tolerance && error < 0) { // Left bias
+			right.set(speed);
+			left.set(0);
+		} else {
+			set(speed, speed);
+		}
 
 	}
 

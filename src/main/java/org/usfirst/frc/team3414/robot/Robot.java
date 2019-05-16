@@ -65,7 +65,7 @@ public class Robot extends IterativeRobot {
 		teleopInit();
 		
 		//lifecam.init();
-		Lifecam.startRear();
+	//	Lifecam.startRear();
 		LED.reset();
 	}
 	@Override
@@ -75,6 +75,7 @@ public class Robot extends IterativeRobot {
 	}
 	@Override
 	public void disabledPeriodic() {
+		Limelight.pitMode();
 		Teleop.getInstance().camera();
 		if(isDisabled()){
 			Teleop.getInstance().stopAll();
@@ -125,7 +126,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Teleop.getInstance().driverInfo(); //Please don't delete this. Updates LEDs for line guiding and time warning, and dashboard updates for timing. 
 		//Teleop.getInstance().replaySystem();
-	//	Teleop.getInstance().align(); 
+		//Teleop.getInstance().align(); 
 		//Teleop.getInstance().driveStraight();
 		//WORKING OFFICIALLY
 		Teleop.getInstance().drive();

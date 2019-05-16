@@ -11,9 +11,14 @@ public class CameraSwitcher {
 	public static void init() {
         NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection").setString("limelight");
     }
+    
+    public static enum state {
+        limelight, lifecam}
+  static state cameraState = state.limelight;
     public static void initStreams(){
         Limelight.init();
         Lifecam.init();
+        setLimelight();
         //server = CameraServer.getInstance().getServer(); C++ guide
      //   server = CameraServer.getInstance().addServer("Switched Cam"); //Followed the guide here. https://www.chiefdelphi.com/t/switching-cameras-with-code/344360/4
         //Thanks Peter_Johnson
@@ -22,6 +27,18 @@ public class CameraSwitcher {
        // Lifecam.getCam().setConnectionStrategy(ConnectionStrategy.kKeepOpen);
      //   server.setSource(Lifecam.getCam());
 
+
+    }
+    public static state getState(){
+        return cameraState;
+    }
+    public static void setLimelight(){
+        cameraState = state.limelight;
+        Limelight.pitStream();
+    }
+    public static void setLifecam(){
+        cameraState = state.lifecam;
+        Lifecam.stream();
 
     }
     public static String getName(){

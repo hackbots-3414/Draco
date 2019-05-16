@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.*;
 import com.ctre.phoenix.motorcontrol.can.*;
 
+import org.usfirst.frc.team3414.actuators.DriveTrain;
 import org.usfirst.frc.team3414.actuators.MultiMotor;
 import org.usfirst.frc.team3414.config.Config;
 import org.usfirst.frc.team3414.teleop.Teleop;
@@ -50,8 +51,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class LimeLightUtil {
 
-  private static final double MAX_SPEED = 0.37;
-  private static final double MIN_SPEED = 0.20;
+  private static final double MAX_SPEED = 0.37; //.37
+  private static final double MIN_SPEED = 0.30; //.37
   private static int escape = Config.ESCAPE_BUTTON;
   public static void shiftRobotLeft(MultiMotor leftMotor, MultiMotor rightMotor) {
     // shift left
@@ -128,6 +129,27 @@ public class LimeLightUtil {
     }
     Timer.delay(0.05);
   }
+  static NetworkTable netTable = NetworkTableInstance.getDefault().getTable("limelight");
+  public static void turnToTarget(MultiMotor leftMotor, MultiMotor rightMotor) {
+    double tx = netTable.getEntry("tx").getDouble(10);
+    while(!Teleop.getInstance().getLeftJoystick().getRawButton(Config.ESCAPE_BUTTON) && !Teleop.getInstance().getRightJoystick().getRawButton(Config.ESCAPE_BUTTON) && (Math.abs(tx) > 1))
+    {
+      tx = netTable.getEntry("tx").getDouble(10);
+      if (tx < 0) {
+        leftMotor.set(.15);
+        rightMotor.set(-.15);
+          } else if (tx > 0) {
+            rightMotor.set(.15);
+            leftMotor.set(-.15);
+            
+              } else {
+                  DriveTrain.getInstance().driveStraight((Teleop.getInstance().getLeftJoystick().getY()+Teleop.getInstance().getRightJoystick().getY())/2);
+                }
+                    }
+      Timer.delay(0.05);
+    }
+  
+   
 
   public static void moveTwoFeetToTarget(double ta, MultiMotor leftMotor, MultiMotor rightMotor) {
     // moveStraightForward(1.25);
