@@ -42,10 +42,16 @@ public class Teleop {
 
 	}
 
+	/** 
+	 * START HERE
+	 * Below you'll find the stuff that is properly called, and we deemed at one point necessary to teleop. The AnalogInputs and AutonReplayRecord are probably not, but I won't
+	 * remove them without looking at the hardware first.
+	 * 
+	 */
 	AutonReplayRecord auton = new AutonReplayRecord();
-	Joystick left = new Joystick(Config.LEFT_STICK);
+	Joystick left = new Joystick(Config.LEFT_STICK); 
 	Joystick right = new Joystick(Config.RIGHT_STICK);
-	Controller pad = new Controller();
+	Controller pad = new Controller(); //See this class for comments
 	AnalogInput irLeft = new AnalogInput(Config.LEFT_IR);
 	AnalogInput irRight = new AnalogInput(Config.RIGHT_IR);
 	AnalogInput lineSensor = new AnalogInput(Config.LINE_SENSOR);
@@ -62,21 +68,21 @@ public class Teleop {
 		}
 	}
 
-	public void driverInfo() {
-		MatchTimer.outputTime();
-		LED.timeWarning();
-		LED.lineLED();
+	public void driverInfo() { //Should always be called, this gives us all the driver info via LEDs or dashboard
+		MatchTimer.outputTime(); //This puts the Match Time on the dashboard. It does not need to be in its own class but that's just the way it was left.
+		LED.timeWarning(); //driverInfo is run periodically, which means the LEDs check for time every iteration.
+		LED.lineLED(); //Every iteration, check for line contact via ground IR sensors.
 	}
-
-	public void record() throws IOException {
+	@Deprecated
+	public void record() throws IOException { //We don't use this method anymore :)
 
 		if (pad.getRSButton() && pad.getLSButton()) {
 			stopcounter++;
 			auton.endRecording();
 		}
 	}
-
-	public void replay() throws IOException {
+	@Deprecated
+	public void replay() throws IOException { //We don't use this method anymore :)
 		if (pad.getXButton()) {
 			auton.replayInit();
 		}
@@ -89,52 +95,53 @@ public class Teleop {
 		}
 	}
 
-	public void drive() {
-		if (left.getRawButton(1) || right.getRawButton(1)) {
+	public void drive() { //Actual drivetrain conrtrols go right here. 
+		if (left.getRawButton(1) || right.getRawButton(1)) { //If both triggers are pressed, (1 is the trigger) we lower the rate to 34.14%
 			DriveTrain.getInstance().teleop(left.getY() * .3414, right.getY() * .3414);
-			LED.blink(LEDColor.PURPLE, LEDColor.WHITE);
-		} else if (left.getRawButton(2) || right.getRawButton(2)) {
+			LED.blink(LEDColor.PURPLE, LEDColor.WHITE); //To indicate this, LEDs blink purple.
+		} else if (left.getRawButton(2) || right.getRawButton(2)) { //If we want to do a straight drive with no sensors, but just even motor power, we hold the 2 button
 			System.out.println("Average Mode");
-			DriveTrain.getInstance().driveStraight((left.getY() * .4 + right.getY() * .4) / 2);
-			LED.set(LEDColor.YELLOW);
-			// DriveTrain.getInstance().teleop((left.getY() + right.getY()) /2);
-		} else {
+			DriveTrain.getInstance().driveStraight((left.getY() * .4 + right.getY() * .4) / 2); //Average of both joysticks at 40%
+			LED.set(LEDColor.YELLOW); //Yellow to indicate average mode
+			// DriveTrain.getInstance().teleop((left.getY() + right.getY()) /2)
+		} else 
 
-			DriveTrain.getInstance().teleop(left.getY(), right.getY());
+			DriveTrain.getInstance().teleop(left.getY(), right.getY()); //Normal drive mode. 1 joystick = 1 side, 1 speed on the joystick = 1 motor speed
 		}
-	}
+	
 	boolean tunnelClear = true;
-	public void ball() {
-		if(pad.getAButtonReleased()){
+	public void ball() { //Tunnel handling (we should really call this tunnel)
+		//Filled with a lot of fancy logic to raise the arm automatically
+		if(pad.getAButtonReleased()){ //SUPPOSED to reset everything is you press the A button (lower arm and suck in ball), WPILib doesn't consistenly work with this.
 			tunnelClear = true;
 		}
-		SmartDashboard.putNumber("POV", pad.getPov());
+		SmartDashboard.putNumber("POV", pad.getPov()); //Diagnostic feature that comes up too often to easily remove :). Puts the D-PAD position on screen.
 		boolean isBallMiddle = false;
-		if (pad.getAButton() && (Tunnel.getInstance().getBallPos() == 0)) { // Turn on Intake, run tunnel
+		if (pad.getAButton() && (Tunnel.getInstance().getBallPos() == 0)) { // Turn on Intake, run tunnel. This means there's no ball anywhere and we want 1. 
 			Intake.getInstance().on();
 			Intake.getInstance().goDown();
 			Tunnel.getInstance().on();
 		}
-		 else if (pad.getAButton() && Tunnel.getInstance().getBallPos() == 1 && tunnelClear) { //BALL NEEDS TO STOP HERE
+		 else if (pad.getAButton() && Tunnel.getInstance().getBallPos() == 1 && tunnelClear) { //BALL NEEDS TO STOP HERE, it has reached the lower threshold.
 			Intake.getInstance().goUp();
 			Intake.getInstance().off();
 			Tunnel.getInstance().on();
 			Tunnel.getInstance().off(); // Stops the ball at 1 and will stop at 2 anyway
 			tunnelClear = false;
 
-		} else if (pad.getAButton() && Tunnel.getInstance().getBallPos() == 2) {
+		} else if (pad.getAButton() && Tunnel.getInstance().getBallPos() == 2) { //Just in case the ball makes it past the lower threshold and is still moving.
 			Intake.getInstance().goUp();
 			Intake.getInstance().off();
 			Tunnel.getInstance().off();
-		} else if (pad.getBButton()) {
+		} else if (pad.getBButton()) { //This just makes the ball move through the tunnel.
 			Intake.getInstance().off();
 			Tunnel.getInstance().on();
 		} else {
-			Intake.getInstance().goUp();
+			Intake.getInstance().goUp(); //When nobody's pressing anything, we don't do anything. 
 			Intake.getInstance().off();
 			Tunnel.getInstance().off();
 		}
-		if (pad.getYButton()) {
+		if (pad.getYButton()) { //Legacy arm control pre-automation shown above.
 			// Intake.getInstance().goUp(); //No longer works because it is part of the else
 			// for the A button
 		}
@@ -174,7 +181,7 @@ public class Teleop {
 		}
 	}
 
-	public void manipulator() {
+	public void manipulator() { //Legacy Manipulator code
 		if (pad.getPov() == 0 || pad.getXPov() == 0) {
 			HatchPanelManipulator.getInstance().setOut();
 		} else if (pad.getXPov() == 180 || pad.getPov() == 180) {
@@ -238,7 +245,7 @@ public class Teleop {
 		return lineSensor;
 	}
 
-	public void align() {
+	public void align() { //Legacy alignment code
 		if (right.getRawButton(4) && left.getRawButton(4)){
 			// while(!left.getRawButton(Config.ESCAPE_BUTTON)){
 				while(!left.getRawButton(Config.ESCAPE_BUTTON)){
@@ -281,8 +288,8 @@ public class Teleop {
 	public Joystick getRightJoystick() {
 		return right;
 	}
-
-	public void replaySystem() {
+	@Deprecated
+	public void replaySystem() { //We don't use this anymore
 		if (!Config.REPLAY_MODE) {
 			try {
 				record();
@@ -298,7 +305,7 @@ public class Teleop {
 		}
 	}
 
-	public void camera() {
+	public void camera() { //Switches the camera.
 		if (left.getRawButtonReleased(3) || right.getRawButtonReleased(3) || pad.getYButtonReleased()) {
 			if (CameraSwitcher.getState() == CameraSwitcher.state.lifecam) {
 				CameraSwitcher.setLimelight();
@@ -309,7 +316,8 @@ public class Teleop {
 		}
 	}
 
-	public void stopAll() {
+	public void stopAll() { //Stops all Talons, especially the climber. If a robot is disabled, a motor can still hold a value and once reenabled, 
+		//if that value isn't changed, it will continue as it was before. This is why after disabling, a climber would still climb
 		DriveTrain.getInstance().set(0, 0);
 		Intake.getInstance().stop();
 		Tunnel.getInstance().stop();
@@ -332,7 +340,7 @@ public class Teleop {
 
 	}
 
-	public Controller getController() {
+	public Controller getController() { //Gets the controller object.
 		return pad;
 	};
 

@@ -1,0 +1,18 @@
+I went through and documented everything important from last year. In this folder apart from this file are classes that you'll probably want to repurpose for next year.
+You should feel no obligation to use these. They're what you'll be making yourselves ideally.
+
+Objects:
+A TalonSRX is a Talon motor controller class. To create a Talon Object use this syntax:
+
+TalonSRX talonName = new TalonSRX(talonIDInteger);
+
+Talons' speeds can be set like this:
+
+talonName.set(ControlMode.percentOutput, talonOutputDouble);
+
+so, if you had several talons on one side of a robot, like on a DriveTrain, you'd have to write several lines.
+You can avoid this by making a MultiMotor. I attached a clean and documented MultiMotor class into this folder.
+If the MultiMotor had a set method called 'set' you could use it the same way
+
+MultiMotor motor = new MultiMotor(talonID1, talonID2);
+
