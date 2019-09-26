@@ -72,6 +72,5 @@ public class Config {
 	public static final double LEVEL_2_TIME = 10;
 	public static final double LEVEL_3_TIME = 10;
 	public static final int VACUUM_TALON = 0;
-	public static final int XBOX_CONTROLLER_CHANNEL = 0;
 
 }

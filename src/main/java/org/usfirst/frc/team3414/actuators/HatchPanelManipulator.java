@@ -55,6 +55,8 @@ public class HatchPanelManipulator {
     public void setOut() {
         sliderOut.set(true);
         sliderIn.set(false);
+        //LED.set(LEDColor.GREEN);
+      //  LED.set(LEDColor.RED);
       LED.set(LEDColor.GREEN);
     }
 

@@ -40,7 +40,8 @@ public class Teleop {
 	AutonReplayRecord auton = new AutonReplayRecord();
 	Joystick left = new Joystick(Config.LEFT_STICK);
 	Joystick right = new Joystick(Config.RIGHT_STICK);
-	Controller pad = new Controller();
+	Controller pad = new Controller(Config.CONTROLLER_CHANNEL);
+
 	AnalogInput irLeft = new AnalogInput(Config.LEFT_IR);
 	AnalogInput irRight = new AnalogInput(Config.RIGHT_IR);
 	AnalogInput lineSensor = new AnalogInput(Config.LINE_SENSOR);
