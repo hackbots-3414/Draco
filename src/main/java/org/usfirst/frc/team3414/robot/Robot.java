@@ -125,7 +125,8 @@ public class Robot extends IterativeRobot {
 		Teleop.getInstance().manipulator();
 		Teleop.getInstance().camera();
 		//SHOULD WORK
-	    Teleop.getInstance().climber();
+		Teleop.getInstance().climber();
+		Teleop.getInstance().manipulator();
 		//BONUS
 		//DashboardOutput.diagnostic();
 		
