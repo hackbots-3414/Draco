@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.usfirst.frc.team3414.actuators.Climber;
 import org.usfirst.frc.team3414.actuators.DriveTrain;
+import org.usfirst.frc.team3414.actuators.HBVacuum;
 import org.usfirst.frc.team3414.actuators.HatchPanelManipulator;
 import org.usfirst.frc.team3414.actuators.Intake;
 import org.usfirst.frc.team3414.actuators.MotionMagicClimb;
@@ -256,7 +257,9 @@ public class Teleop {
 	public Joystick getRightJoystick() {
 		return right;
 	}
-
+	public Controller getController() {
+		return pad;
+	}
 	public void replaySystem() {
 		if (!Config.REPLAY_MODE) {
 			try {
@@ -271,6 +274,16 @@ public class Teleop {
 				e.printStackTrace();
 			}
 		}
+	}
+	public void vacuum() {
+		HBVacuum.getInstance().periodic();
+		if(pad.getLBButton()){
+			HBVacuum.getInstance().releaseGamePiece();
+		}
+		else if(pad.getLT()){
+			HBVacuum.getInstance().grab();
+		}
+
 	}
 
 	public void camera() {
