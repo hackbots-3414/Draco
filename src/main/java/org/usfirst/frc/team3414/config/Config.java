@@ -78,10 +78,10 @@ public class Config {
 	public static final int VACUUM_TALON = 52 ; //52  6
 	public static final int VENT_SOLENOID = 4; //change back to 6
 	public static final int VACUUM_PUMP_SPIN_UP_TIME = 500;
-	public static final double VACUUM_GAME_PIECE_DETECTED_CONDUCTANCE = 0.2; //.2 , ours was .3 //Bigger number
+	public static final double VACUUM_GAME_PIECE_DETECTED_CONDUCTANCE = 0.29; //.2 , ours was .3 //Bigger number
 	public static final double VACUUM_MOTOR_PRESENT_CONDUCTANCE = 0.03; //.05 , ours was .6 //Smaller Number
-	public static final double VACUUM_INITIAL_HOLD_SPEED = .65; //1
-	public static final double VACUUM_SUSTAIN_HOLD_SPEED = 0.05; //.2
+	public static final double VACUUM_INITIAL_HOLD_SPEED = .75; //1
+	public static final double VACUUM_SUSTAIN_HOLD_SPEED = 0.1; //.2
 	public static final double VACUUM_SOLENOID_ON_TIME_TO_VENT_VACUUM = 2500; //5000
 	public static int GAME_PIECE_DETECTION_MINIMUM_COUNTS = 20;
 }

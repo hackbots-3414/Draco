@@ -14,8 +14,8 @@ public class Lifecam {
     static UsbCamera camera;
     public static void init(){
         camera = CameraServer.getInstance().startAutomaticCapture(0);
-        camera.setFPS(15);
-            camera.setResolution(360, 240);
+       //    camera.setFPS(15);
+     //       camera.setResolution(360, 240);
         }
     public static UsbCamera getCam(){
         return camera;

@@ -108,4 +108,12 @@ public class Controller {
 		xbox.setRumble(RumbleType.kLeftRumble, power);
 			xbox.setRumble(RumbleType.kLeftRumble, power);
 	}
+
+	public boolean getYButtonReleased(){
+		return xbox.getYButtonReleased();
+	}
+
+	public boolean getAButtonReleased() {
+		return xbox.getAButtonReleased();
+	}
 }
